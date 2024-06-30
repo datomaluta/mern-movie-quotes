@@ -5,3 +5,70 @@
 body {
   min-height: 100vh;
 }
+
+@font-face {
+  font-family: "helvetica-ultralight";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-ultralight.ttf")
+      format("truetype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-thin";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-thin.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-light";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-light.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-medium";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-bold";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-heawy";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-heawy.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-capslight";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-caps-light.ttf")
+      format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "helvetica-capsmedium";
+  src: local("helvetica"),
+    url("./assets/fonts/geo/helvetica-georgian-caps-medium.ttf")
+      format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
