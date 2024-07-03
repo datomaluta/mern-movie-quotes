@@ -2,34 +2,50 @@ import { FaCaretDown } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "../redux/language/languageSlice";
 import { RootState } from "../redux/store";
+import { useTranslate } from "../hooks/useTranslate";
+import { useState } from "react";
 
 const Home = () => {
   const { lang } = useSelector((state: RootState) => state.lang);
-  console.log(lang);
+  const { t } = useTranslate();
+  const [languageSwitcherIsOpen, setLanguageSwitcherIsOpen] = useState(false);
+
   const dispatch = useDispatch();
   return (
-    <div className="bg-project-dark-blue min-h-screen text-white pt-6 ">
-      <header className="flex justify-between items-center px-16 md:px-4">
-        <p className="text-project-yellow ">MOVIE QUOTES</p>
-        <div className="flex items-center gap-4 md:gap-2">
-          <button className="flex items-center px-2 py-2">
-            Eng <FaCaretDown />
-          </button>
-          <button
-            onClick={() => dispatch(setLanguage("ka"))}
-            className="bg-project-red text-white px-2 py-2 rounded w-28 md:w-20 md:py-1"
-          >
-            Sign up
-          </button>
-          <button
-            onClick={() => dispatch(setLanguage("en"))}
-            className="rounded w-24 border border-white text-white px-2 py-[7px] md:hidden"
-          >
-            Log in
+    <div className="bg-project-dark-blue min-h-screen text-white pt-[80vh] md:pt-[60vh] ">
+      {/* <div className="bg-yellow-500  max-w-[700px] mx-auto mt-[200px] md:mt-[100px]">
+        <h1 className="text-center text-[3.75rem] sm:text-2xl text-project-yellow font-helvetica-bold ">
+          Find any quote in millions of movie lines
+        </h1>
+        <button className="bg-project-red px-4 py-2 rounded font-helvetica-medium mt-6 mx-auto block">
+          Get started
+        </button>
+      </div> */}
+      <div className="bg-dark-blue-gradient absolute top-0 right-0 w-full h-[80vh] md:h-[60vh]">
+        <div className="max-w-[700px] mx-auto mt-[200px] ">
+          <h1 className="text-center text-[3.75rem] md:text-2xl text-project-yellow font-helvetica-bold px-4">
+            Find any quote in millions of movie lines
+          </h1>
+          <button className="bg-project-red px-4 py-2 rounded font-helvetica-medium mt-6 mx-auto block">
+            Get started
           </button>
         </div>
-      </header>
-      <h1 className="text-center text-3xl mt-10 ">ეს ახალი ერაა ბეიბი</h1>
+      </div>
+      <div className="h-[1080px] xl:h-[800px] lg:h-[600px] md:h-[350px] bg-custom-gradient bg-no-repeat bg-cover bg-center-top transition-all relative">
+        <div className="absolute top-[30%] left-[10%] max-w-[761px]">
+          <div className="flex items-start gap-4">
+            <span className="h-[2px]  w-12 bg-white block mt-10"></span>
+            <h1 className="text-5xl font-helvetica-bold leading-[70px]">
+              “You have to leave somethig behind to go forward”
+            </h1>
+          </div>
+          <p className="text-3xl font-helvetica-bold mt-4 ml-12">
+            Interstellar, 2014
+          </p>
+        </div>
+      </div>
+
+      <div className="h-[4000px] bg-red-500">d</div>
     </div>
   );
 };

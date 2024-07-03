@@ -7,10 +7,14 @@ export default {
         "project-red": "#E31221",
         "project-yellow": "#DDCCAA",
         "project-dark-blue": "#11101A",
+        "project-light-blue": "#222030",
       },
       backgroundImage: {
         "dark-blue-gradient":
           "linear-gradient(180deg, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)",
+        "custom-gradient":
+          "linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), url('/src/assets/images/interstellar.png')",
+        "bg-image": "url('/src/assets/images/interstellar.png')",
       },
       fontFamily: {
         "helvetica-ultra-light": "helvetica-ultralight",
