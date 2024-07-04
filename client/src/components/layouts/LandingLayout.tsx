@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { FaCaretDown } from "react-icons/fa";
 import { setLanguage } from "../../redux/language/languageSlice";
+import { useSearchParams } from "react-router-dom";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   const { lang } = useSelector((state: RootState) => state.lang);
   const { t } = useTranslate();
   const [languageSwitcherIsOpen, setLanguageSwitcherIsOpen] = useState(false);
+  const [, setSearchParams] = useSearchParams();
 
   const dispatch = useDispatch();
 
@@ -46,12 +48,15 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
             )}
           </div>
           <button
-            onClick={() => dispatch(setLanguage("ka"))}
+            onClick={() => setSearchParams({ action: "register" })}
             className="bg-project-red text-white px-2 py-2 rounded w-28 md:w-20 md:py-1"
           >
             Sign up
           </button>
-          <button className="rounded w-24 border border-white text-white px-2 py-[7px] md:hidden">
+          <button
+            onClick={() => setSearchParams({ action: "login" })}
+            className="rounded w-24 border border-white text-white px-2 py-[7px] md:hidden"
+          >
             {t("login")}
           </button>
         </div>

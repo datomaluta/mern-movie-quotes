@@ -29,4 +29,7 @@ export const translations = {
     en: "The Lord of the Rings",
     ka: "ბეჭდების მბრძანებელი",
   },
+  required_field: { en: "Required Field", ka: "სავალდებულო ველი" },
+  name: { en: "Name", ka: "სახელი" },
+  email: { en: "Email", ka: "ელ. ფოსტა" },
 };
