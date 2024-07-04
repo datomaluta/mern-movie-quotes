@@ -6,6 +6,32 @@ body {
   min-height: 100vh;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #11101a;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e31221;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@layer components {
+  .landing-bg-container {
+    @apply h-[100vh] bg-fixed bg-no-repeat bg-cover bg-center transition-all relative;
+  }
+}
+
 @font-face {
   font-family: "helvetica-ultralight";
   src: local("helvetica"),

@@ -4,7 +4,7 @@ import LandingLayout from "./components/layouts/LandingLayout";
 
 function App() {
   return (
-    <div className="font-helvetica-light text-white">
+    <div className="font-helvetica-light text-white ">
       <Routes>
         <Route
           path="/"

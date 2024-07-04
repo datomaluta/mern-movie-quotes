@@ -14,7 +14,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <header className="flex justify-between items-center px-16 md:px-4 fixed top-6 w-full z-40">
+      <header className="flex justify-between items-center px-16 md:px-4 fixed top-6 w-full z-40 ">
         <p className="text-project-yellow font-helvetica-medium">
           MOVIE QUOTES
         </p>
@@ -57,6 +57,9 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       {children}
+      <footer className="bg-project-dark-blue text-xs px-16 md:px-4 py-4">
+        <p>© 2024 movie quotes. All rights reserved.</p>
+      </footer>
     </>
   );
 };
