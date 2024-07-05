@@ -5,6 +5,7 @@ import ModalWrapper from "../components/ui/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
 import CustomInput from "../components/ui/customInputs/CustomInput";
 import { useForm } from "react-hook-form";
+import { FaGoogle } from "react-icons/fa";
 
 const Home = () => {
   const { t } = useTranslate();
@@ -74,8 +75,47 @@ const Home = () => {
                   errorText={errors?.email?.message as string | undefined}
                 />
 
-                <button>Submit</button>
+                <CustomInput
+                  name="password"
+                  register={register}
+                  rule={{ required: t("required_field") }}
+                  type="password"
+                  label="password"
+                  placeholder="At least 8 & max.15 lower case characters"
+                  errorText={errors?.password?.message as string | undefined}
+                />
+
+                <CustomInput
+                  name="confirm_password"
+                  register={register}
+                  rule={{ required: t("required_field") }}
+                  type="password"
+                  label="confirm_password"
+                  placeholder="Confirm password"
+                  errorText={errors?.password?.message as string | undefined}
+                />
+
+                <button className="w-full bg-project-red py-2 rounded">
+                  Get started
+                </button>
               </form>
+
+              <button
+                type="button"
+                className="w-full border border-white py-2 rounded flex gap-2 items-center justify-center mt-4"
+              >
+                <FaGoogle />
+                Sign up with Google
+              </button>
+              <div className="flex items-center gap-2 mt-8">
+                <p className="text-project-gray">Already have an account?</p>
+                <button
+                  className="text-blue-600 underline"
+                  onClick={() => setSearchParams({ action: "login" })}
+                >
+                  Login
+                </button>
+              </div>
             </div>
           </ModalWrapper>
         )}

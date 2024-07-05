@@ -26,6 +26,7 @@ const CustomInput = ({
   labelIsHidden?: boolean;
   placeholder?: string;
 }) => {
+  console.log(errorText);
   return (
     <InputWrapper
       name={name}
@@ -36,8 +37,8 @@ const CustomInput = ({
     >
       <input
         {...register(name, rule)}
-        className={`w-full px-3 py-2 bg-project-light-sky-blue text-project-gray rounded placeholder:text-project-gray border-transparent border block outline-none shadow-md focus:ring focus:ring-project-outline-blue transition-all ${
-          errorText ? "border-project-danger" : ""
+        className={`w-full px-3 py-2 bg-project-light-sky-blue text-project-gray rounded placeholder:text-project-gray border-transparent border-2 block outline-none shadow-md focus:ring focus:ring-project-outline-blue transition-all ${
+          errorText ? "!border-project-danger" : ""
         } ${className}`}
         type={type}
         disabled={readOnly}

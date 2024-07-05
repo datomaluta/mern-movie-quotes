@@ -32,4 +32,6 @@ export const translations = {
   required_field: { en: "Required Field", ka: "სავალდებულო ველი" },
   name: { en: "Name", ka: "სახელი" },
   email: { en: "Email", ka: "ელ. ფოსტა" },
+  password: { en: "Password", ka: "პაროლი" },
+  confirm_password: { en: "Confirm Password", ka: "პაროლის დადასტურება" },
 };

@@ -24,7 +24,7 @@ const InputWrapper = ({
   const { t } = useTranslate(translations);
 
   return (
-    <div className={`w-full mb-4 ${className}`}>
+    <div className={`w-full mb-1 ${className}`}>
       {!labelIsHidden && (
         <div className="flex gap-1">
           <label className="mb-2 block text-label-gray">
@@ -34,7 +34,7 @@ const InputWrapper = ({
         </div>
       )}
       {children}
-      <p className="text-sm text-project-danger h-5 mt-2">
+      <p className="text-sm text-project-danger h-5 mt-1">
         {errorText ? errorText?.toString() : ""}
       </p>
     </div>
