@@ -27,14 +27,14 @@ const InputWrapper = ({
     <div className={`w-full mb-1 ${className}`}>
       {!labelIsHidden && (
         <div className="flex gap-1">
-          <label className="mb-2 block text-label-gray">
+          <label className="mb-2 md:mb-1 block text-label-gray md:text-sm">
             {t(label || "") || t(name)}
           </label>
           {required && <span className="text-project-danger">*</span>}
         </div>
       )}
       {children}
-      <p className="text-sm text-project-danger h-5 mt-1">
+      <p className="text-sm text-project-danger h-4 mt-1">
         {errorText ? errorText?.toString() : ""}
       </p>
     </div>

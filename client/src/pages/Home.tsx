@@ -1,28 +1,14 @@
 import { useSearchParams } from "react-router-dom";
 import LandingBackgroundContainer from "../components/ui/LandingBackgroundContainer";
 import { useTranslate } from "../hooks/useTranslate";
-import ModalWrapper from "../components/ui/ModalWrapper";
 import { AnimatePresence } from "framer-motion";
-import CustomInput from "../components/ui/customInputs/CustomInput";
-import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa";
+import Register from "../components/home/modals/Register";
+import Login from "../components/home/modals/Login";
 
 const Home = () => {
   const { t } = useTranslate();
   const [searchParams, setSearchParams] = useSearchParams();
   const action = searchParams.get("action");
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
-
-  const submitHandler = (data) => {
-    console.log(data);
-  };
-
-  console.log(errors?.name?.message);
 
   return (
     <div className="bg-project-dark-blue min-h-screen text-white pt-[100vh]">
@@ -41,84 +27,8 @@ const Home = () => {
       </div>
 
       <AnimatePresence>
-        {action === "register" && (
-          <ModalWrapper
-            setModalIsVisible={() => setSearchParams({ action: "" })}
-          >
-            <div className="flex flex-col items-center max-w-[360px] w-full mx-auto">
-              <h1 className="text-3xl font-helvetica-medium mb-3">
-                Create an account
-              </h1>
-              <p className="text-project-gray">Start your journey!</p>
-
-              <form
-                onSubmit={handleSubmit(submitHandler)}
-                className="w-full mt-6"
-              >
-                <CustomInput
-                  name="name"
-                  register={register}
-                  rule={{ required: t("required_field") }}
-                  type="text"
-                  label="name"
-                  placeholder="At least 3 & max.15 lower case characters"
-                  errorText={errors?.name?.message as string | undefined}
-                />
-
-                <CustomInput
-                  name="email"
-                  register={register}
-                  rule={{ required: t("required_field") }}
-                  type="text"
-                  label="email"
-                  placeholder="Enter your email"
-                  errorText={errors?.email?.message as string | undefined}
-                />
-
-                <CustomInput
-                  name="password"
-                  register={register}
-                  rule={{ required: t("required_field") }}
-                  type="password"
-                  label="password"
-                  placeholder="At least 8 & max.15 lower case characters"
-                  errorText={errors?.password?.message as string | undefined}
-                />
-
-                <CustomInput
-                  name="confirm_password"
-                  register={register}
-                  rule={{ required: t("required_field") }}
-                  type="password"
-                  label="confirm_password"
-                  placeholder="Confirm password"
-                  errorText={errors?.password?.message as string | undefined}
-                />
-
-                <button className="w-full bg-project-red py-2 rounded">
-                  Get started
-                </button>
-              </form>
-
-              <button
-                type="button"
-                className="w-full border border-white py-2 rounded flex gap-2 items-center justify-center mt-4"
-              >
-                <FaGoogle />
-                Sign up with Google
-              </button>
-              <div className="flex items-center gap-2 mt-8">
-                <p className="text-project-gray">Already have an account?</p>
-                <button
-                  className="text-blue-600 underline"
-                  onClick={() => setSearchParams({ action: "login" })}
-                >
-                  Login
-                </button>
-              </div>
-            </div>
-          </ModalWrapper>
-        )}
+        {action === "register" && <Register />}
+        {action === "login" && <Login />}
       </AnimatePresence>
 
       <LandingBackgroundContainer

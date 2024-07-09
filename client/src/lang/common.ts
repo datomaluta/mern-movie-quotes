@@ -29,9 +29,77 @@ export const translations = {
     en: "The Lord of the Rings",
     ka: "ბეჭდების მბრძანებელი",
   },
-  required_field: { en: "Required Field", ka: "სავალდებულო ველი" },
+  required_field: { en: "Required Field", ka: "აუცილებელი ველი" },
   name: { en: "Name", ka: "სახელი" },
   email: { en: "Email", ka: "ელ. ფოსტა" },
   password: { en: "Password", ka: "პაროლი" },
   confirm_password: { en: "Confirm Password", ka: "პაროლის დადასტურება" },
+  username_placeholder_text: {
+    en: "At least 3 & max.15 lower case characters",
+    ka: "მინ 3 & მაქს 3 დაბალი რეგისტრის სიმბოლო",
+  },
+  min_3_characters: {
+    en: "min. 3, max. 15 characters",
+    ka: "მინ 3, მაქს 15 სიმბოლო",
+  },
+  only_lower_latin_letters: {
+    en: "Only lower latin letters",
+    ka: "მხოლოდ დაბალი ლათინური სიმბოლოები",
+  },
+  invalid_email: {
+    en: "Invalid email format",
+    ka: "ელ.ფოსტის არასწორი ფორმატი",
+  },
+  email_placeholder_text: {
+    en: "Enter your email",
+    ka: "შეიყვანეთ ელ. ფოსტა",
+  },
+  password_placeholder_text: {
+    en: "At least 8 & max. 15 characters",
+    ka: "მინ 8 & მაქს 15 სიმბოლო",
+  },
+  confirm_password_placeholder_text: {
+    en: "Confirm password",
+    ka: "დაადასტურეთ პაროლი",
+  },
+  sign_up_with_google: {
+    en: "Sign up with Google",
+    ka: "შესვლა გუგლით",
+  },
+  sign_in_with_google: {
+    en: "Sign in with Google",
+    ka: "შესვლა გუგლით",
+  },
+  already_have_an_account: {
+    en: "Already have an account?",
+    ka: "უკვე გაქვთ ანგარიში?",
+  },
+  create_an_account: {
+    en: "Create an account",
+    ka: "ანგარიშის შექმნა",
+  },
+  start_your_journey: {
+    en: "Start your journey",
+    ka: "დაიწყე შენი მოგზაურობა",
+  },
+  login_to_your_account: {
+    en: "Login to your account",
+    ka: "შესვლა",
+  },
+  welcome_back: {
+    en: "Welcome back",
+    ka: "თქვენ დაბრუნდით",
+  },
+  sign_in: {
+    en: "Sign in",
+    ka: "შესვლა",
+  },
+  sign_up: {
+    en: "Sign up",
+    ka: "რეგისტრაცია",
+  },
+  dont_have_an_account: {
+    en: "Don't have an account?",
+    ka: "არ გაქვთ ანგარიში?",
+  },
 };

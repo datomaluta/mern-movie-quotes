@@ -1,5 +1,7 @@
 import { UseFormRegister } from "react-hook-form";
 import InputWrapper from "./InputWrapper";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { Dispatch, SetStateAction } from "react";
 
 const CustomInput = ({
   name,
@@ -13,6 +15,8 @@ const CustomInput = ({
   readOnly = false,
   labelIsHidden = false,
   placeholder,
+  passwordIsVisible = false,
+  setPasswordIsVisible = () => {},
 }: {
   name: string;
   register: UseFormRegister<any>;
@@ -25,8 +29,9 @@ const CustomInput = ({
   readOnly?: boolean;
   labelIsHidden?: boolean;
   placeholder?: string;
+  passwordIsVisible?: boolean;
+  setPasswordIsVisible?: Dispatch<SetStateAction<boolean>>;
 }) => {
-  console.log(errorText);
   return (
     <InputWrapper
       name={name}
@@ -35,15 +40,29 @@ const CustomInput = ({
       required={!!rule?.required}
       labelIsHidden={labelIsHidden}
     >
-      <input
-        {...register(name, rule)}
-        className={`w-full px-3 py-2 bg-project-light-sky-blue text-project-gray rounded placeholder:text-project-gray border-transparent border-2 block outline-none shadow-md focus:ring focus:ring-project-outline-blue transition-all ${
-          errorText ? "!border-project-danger" : ""
-        } ${className}`}
-        type={type}
-        disabled={readOnly}
-        placeholder={placeholder ? placeholder : ""}
-      />
+      <div className="relative">
+        {name.includes("password") && (
+          <button
+            onClick={() =>
+              setPasswordIsVisible((currentState) => !currentState)
+            }
+            type="button"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-project-gray"
+          >
+            {passwordIsVisible ? <FaRegEye /> : <FaRegEyeSlash />}
+          </button>
+        )}
+        <input
+          {...register(name, rule)}
+          className={`w-full px-3 py-2 md:px-[10px] md:py-[6px] bg-project-light-sky-blue text-gray-900 rounded placeholder:text-sm placeholder:text-project-gray border-transparent border-2 block outline-none shadow-md
+         focus:ring focus:ring-project-outline-blue transition-all md:text-sm ${
+           errorText ? "!border-project-danger" : ""
+         } ${className}`}
+          type={type}
+          disabled={readOnly}
+          placeholder={placeholder ? placeholder : ""}
+        />
+      </div>
     </InputWrapper>
   );
 };
