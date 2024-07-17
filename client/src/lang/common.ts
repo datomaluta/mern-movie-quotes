@@ -31,6 +31,7 @@ export const translations = {
   },
   required_field: { en: "Required Field", ka: "აუცილებელი ველი" },
   name: { en: "Name", ka: "სახელი" },
+  username: { en: "Name", ka: "სახელი" },
   email: { en: "Email", ka: "ელ. ფოსტა" },
   password: { en: "Password", ka: "პაროლი" },
   confirm_password: { en: "Confirm Password", ka: "პაროლის დადასტურება" },
@@ -42,9 +43,17 @@ export const translations = {
     en: "min. 3, max. 15 characters",
     ka: "მინ 3, მაქს 15 სიმბოლო",
   },
+  min_8_characters: {
+    en: "min. 8, max. 15 characters",
+    ka: "მინ 8, მაქს 15 სიმბოლო",
+  },
   only_lower_latin_letters: {
     en: "Only lower latin letters",
     ka: "მხოლოდ დაბალი ლათინური სიმბოლოები",
+  },
+  only_lower_latin_letters_and_numbers: {
+    en: "Only lower latin letters and numbers",
+    ka: "მხოლოდ დაბალი ლათინური სიმბოლოები და რიცხვები",
   },
   invalid_email: {
     en: "Invalid email format",
@@ -101,5 +110,29 @@ export const translations = {
   dont_have_an_account: {
     en: "Don't have an account?",
     ka: "არ გაქვთ ანგარიში?",
+  },
+  passwords_do_not_match: {
+    en: "Passwords do not match",
+    ka: "პაროლები არ ემთხვევა",
+  },
+  please_check_email: {
+    en: "Please check your email and follow the instructions to activate your account.",
+    ka: "გთხოვთ, შეამოწმეთ ელ.ფოსტა და მიყვეთ ინსტრუქციას ანგარიშის გასააქტიურებლად.",
+  },
+  thank_you: {
+    en: "Thank you!",
+    ka: "მადლობა",
+  },
+  go_to_my_email: {
+    en: "Go to my email",
+    ka: "გადადით თქვენს ელ.ფოსტაზე",
+  },
+  your_account_has_been_activated: {
+    en: "Your account has been activated",
+    ka: "თქვენი ანგარიში გააქტიურდა",
+  },
+  go_to_my_news_feed: {
+    en: "Go to my news feed",
+    ka: "გადადით სიახლეების გვერდზე",
   },
 };

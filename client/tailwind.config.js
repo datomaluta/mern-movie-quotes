@@ -23,6 +23,8 @@ export default {
           "linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), url('/src/assets/images/lotr.png')",
         "gradient-tenebaums":
           "linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 55.21%, rgba(0, 0, 0, 0) 100%), url('/src/assets/images/tenebaums.png')",
+        "mobile-modal-gradient":
+          "linear-gradient(180deg, hsla(246, 24%, 8%, 1) 1%, hsla(245, 32%, 14%, 1) 100%)",
       },
       fontFamily: {
         "helvetica-ultra-light": "helvetica-ultralight",

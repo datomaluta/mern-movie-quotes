@@ -43,6 +43,7 @@ const CustomInput = ({
       <div className="relative">
         {name.includes("password") && (
           <button
+          tabIndex={-1}
             onClick={() =>
               setPasswordIsVisible((currentState) => !currentState)
             }

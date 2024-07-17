@@ -4,6 +4,8 @@ import { useTranslate } from "../hooks/useTranslate";
 import { AnimatePresence } from "framer-motion";
 import Register from "../components/home/modals/Register";
 import Login from "../components/home/modals/Login";
+import CheckEmail from "../components/home/modals/CheckEmail";
+import AccountActivated from "../components/home/modals/AccountActivated";
 
 const Home = () => {
   const { t } = useTranslate();
@@ -29,6 +31,8 @@ const Home = () => {
       <AnimatePresence>
         {action === "register" && <Register />}
         {action === "login" && <Login />}
+        {action === "check-email" && <CheckEmail />}
+        {action === "account-verified" && <AccountActivated />}
       </AnimatePresence>
 
       <LandingBackgroundContainer
