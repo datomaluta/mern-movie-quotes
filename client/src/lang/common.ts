@@ -135,4 +135,8 @@ export const translations = {
     en: "Go to my news feed",
     ka: "გადადით სიახლეების გვერდზე",
   },
+  account_activation_failed: {
+    en: "Account activation failed",
+    ka: "ანგარიშის გაააქტიურება ვერ მოხერხდა",
+  },
 };

@@ -4,10 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { useTranslate } from "../hooks/useTranslate";
 
 const VerifyAccount = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: verifyUser,
@@ -18,7 +20,7 @@ const VerifyAccount = () => {
     onError: () => {
       console.log("ERROR");
       navigate("/");
-      toast.error("Something went wrong");
+      toast.error(t("account_activation_failed"));
     },
   });
 

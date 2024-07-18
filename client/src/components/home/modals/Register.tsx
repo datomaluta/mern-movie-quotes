@@ -8,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "../../../services/auth";
 import LoadingSpinner from "../../ui/LoadingSpinner";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const { t } = useTranslate();
@@ -19,8 +20,8 @@ const Register = () => {
     onSuccess: () => {
       setSearchParams({ action: "check-email" });
     },
-    onError: () => {
-      console.log("Error happened");
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
     },
   });
 
@@ -40,7 +41,6 @@ const Register = () => {
       return;
     }
 
-    console.log(data);
     registerMutate(data);
   };
 
@@ -69,14 +69,14 @@ const Register = () => {
               minLength: { value: 3, message: t("min_3_characters") },
               maxLength: { value: 15, message: t("min_3_characters") },
               pattern: {
-                value: /^[a-z]+$/i,
+                value: /^[a-z]+$/,
                 message: t("only_lower_latin_letters"),
               },
             }}
             type="text"
             label="username"
             placeholder={t("username_placeholder_text")}
-            errorText={errors?.name?.message as string | undefined}
+            errorText={errors?.username?.message as string | undefined}
           />
 
           <CustomInput
@@ -85,7 +85,7 @@ const Register = () => {
             rule={{
               required: t("required_field"),
               pattern: {
-                value: /^\S+@\S+$/i,
+                value: /^\S+@\S+$/,
                 message: t("invalid_email"),
               },
             }}
@@ -103,7 +103,7 @@ const Register = () => {
               minLength: { value: 4, message: t("min_8_characters") },
               maxLength: { value: 15, message: t("min_8_characters") },
               pattern: {
-                value: /^[a-z0-9]+$/i,
+                value: /^[a-z0-9]+$/,
                 message: t("only_lower_latin_letters_and_numbers"),
               },
             }}
@@ -123,7 +123,7 @@ const Register = () => {
               minLength: { value: 4, message: t("min_8_characters") },
               maxLength: { value: 15, message: t("min_8_characters") },
               pattern: {
-                value: /^[a-z0-9]+$/i,
+                value: /^[a-z0-9]+$/,
                 message: t("only_lower_latin_letters_and_numbers"),
               },
             }}

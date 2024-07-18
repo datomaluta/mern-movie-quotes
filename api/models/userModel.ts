@@ -25,6 +25,14 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: String,
     required: [true, "Username field is required"],
     minLength: 4,
+    maxLength: 15,
+    validate: {
+      validator: function (v: string) {
+        return /^[a-z]+$/.test(v);
+      },
+      message: (props: any) =>
+        `${props.value} is not a valid username! Only lowercase English letters are allowed.`,
+    },
   },
   email: {
     type: String,
@@ -44,6 +52,13 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     minLength: 4,
     maxLength: 15,
     select: false,
+    validate: {
+      validator: function (v: string) {
+        return /^[a-zA-Z0-9]+$/.test(v);
+      },
+      message: () =>
+        `This value is not a valid password! Only English letters and numbers are allowed.`,
+    },
   },
   passwordConfirm: {
     type: String,

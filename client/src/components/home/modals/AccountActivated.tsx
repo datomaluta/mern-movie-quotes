@@ -22,8 +22,7 @@ const AccountActivated = () => {
           {t("your_account_has_been_activated")}
         </p>
         <Link
-          target="_blank"
-          to={"https://mailtrap.io/inboxes/2088227/messages/"}
+          to={"/"}
           className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 md:w-max md:px-4 text-center"
         >
           {t("go_to_my_news_feed")}
