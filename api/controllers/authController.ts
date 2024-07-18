@@ -145,3 +145,82 @@ export const signin = catchAsync(async (req, res, next) => {
   // 3) if everything ok, send token to client
   createSendToken(user as any, 200, req, res);
 });
+
+export const forgotPassword = catchAsync(async (req, res, next) => {
+  // 1) get user based on posted email
+
+  const user: IUser | null = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError("There is no user with that email address", 404));
+  }
+
+  // 2) generate random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  // 3) send it to user's email
+  const resetURL = `${process.env.CLIENT_URL}/?action=new-password&token=${resetToken}`;
+  const emailTemplatePath = path.join(
+    __dirname,
+    "..",
+    "views",
+    "passwordReset.html"
+  );
+
+  ejs.renderFile(
+    emailTemplatePath,
+    { name: user.username, link: resetURL },
+    async (err, data) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      try {
+        await sendEmail({
+          email: user.email,
+          subject: "Password reset (valid for 10 minutes)",
+          html: data,
+        });
+
+        res.status(200).json({
+          status: "success",
+          message: "Password reset token sent to email",
+        });
+      } catch (error) {
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save({ validateBeforeSave: false });
+
+        return next(new AppError("Email could not be sent", 500));
+      }
+    }
+  );
+});
+
+export const resetPassword = catchAsync(async (req, res, next) => {
+  // 1) get user based on token
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user: IUser | null = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  // 2) if token has not expired and there is user, set the new password
+  if (!user) {
+    return next(new AppError("Token is invalid or has expired", 400));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.confirm_password;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  createSendToken(user as any, 200, req, res);
+});

@@ -19,3 +19,17 @@ export const signin = async (data: {
 }) => {
   return await instance.post("/auth/signin", data);
 };
+
+export const forgotPassword = async (data: { email: string }) => {
+  return instance.post("/auth/forgot-password", data);
+};
+
+export const resetPassword = async ({
+  data,
+  token,
+}: {
+  data: { password: string; confirm_password: string };
+  token: string;
+}) => {
+  return instance.patch(`/auth/reset-password/${token}`, data);
+};

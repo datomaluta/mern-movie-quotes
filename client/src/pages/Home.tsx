@@ -5,7 +5,10 @@ import { AnimatePresence } from "framer-motion";
 import Register from "../components/home/modals/Register";
 import Login from "../components/home/modals/Login";
 import CheckEmail from "../components/home/modals/CheckEmail";
-import AccountActivated from "../components/home/modals/AccountActivated";
+import ForgotPassword from "../components/home/modals/ForgotPassword";
+import NewPassword from "../components/home/modals/NewPassword";
+import Success from "../components/home/modals/Success";
+import LinkExpired from "../components/home/modals/LinkExpired";
 
 const Home = () => {
   const { t } = useTranslate();
@@ -31,8 +34,22 @@ const Home = () => {
       <AnimatePresence>
         {action === "register" && <Register />}
         {action === "login" && <Login />}
-        {action === "check-email" && <CheckEmail />}
-        {action === "account-verified" && <AccountActivated />}
+        {action === "check-email-verify" && (
+          <CheckEmail text={"please_check_email_verify"} />
+        )}
+        {action === "account-verified" && (
+          <Success text={"your_account_has_been_activated"} />
+        )}
+        {action === "forgot-password" && <ForgotPassword />}
+        {action === "check-email-password" && (
+          <CheckEmail text={"please_check_email_password"} />
+        )}
+        {action === "new-password" && <NewPassword />}
+        {action === "password-changed" && (
+          <Success text={"your_password_has_been_changed"} />
+        )}
+        {action === "password-link-expired" && <LinkExpired />}
+        {action === "verify-link-expired" && <LinkExpired />}
       </AnimatePresence>
 
       <LandingBackgroundContainer

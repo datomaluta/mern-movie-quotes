@@ -115,9 +115,13 @@ export const translations = {
     en: "Passwords do not match",
     ka: "პაროლები არ ემთხვევა",
   },
-  please_check_email: {
+  please_check_email_verify: {
     en: "Please check your email and follow the instructions to activate your account.",
     ka: "გთხოვთ, შეამოწმეთ ელ.ფოსტა და მიყვეთ ინსტრუქციას ანგარიშის გასააქტიურებლად.",
+  },
+  please_check_email_password: {
+    en: "Please check your email and follow the instructions to recover your password.",
+    ka: "გთხოვთ, შეამოწმეთ ელ.ფოსტა და მიყვეთ ინსტრუქციას პაროლის აღსადგენად.",
   },
   thank_you: {
     en: "Thank you!",
@@ -130,6 +134,10 @@ export const translations = {
   your_account_has_been_activated: {
     en: "Your account has been activated",
     ka: "თქვენი ანგარიში გააქტიურდა",
+  },
+  your_password_has_been_changed: {
+    en: "Your password has been changed",
+    ka: "თქვენი პაროლი შეიცვალა",
   },
   go_to_my_news_feed: {
     en: "Go to my news feed",
@@ -146,5 +154,42 @@ export const translations = {
   min_3_length: {
     en: "Min. 3 length",
     ka: "მინ 3 სიმბოლო",
+  },
+  forgot_password: {
+    en: "Forgot password",
+    ka: "დაგავიწყდა პაროლი",
+  },
+  forgot_password_instruction: {
+    en: "Enter the email and we will send an email with instructions to reset your password",
+    ka: "შეიყვანე მეილი და ჩვენ გამოგიგზავნით პაროლის აღდგენის ინსტრუქციას",
+  },
+  back_to_log_in: {
+    en: "Back to log in",
+    ka: "დაბრუნება ავტორიზაციაზე",
+  },
+  send_instructions: {
+    en: "Send instructions",
+    ka: "გაგზავნა",
+  },
+  create_new_password: {
+    en: "Create new password",
+    ka: "შექმენი ახალი პაროლი",
+  },
+  reset_password: { en: "Reset password", ka: "პაროლის აღდგენა" },
+  success: {
+    en: "Success",
+    ka: "არის",
+  },
+  link_expired: {
+    en: "Link expired",
+    ka: "ბმული უკვე არააქტიურია",
+  },
+  link_expired_text: {
+    en: "Link has expired, because you haven’t used it",
+    ka: "ბმულს ვადა გაუვიდა, რადგან არ მოხდა მისი დროული გამოყენება",
+  },
+  request_another_link: {
+    en: "Request another link",
+    ka: "ახალი ბმულის მოთხოვნა",
   },
 };

@@ -84,6 +84,16 @@ const Login = () => {
             setPasswordIsVisible={setPasswordIsVisible}
           />
 
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={() => setSearchParams({ action: "forgot-password" })}
+              className="text-blue-600 underline"
+              type="button"
+            >
+              {t("forgot_password")}
+            </button>
+          </div>
+
           <button className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 flex justify-center items-center min-h-10 md:min-h-9">
             {loginLoading ? <LoadingSpinner /> : t("login")}
           </button>

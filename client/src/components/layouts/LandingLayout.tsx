@@ -55,9 +55,9 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <button
             onClick={() => setSearchParams({ action: "register" })}
-            className="bg-project-red text-white px-2 py-2 rounded w-28 md:w-20 md:py-1"
+            className="bg-project-red text-white px-2 py-2 rounded min-w-28 md:w-20 md:py-1"
           >
-            Sign up
+            {t("sign_up")}
           </button>
           <button
             onClick={() => setSearchParams({ action: "login" })}

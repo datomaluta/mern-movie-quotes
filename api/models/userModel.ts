@@ -12,12 +12,13 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   passwordChangedAt: Date;
-  passwordResetToken: string;
-  passwordResetExpires: Date;
+  passwordResetToken: string | undefined;
+  passwordResetExpires: Date | number | undefined;
   verifyToken: string | undefined;
-  verifyTokenExpires: Date | Number | undefined;
+  verifyTokenExpires: Date | number | undefined;
   verified: boolean;
   createVerifyToken: () => string;
+  createPasswordResetToken: () => string;
   correctPassword: (
     candidatePassword: string,
     userPassword: string
@@ -108,6 +109,19 @@ userSchema.methods.createVerifyToken = function (this: IUser) {
   this.verifyTokenExpires = Date.now() + 10 * 60 * 1000;
 
   return verifyToken;
+};
+
+userSchema.methods.createPasswordResetToken = function (this: IUser) {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 userSchema.methods.correctPassword = async function (

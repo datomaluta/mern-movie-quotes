@@ -2,14 +2,11 @@ import { useMutation } from "@tanstack/react-query";
 import { verifyUser } from "../services/auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
-import { useTranslate } from "../hooks/useTranslate";
 
 const VerifyAccount = () => {
   const { token } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: verifyUser,
@@ -18,9 +15,7 @@ const VerifyAccount = () => {
       navigate("/?action=account-verified");
     },
     onError: () => {
-      console.log("ERROR");
-      navigate("/");
-      toast.error(t("account_activation_failed"));
+      navigate("/?action=verify-link-expired");
     },
   });
 
