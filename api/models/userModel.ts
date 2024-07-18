@@ -3,7 +3,7 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 
-interface IUser extends Document {
+export interface IUser extends Document {
   username: string;
   email: string;
   image: string;
@@ -18,11 +18,16 @@ interface IUser extends Document {
   verifyTokenExpires: Date | Number | undefined;
   verified: boolean;
   createVerifyToken: () => string;
+  correctPassword: (
+    candidatePassword: string,
+    userPassword: string
+  ) => Promise<boolean>;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
   username: {
     type: String,
+    unique: true,
     required: [true, "Username field is required"],
     minLength: 4,
     maxLength: 15,
@@ -103,6 +108,13 @@ userSchema.methods.createVerifyToken = function (this: IUser) {
   this.verifyTokenExpires = Date.now() + 10 * 60 * 1000;
 
   return verifyToken;
+};
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword: string,
+  userPassword: string
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);

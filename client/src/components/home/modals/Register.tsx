@@ -10,6 +10,13 @@ import { signup } from "../../../services/auth";
 import LoadingSpinner from "../../ui/LoadingSpinner";
 import toast from "react-hot-toast";
 
+type FormData = {
+  username: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+};
+
 const Register = () => {
   const { t } = useTranslate();
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
@@ -30,9 +37,9 @@ const Register = () => {
     formState: { errors },
     handleSubmit,
     setError,
-  } = useForm();
+  } = useForm<FormData>();
 
-  const submitHandler = (data) => {
+  const submitHandler = (data: FormData) => {
     if (data.password !== data.confirm_password) {
       setError("confirm_password", {
         type: "manual",

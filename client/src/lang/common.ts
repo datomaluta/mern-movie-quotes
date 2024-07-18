@@ -139,4 +139,12 @@ export const translations = {
     en: "Account activation failed",
     ka: "ანგარიშის გაააქტიურება ვერ მოხერხდა",
   },
+  email_or_username: {
+    en: "Email / Username",
+    ka: "ელ. ფოსტა / სახელი",
+  },
+  min_3_length: {
+    en: "Min. 3 length",
+    ka: "მინ 3 სიმბოლო",
+  },
 };

@@ -4,22 +4,43 @@ import ModalWrapper from "../../ui/ModalWrapper";
 import CustomInput from "../../ui/customInputs/CustomInput";
 import { useState } from "react";
 import { useTranslate } from "../../../hooks/useTranslate";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { signin } from "../../../services/auth";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../../ui/LoadingSpinner";
+
+type FormData = {
+  email_or_username: string;
+  password: string;
+};
 
 const Login = () => {
   const { t } = useTranslate();
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const { mutate: loginMutate, isPending: loginLoading } = useMutation({
+    mutationFn: signin,
+    onSuccess: () => {
+      navigate("/news-feed");
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
+    },
+  });
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+  } = useForm<FormData>();
 
-  const submitHandler = (data) => {
-    console.log(data);
+  const submitHandler = (data: FormData) => {
+    loginMutate(data);
   };
+
   return (
     <ModalWrapper
       isLanding={true}
@@ -36,19 +57,19 @@ const Login = () => {
           className="w-full mt-6 md:mt-2"
         >
           <CustomInput
-            name="email"
+            name="email_or_username"
             register={register}
             rule={{
               required: t("required_field"),
-              pattern: {
-                value: /^\S+@\S+$/i,
-                message: t("invalid_email"),
+              minLength: {
+                value: 3,
+                message: t("min_length_3"),
               },
             }}
             type="text"
-            label="email"
+            label="email_or_username"
             placeholder={t("email_placeholder_text")}
-            errorText={errors?.email?.message as string | undefined}
+            errorText={errors?.email_or_username?.message as string | undefined}
           />
 
           <CustomInput
@@ -63,8 +84,8 @@ const Login = () => {
             setPasswordIsVisible={setPasswordIsVisible}
           />
 
-          <button className="w-full bg-project-red py-2 md:py-[6px]  rounded mt-1">
-            {t("sign_in")}
+          <button className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 flex justify-center items-center min-h-10 md:min-h-9">
+            {loginLoading ? <LoadingSpinner /> : t("login")}
           </button>
         </form>
 

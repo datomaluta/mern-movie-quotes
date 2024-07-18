@@ -1,4 +1,4 @@
-import User from "../models/userModel";
+import User, { IUser } from "../models/userModel";
 import catchAsync from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
@@ -120,5 +120,28 @@ export const verifyUser = catchAsync(async (req, res, next) => {
   user.verifyTokenExpires = undefined;
   await user.save({ validateBeforeSave: false });
 
+  createSendToken(user as any, 200, req, res);
+});
+
+export const signin = catchAsync(async (req, res, next) => {
+  // 1) get email and password from request body
+  const { email_or_username: emailOrUsername, password } = req.body;
+
+  if (!emailOrUsername || !password) {
+    return next(
+      new AppError("Please provide email/username and password", 400)
+    );
+  }
+
+  // 2) check if user exists and password is correct (email also used as username)
+  let user: IUser | null = await User.findOne({
+    $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+  }).select("+password");
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError("Incorrect credentials", 401));
+  }
+
+  // 3) if everything ok, send token to client
   createSendToken(user as any, 200, req, res);
 });
