@@ -1,18 +1,10 @@
-import { useState } from "react";
 import { useTranslate } from "../../hooks/useTranslate";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { FaCaretDown } from "react-icons/fa";
-import { setLanguage } from "../../redux/language/languageSlice";
 import { useSearchParams } from "react-router-dom";
+import LanguageSwitcher from "../ui/LanguageSwitcher";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
-  const { lang } = useSelector((state: RootState) => state.lang);
   const { t } = useTranslate();
-  const [languageSwitcherIsOpen, setLanguageSwitcherIsOpen] = useState(false);
   const [, setSearchParams] = useSearchParams();
-
-  const dispatch = useDispatch();
 
   return (
     <>
@@ -21,38 +13,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           MOVIE QUOTES
         </p>
         <div className="flex items-center gap-4 md:gap-2">
-          <div className="relative">
-            <button
-              onClick={() =>
-                setLanguageSwitcherIsOpen((currentState) => !currentState)
-              }
-              className="flex gap-1 items-center px-2 py-2"
-            >
-              {lang === "en" ? "Eng" : "ქარ"} <FaCaretDown />
-            </button>
-            {languageSwitcherIsOpen && (
-              <div className="flex flex-col bg-project-light-blue items-start  absolute bottom-0 left-0 translate-y-full w-full rounded overflow-hidden">
-                <button
-                  onClick={() => {
-                    dispatch(setLanguage("en"));
-                    setLanguageSwitcherIsOpen(false);
-                  }}
-                  className="p-2 hover:bg-project-red w-full"
-                >
-                  Eng
-                </button>
-                <button
-                  onClick={() => {
-                    dispatch(setLanguage("ka"));
-                    setLanguageSwitcherIsOpen(false);
-                  }}
-                  className="p-2 hover:bg-project-red w-full"
-                >
-                  ქარ
-                </button>
-              </div>
-            )}
-          </div>
+          <LanguageSwitcher />
           <button
             onClick={() => setSearchParams({ action: "register" })}
             className="bg-project-red text-white px-2 py-2 rounded min-w-28 md:w-20 md:py-1"

@@ -192,4 +192,13 @@ export const translations = {
     en: "Request another link",
     ka: "ახალი ბმულის მოთხოვნა",
   },
+
+  logout: {
+    en: "Log out",
+    ka: "გასვლა",
+  },
+  edit_your_profile: {
+    en: "Edit your profile",
+    ka: "პროფილის რედაქტირება",
+  },
 };

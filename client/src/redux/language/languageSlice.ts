@@ -11,9 +11,12 @@ const languageSlice = createSlice({
     setLanguage: (state, { payload }) => {
       state.lang = payload;
     },
+    toggleLanguage: (state) => {
+      state.lang = state.lang === "ka" ? "en" : "ka";
+    },
   },
 });
 
-export const { setLanguage } = languageSlice.actions;
+export const { setLanguage, toggleLanguage } = languageSlice.actions;
 
 export default languageSlice.reducer;
