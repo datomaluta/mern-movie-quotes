@@ -33,3 +33,11 @@ export const resetPassword = async ({
 }) => {
   return instance.patch(`/auth/reset-password/${token}`, data);
 };
+
+export const googleAuth = async (data: {
+  username: string;
+  email: string;
+  googlePhotoUrl: string;
+}) => {
+  return instance.post("/auth/google", data);
+};

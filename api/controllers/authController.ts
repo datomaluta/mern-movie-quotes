@@ -1,12 +1,13 @@
 import User, { IUser } from "../models/userModel";
 import catchAsync from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { sendEmail } from "../utils/email";
 import { AppError } from "../utils/appError";
 import crypto from "crypto";
 import path from "path";
 import ejs from "ejs";
+import shortid from "shortid";
 
 interface UserDocument extends Document {
   _id: string;
@@ -133,13 +134,17 @@ export const signin = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 2) check if user exists and password is correct (email also used as username)
+  // 2) check if user exists, user is verified and password is correct (email also used as username)
   let user: IUser | null = await User.findOne({
     $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
-  }).select("+password");
+  }).select("+password +verified");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("Incorrect credentials", 401));
+  }
+
+  if (!user.verified) {
+    return next(new AppError("Please verify your account first!", 401));
   }
 
   // 3) if everything ok, send token to client
@@ -224,3 +229,44 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user as any, 200, req, res);
 });
+
+export const googleSignin = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email, username, googlePhotoUrl } = req.body;
+
+    const user = await User.findOne({ email });
+    if (user) {
+      createSendToken(user as any, 200, req, res);
+    } else {
+      const generateUsername = (name: string) => {
+        const baseUsername = name
+          .toLowerCase()
+          .replace(/[^a-z]/g, "")
+          .slice(0, 9);
+        const shortId = shortid
+          .generate()
+          .replace(/[^a-z]/g, "")
+          .slice(0, 6);
+        return baseUsername + shortId;
+      };
+
+      const generatedUsername = generateUsername(username);
+
+      const generatedPassword = `${
+        Math.random().toString(36).slice(-7) +
+        Math.random().toString(36).slice(-8)
+      }`.replace(".", "");
+
+      const newUser = new User({
+        username: generatedUsername,
+        email,
+        password: generatedPassword,
+        passwordConfirm: generatedPassword,
+        image: googlePhotoUrl,
+      });
+
+      await newUser.save();
+      createSendToken(newUser as any, 200, req, res);
+    }
+  }
+);

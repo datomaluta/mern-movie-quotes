@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa";
 import ModalWrapper from "../../ui/ModalWrapper";
 import CustomInput from "../../ui/customInputs/CustomInput";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import { signin } from "../../../services/auth";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../ui/LoadingSpinner";
+import OAuth from "../../google/OAuth";
 
 type FormData = {
   email_or_username: string;
@@ -99,13 +99,7 @@ const Login = () => {
           </button>
         </form>
 
-        <button
-          type="button"
-          className="w-full border border-white py-2 md:py-[6px] rounded flex gap-2 items-center justify-center mt-4 md:mt-2"
-        >
-          <FaGoogle />
-          {t("sign_in_with_google")}
-        </button>
+        <OAuth />
         <div className="flex items-center gap-2 mt-8 md:mt-4">
           <p className="text-project-gray md:text-sm">
             {t("dont_have_an_account")}
