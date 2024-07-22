@@ -2,17 +2,21 @@ import { useMutation } from "@tanstack/react-query";
 import { verifyUser } from "../services/auth";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
-import LoadingSpinner from "../components/ui/LoadingSpinner";
+import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "../redux/user/userSlice";
 
 const VerifyAccount = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { mutate, isPending } = useMutation({
     mutationFn: verifyUser,
-    onSuccess: () => {
-      console.log("VERIFIED");
+    onSuccess: (response: any) => {
       navigate("/?action=account-verified");
+      dispatch(saveUserInfo(response?.data?.data?.user));
+      console.log(response);
     },
     onError: () => {
       navigate("/?action=verify-link-expired");

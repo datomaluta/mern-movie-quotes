@@ -1,10 +1,10 @@
 import { FaRegBell } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
-import LanguageSwitcher from "../ui/LanguageSwitcher";
+import LanguageSwitcher from "../ui/sharedComponents/LanguageSwitcher";
 import { useTranslate } from "../../hooks/useTranslate";
 
-const NewsFeedHeader = ({
+const AuthHeader = ({
   setSidebarIsVisible,
 }: {
   setSidebarIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -44,4 +44,4 @@ const NewsFeedHeader = ({
   );
 };
 
-export default NewsFeedHeader;
+export default AuthHeader;

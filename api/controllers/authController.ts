@@ -263,6 +263,8 @@ export const googleSignin = catchAsync(
         password: generatedPassword,
         passwordConfirm: generatedPassword,
         image: googlePhotoUrl,
+        verified: true,
+        isGoogleUser: true,
       });
 
       await newUser.save();

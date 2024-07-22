@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import ModalWrapper from "../../ui/ModalWrapper";
+import ModalWrapper from "../../ui/sharedComponents/ModalWrapper";
 import CustomInput from "../../ui/customInputs/CustomInput";
 import { useTranslate } from "../../../hooks/useTranslate";
 import { useSearchParams } from "react-router-dom";
 import { resetPassword } from "../../../services/auth";
 import { useMutation } from "@tanstack/react-query";
-import LoadingSpinner from "../../ui/LoadingSpinner";
+import LoadingSpinner from "../../ui/sharedComponents/LoadingSpinner";
 import { useState } from "react";
 
 type FormData = {

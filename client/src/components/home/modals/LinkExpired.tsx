@@ -1,4 +1,4 @@
-import ModalWrapper from "../../ui/ModalWrapper";
+import ModalWrapper from "../../ui/sharedComponents/ModalWrapper";
 import { useTranslate } from "../../../hooks/useTranslate";
 import { useSearchParams } from "react-router-dom";
 import { FcExpired } from "react-icons/fc";

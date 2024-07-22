@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import LandingBackgroundContainer from "../components/ui/LandingBackgroundContainer";
+import LandingBackgroundContainer from "../components/ui/sharedComponents/LandingBackgroundContainer";
 import { useTranslate } from "../hooks/useTranslate";
 import { AnimatePresence } from "framer-motion";
 import Register from "../components/home/modals/Register";

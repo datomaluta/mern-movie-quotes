@@ -17,6 +17,7 @@ export interface IUser extends Document {
   verifyToken: string | undefined;
   verifyTokenExpires: Date | number | undefined;
   verified: boolean;
+  isGoogleUser: boolean;
   createVerifyToken: () => string;
   createPasswordResetToken: () => string;
   correctPassword: (
@@ -85,6 +86,11 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: Boolean,
     default: false,
     select: false,
+  },
+  isGoogleUser: {
+    type: Boolean,
+    default: false,
+    // select: false,
   },
 });
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCaretDown } from "react-icons/fa";
-import { setLanguage } from "../../redux/language/languageSlice";
+import { setLanguage } from "../../../redux/language/languageSlice";
 
 const LanguageSwitcher = ({ className }: { className?: string }) => {
   const { lang } = useSelector((state: RootState) => state.lang);

@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { FaLongArrowAltLeft } from "react-icons/fa";
-import ModalWrapper from "../../ui/ModalWrapper";
+import ModalWrapper from "../../ui/sharedComponents/ModalWrapper";
 import CustomInput from "../../ui/customInputs/CustomInput";
 import { useTranslate } from "../../../hooks/useTranslate";
 import { useSearchParams } from "react-router-dom";
 import { forgotPassword } from "../../../services/auth";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import LoadingSpinner from "../../ui/LoadingSpinner";
+import LoadingSpinner from "../../ui/sharedComponents/LoadingSpinner";
 
 type FormData = {
   email: string;

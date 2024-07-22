@@ -1,6 +1,6 @@
 import { useTranslate } from "../../hooks/useTranslate";
 import { useSearchParams } from "react-router-dom";
-import LanguageSwitcher from "../ui/LanguageSwitcher";
+import LanguageSwitcher from "../ui/sharedComponents/LanguageSwitcher";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslate();

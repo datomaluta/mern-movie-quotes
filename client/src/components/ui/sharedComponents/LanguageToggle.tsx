@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { toggleLanguage } from "../../redux/language/languageSlice";
+import { RootState } from "../../../redux/store";
+import { toggleLanguage } from "../../../redux/language/languageSlice";
 
 const LanguageToggle = ({ className }: { className?: string }) => {
   const dispatch = useDispatch();

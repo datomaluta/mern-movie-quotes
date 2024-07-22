@@ -1,13 +1,13 @@
 import { ReactNode, useRef, useState } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import { AnimatePresence, motion } from "framer-motion";
-import NewsFeedHeader from "../newsFeed/NewsFeedHeader";
-import SidebarContent from "../sidebar/SidebarContent";
+import SidebarContent from "../auth/sidebar/SidebarContent";
 import { useTranslate } from "../../hooks/useTranslate";
 import { IoIosLogOut } from "react-icons/io";
-import LanguageToggle from "../ui/LanguageToggle";
+import LanguageToggle from "../ui/sharedComponents/LanguageToggle";
+import AuthHeader from "../auth/AuthHeader";
 
-const NewsFeedLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = ({ children }: { children: ReactNode }) => {
   const [sidebarIsVisible, setSidebarIsVisible] = useState(false);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { t } = useTranslate();
@@ -18,19 +18,19 @@ const NewsFeedLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <NewsFeedHeader setSidebarIsVisible={setSidebarIsVisible} />
+      <AuthHeader setSidebarIsVisible={setSidebarIsVisible} />
 
-      <div className="mt-[88px] pt-8 flex ">
+      <div className="mt-[5.5rem] xl:mt-[4.5rem] pt-8 flex bg-project-middle-blue min-h-screen">
         {/* sidebar */}
-        <div className="w-[420px] xl:w-[250px]  h-screen fixed lg:hidden px-16 xl:px-10 lg:px-8">
+        <aside className="w-[26.25rem] xl:w-[15.625rem] h-screen fixed lg:hidden px-16 xl:px-10 lg:px-8">
           <SidebarContent />
-        </div>
+        </aside>
 
         <AnimatePresence>
           {sidebarIsVisible && (
-            <motion.div
+            <motion.aside
               ref={sidebarRef}
-              className="max-w-[350px] w-[80%] h-screen fixed top-0 left-0 bg-project-dark-blue p-4 hidden lg:flex flex-col"
+              className="max-w-[22rem] w-[80%] h-screen fixed top-0 left-0 bg-project-dark-blue p-4 hidden lg:flex flex-col"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               transition={{ type: "tween", duration: 0.2, ease: "easeInOut" }}
@@ -45,16 +45,16 @@ const NewsFeedLayout = ({ children }: { children: ReactNode }) => {
                   {t("logout")}
                 </button>
               </div>
-            </motion.div>
+            </motion.aside>
           )}
         </AnimatePresence>
+
         {/* main content */}
-        <div className="bg-blue-600 flex-1 max-w-[938px] lg:w-full lg:max-w-full ml-[420px] xl:ml-[250px] lg:ml-0 p-4">
-          THIS IS MAIN CONTENT
+        <div className="bg-blue-60 flex-1 max-w-[58.625rem] lg:w-full lg:max-w-full ml-[26.25rem] xl:ml-[15.625rem] lg:ml-0 p-4">
           {children}
         </div>
       </div>
     </>
   );
 };
-export default NewsFeedLayout;
+export default AuthLayout;

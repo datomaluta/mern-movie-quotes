@@ -31,7 +31,7 @@ export const translations = {
   },
   required_field: { en: "Required Field", ka: "აუცილებელი ველი" },
   name: { en: "Name", ka: "სახელი" },
-  username: { en: "Name", ka: "სახელი" },
+  username: { en: "Username", ka: "სახელი" },
   email: { en: "Email", ka: "ელ. ფოსტა" },
   password: { en: "Password", ka: "პაროლი" },
   confirm_password: { en: "Confirm Password", ka: "პაროლის დადასტურება" },
@@ -200,5 +200,33 @@ export const translations = {
   edit_your_profile: {
     en: "Edit your profile",
     ka: "პროფილის რედაქტირება",
+  },
+  my_profile: {
+    en: "My Profile",
+    ka: "ჩემი პროფილი",
+  },
+  news_feed: {
+    en: "News Feed",
+    ka: "სიახლეები",
+  },
+  list_of_movies: {
+    en: "List of movies",
+    ka: "ფილმების სია",
+  },
+  upload_new_photo: {
+    en: "Upload new photo",
+    ka: "ახალი ფოტოს ატვირთვა",
+  },
+  change_password: {
+    en: "Change password",
+    ka: "პაროლის შეცვლა",
+  },
+  cancel: {
+    en: "Cancel",
+    ka: "გაუქმება",
+  },
+  save_changes: {
+    en: "Save changes",
+    ka: "შენახვა",
   },
 };

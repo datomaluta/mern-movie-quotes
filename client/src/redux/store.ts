@@ -1,13 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-// import userReducer from "./user/userSlice";
+import userReducer from "./user/userSlice";
 import languageReducer from "./language/languageSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
-  //   user: userReducer,
-  //   theme: themeReducer,
-  //   user: userReducer,
+  user: userReducer,
   lang: languageReducer,
 });
 

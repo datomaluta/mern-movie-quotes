@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
-import ModalWrapper from "../../ui/ModalWrapper";
+import ModalWrapper from "../../ui/sharedComponents/ModalWrapper";
 import CustomInput from "../../ui/customInputs/CustomInput";
 import { useState } from "react";
 import { useTranslate } from "../../../hooks/useTranslate";
 import { useSearchParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "../../../services/auth";
-import LoadingSpinner from "../../ui/LoadingSpinner";
+import LoadingSpinner from "../../ui/sharedComponents/LoadingSpinner";
 import toast from "react-hot-toast";
 import OAuth from "../../google/OAuth";
 

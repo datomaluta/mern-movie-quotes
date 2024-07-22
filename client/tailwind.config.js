@@ -9,6 +9,7 @@ export default {
         "project-yellow": "#DDCCAA",
         "project-dark-blue": "#11101A",
         "project-light-blue": "#222030",
+        "project-middle-blue": "#181623",
         "project-gray": "#6C757D",
         "project-light-sky-blue": "#CED4DA",
         "project-outline-blue": "#929aa6",
