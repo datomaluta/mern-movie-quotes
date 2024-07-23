@@ -229,4 +229,16 @@ export const translations = {
     en: "Save changes",
     ka: "შენახვა",
   },
+  back_to_general_info: {
+    en: "Back to general info",
+    ka: "დაბრუნება ზოგად ინფოზე",
+  },
+  current_password: {
+    en: "Current password",
+    ka: "მიმდინარე პაროლი",
+  },
+  upload: {
+    en: "Upload",
+    ka: "ატვირთვა",
+  },
 };
