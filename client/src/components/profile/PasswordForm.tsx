@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import CustomInput from "../ui/customInputs/CustomInput";
 import { useTranslate } from "../../hooks/useTranslate";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 type FormData = {
   current_password: string;
@@ -14,11 +15,13 @@ const PasswordForm = () => {
   const [currentPasswordIsVisible, setCurrentPasswordIsVisible] =
     useState(false);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+  const [, setSearchParams] = useSearchParams();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
+    reset,
   } = useForm<FormData>();
 
   const submitHandler = (data: FormData) => {
@@ -28,7 +31,7 @@ const PasswordForm = () => {
   return (
     <form
       id="password-form"
-      className="max-w-[60%] md:max-w-full mx-auto"
+      className="max-w-[60%] md:max-w-full mx-auto min-h-[24rem]"
       onSubmit={handleSubmit(submitHandler)}
     >
       <CustomInput
@@ -39,7 +42,7 @@ const PasswordForm = () => {
         }}
         type={currentPasswordIsVisible ? "text" : "password"}
         label="current_password"
-        placeholder={t("password_placeholder_text")}
+        placeholder={t("current_password")}
         errorText={errors?.current_password?.message as string | undefined}
         passwordIsVisible={currentPasswordIsVisible}
         setPasswordIsVisible={setCurrentPasswordIsVisible}
@@ -84,6 +87,40 @@ const PasswordForm = () => {
         passwordIsVisible={passwordIsVisible}
         setPasswordIsVisible={setPasswordIsVisible}
       />
+
+      <button
+        onClick={() =>
+          setSearchParams({
+            tab: "general",
+          })
+        }
+        className="mx-auto inline-block text-blue-500 text-left"
+      >
+        {t("back_to_general_info")}
+      </button>
+
+      {isDirty && (
+        <div className="flex gap-6 mt-4 justify-end">
+          <button
+            onClick={() => {
+              reset({
+                current_password: "",
+                password: "",
+                confirm_password: "",
+              });
+            }}
+            className="text-red-500"
+          >
+            {t("cancel")}
+          </button>
+          <button
+            onClick={() => {}}
+            className="bg-project-red px-4 py-2 rounded"
+          >
+            {t("save_changes")}
+          </button>
+        </div>
+      )}
     </form>
   );
 };

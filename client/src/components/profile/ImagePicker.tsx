@@ -9,12 +9,12 @@ const ImagePicker = ({
   imageFileUploadProgress,
   register,
   imageFileUploadError,
-  imgPreview,
+  imgUrl,
 }: {
   imageFileUploadProgress: number | null;
   register: UseFormRegister<any>;
   imageFileUploadError: string | null;
-  imgPreview: string | null;
+  imgUrl: string | null;
 }) => {
   const { t } = useTranslate();
 
@@ -51,7 +51,7 @@ const ImagePicker = ({
             imageFileUploadProgress < 100 &&
             "opacity-60"
           }`}
-          src={imgPreview || currentUser?.image}
+          src={imgUrl || currentUser?.image}
           alt="img-preview"
         />
       </div>

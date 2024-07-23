@@ -53,12 +53,20 @@ const useUploadImage = (app: any) => {
     [app]
   );
 
+  const resetImageUpload = () => {
+    setImageFileUploading(false);
+    setImageFileUploadError(null);
+    setImageFileUploadProgress(null);
+    setImgUrl(null);
+  };
+
   return {
     uploadImage,
     imageFileUploading,
     imageFileUploadError,
     imageFileUploadProgress,
     imgUrl,
+    resetImageUpload,
   };
 };
 

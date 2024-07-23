@@ -8,6 +8,7 @@ import { app } from "../../firebase.ts";
 import { useEffect } from "react";
 
 import ImagePicker from "./ImagePicker.tsx";
+import { useSearchParams } from "react-router-dom";
 
 type FormData = {
   username: string;
@@ -18,15 +19,22 @@ type FormData = {
 const GeneralInfoForm = () => {
   const { t } = useTranslate();
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const [, setSearchParams] = useSearchParams();
 
-  const { uploadImage, imageFileUploadError, imageFileUploadProgress, imgUrl } =
-    useUploadImage(app);
+  const {
+    uploadImage,
+    imageFileUploadError,
+    imageFileUploadProgress,
+    imgUrl,
+    resetImageUpload,
+  } = useUploadImage(app);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     control,
+    reset,
   } = useForm<FormData>({
     defaultValues: {
       username: currentUser?.username,
@@ -34,22 +42,22 @@ const GeneralInfoForm = () => {
       image: null,
     },
   });
-  const selectedFile = useWatch({ control, name: "image" });
+  const imageInput = useWatch({ control, name: "image" });
 
   const submitHandler = (data: FormData) => {
     console.log(data, imgUrl);
   };
 
   useEffect(() => {
-    if (selectedFile) {
-      uploadImage(selectedFile[0]);
+    if (imageInput) {
+      uploadImage(imageInput[0]);
     }
-  }, [selectedFile, uploadImage]);
+  }, [imageInput, uploadImage]);
 
   return (
     <form
       id="general-info-form"
-      className="max-w-[60%] md:max-w-full mx-auto pt-10"
+      className="max-w-[60%] md:max-w-full mx-auto pt-10 min-h-[22rem]"
       onSubmit={handleSubmit(submitHandler)}
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[40%]">
@@ -103,7 +111,7 @@ const GeneralInfoForm = () => {
           />
 
           <div className="flex gap-4 min-h-8">
-            {selectedFile !== currentUser?.image &&
+            {imageInput !== currentUser?.image &&
               imageUploadButtonIsVisible && (
                 <>
                   <button
@@ -116,7 +124,7 @@ const GeneralInfoForm = () => {
                   </button>
                   <button
                     onClick={() => {
-                      uploadImage(selectedFile[0]);
+                      uploadImage(imageInput[0]);
                       setImageUploadButtonIsVisible(false);
                     }}
                     className="bg-green-600 px-3 py-1 rounded-lg"
@@ -134,7 +142,7 @@ const GeneralInfoForm = () => {
           imageFileUploadProgress={imageFileUploadProgress}
           register={register}
           imageFileUploadError={imageFileUploadError}
-          imgPreview={imgUrl}
+          imgUrl={imgUrl}
         />
       </div>
 
@@ -171,6 +179,41 @@ const GeneralInfoForm = () => {
         placeholder={t("email_placeholder_text")}
         errorText={errors?.email?.message as string | undefined}
       />
+
+      <button
+        onClick={() =>
+          setSearchParams({
+            tab: "password",
+          })
+        }
+        className="mx-auto inline-block text-blue-500 text-left"
+      >
+        {t("change_password")}
+      </button>
+
+      {isDirty && (
+        <div className="flex gap-6 mt-4 justify-end">
+          <button
+            onClick={() => {
+              reset({
+                username: currentUser?.username,
+                email: currentUser?.email,
+                image: null,
+              });
+              resetImageUpload();
+            }}
+            className="text-red-500"
+          >
+            {t("cancel")}
+          </button>
+          <button
+            onClick={() => {}}
+            className="bg-project-red px-4 py-2 rounded"
+          >
+            {t("save_changes")}
+          </button>
+        </div>
+      )}
     </form>
   );
 };
