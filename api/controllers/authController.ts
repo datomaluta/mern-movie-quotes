@@ -1,5 +1,5 @@
 import User, { IUser } from "../models/userModel";
-import catchAsync from "../utils/catchAsync";
+import { catchAsync } from "../utils/catchAsync";
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { sendEmail } from "../utils/email";
@@ -8,6 +8,8 @@ import crypto from "crypto";
 import path from "path";
 import ejs from "ejs";
 import shortid from "shortid";
+import { promisify } from "util";
+import { CustomRequest } from "../types";
 
 interface UserDocument extends Document {
   _id: string;
@@ -270,5 +272,76 @@ export const googleSignin = catchAsync(
       await newUser.save();
       createSendToken(newUser as any, 200, req, res);
     }
+  }
+);
+
+export const protect = catchAsync(
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
+    // 1) Getting token and check of it's there
+    let token;
+    token = req.cookies.jwt;
+    if (!token) {
+      return next(
+        new AppError("You are not logged in! Please log in to get access.", 401)
+      );
+    }
+
+    // 2) Verification token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      id: string;
+      iat: number;
+    };
+    // const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    // 3) Check if user still exists
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      return next(
+        new AppError(
+          "The user belonging to this token does no longer exist.",
+          401
+        )
+      );
+    }
+
+    // 4) Check if user changed password after the token was issued
+    if (currentUser.changedPasswordAfter(decoded.iat)) {
+      return next(
+        new AppError(
+          "User recently changed password! Please log in again.",
+          401
+        )
+      );
+    }
+
+    // 5) Grant access to protected route
+    req.user = currentUser;
+    next();
+  }
+);
+
+export const updateMyPassword = catchAsync(
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
+    // 1) get user from collection
+    const user = await User.findById(req.user.id).select("+password");
+
+    if (!user) {
+      return next(new AppError("No user found with that ID", 404));
+    }
+
+    // 2) check if POSTed current password is correct
+    if (
+      !(await user.correctPassword(req.body.current_password, user.password))
+    ) {
+      return next(new AppError("Your current password is wrong", 401));
+    }
+
+    // 3) if so, update password
+    user.password = req.body.new_password;
+    user.passwordConfirm = req.body.confirm_password;
+    await user.save();
+
+    // 4) log user in, send JWT
+    createSendToken(user as any, 200, req, res);
   }
 );

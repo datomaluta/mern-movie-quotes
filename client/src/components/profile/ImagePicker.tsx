@@ -64,8 +64,7 @@ const ImagePicker = ({
         type="file"
         id="image"
         hidden
-        // onChange={trigger("image")}
-        // accept="image/*"
+        accept="image/*"
       />
 
       <p className="text-project-red h-2">{imageFileUploadError || ""}</p>

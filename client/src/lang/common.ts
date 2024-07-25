@@ -241,4 +241,16 @@ export const translations = {
     en: "Upload",
     ka: "ატვირთვა",
   },
+  profile_updated_successfully: {
+    en: "Profile updated successfully",
+    ka: "პროფილი წარმატებით განახლდა",
+  },
+  something_went_wrong: {
+    en: "Something went wrong",
+    ka: "დაფიქსირდა შეცდომა",
+  },
+  password_updated_successfully: {
+    en: "Password updated successfully",
+    ka: "პაროლი წარმატებით განახლდა",
+  },
 };

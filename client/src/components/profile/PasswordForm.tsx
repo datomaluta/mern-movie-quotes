@@ -3,10 +3,14 @@ import CustomInput from "../ui/customInputs/CustomInput";
 import { useTranslate } from "../../hooks/useTranslate";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { updateMyPassword } from "../../services/user";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
 
 type FormData = {
   current_password: string;
-  password: string;
+  new_password: string;
   confirm_password: string;
 };
 
@@ -22,10 +26,30 @@ const PasswordForm = () => {
     handleSubmit,
     formState: { errors, isDirty },
     reset,
+    setError,
   } = useForm<FormData>();
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateMyPassword,
+    onSuccess: () => {
+      toast.success(t("password_updated_successfully"));
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
+    },
+  });
+
   const submitHandler = (data: FormData) => {
-    console.log(data);
+    if (data.new_password !== data.confirm_password) {
+      setError("confirm_password", {
+        type: "manual",
+        message: t("passwords_do_not_match"),
+      });
+      return;
+    }
+
+    mutate(data);
+    reset();
   };
 
   return (
@@ -49,7 +73,7 @@ const PasswordForm = () => {
       />
 
       <CustomInput
-        name="password"
+        name="new_password"
         register={register}
         rule={{
           required: t("required_field"),
@@ -63,7 +87,7 @@ const PasswordForm = () => {
         type={passwordIsVisible ? "text" : "password"}
         label="password"
         placeholder={t("password_placeholder_text")}
-        errorText={errors?.password?.message as string | undefined}
+        errorText={errors?.new_password?.message as string | undefined}
         passwordIsVisible={passwordIsVisible}
         setPasswordIsVisible={setPasswordIsVisible}
       />
@@ -105,7 +129,7 @@ const PasswordForm = () => {
             onClick={() => {
               reset({
                 current_password: "",
-                password: "",
+                new_password: "",
                 confirm_password: "",
               });
             }}
@@ -114,10 +138,11 @@ const PasswordForm = () => {
             {t("cancel")}
           </button>
           <button
+            disabled={isPending}
             onClick={() => {}}
-            className="bg-project-red px-4 py-2 rounded"
+            className="bg-project-red px-4 py-2 rounded w-36 flex justify-center items-center h-10 disabled:bg-red-500 disabled:cursor-not-allowed"
           >
-            {t("save_changes")}
+            {isPending ? <LoadingSpinner /> : t("save_changes")}
           </button>
         </div>
       )}

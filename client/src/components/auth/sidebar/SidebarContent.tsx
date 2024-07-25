@@ -12,7 +12,10 @@ const SidebarContent = () => {
 
   return (
     <div className="flex flex-col gap-10 ">
-      <Link to={"/profile"} className="flex items-center gap-4 group">
+      <Link
+        to={"/profile?tab=general"}
+        className="flex items-center gap-4 group"
+      >
         <div className="w-12 h-12 rounded-full overflow-hidden bg-red-500 border-2 border-project-red">
           <img
             className="h-full w-full object-cover"

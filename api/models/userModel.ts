@@ -24,6 +24,7 @@ export interface IUser extends Document {
     candidatePassword: string,
     userPassword: string
   ) => Promise<boolean>;
+  changedPasswordAfter: (JWTtimestamp: number) => boolean;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
@@ -135,6 +136,20 @@ userSchema.methods.correctPassword = async function (
   userPassword: string
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (
+  JWTtimestamp: number
+): boolean {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = Math.floor(
+      this.passwordChangedAt.getTime() / 1000
+    );
+
+    return JWTtimestamp < changedTimestamp;
+  }
+
+  return false;
 };
 
 const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);

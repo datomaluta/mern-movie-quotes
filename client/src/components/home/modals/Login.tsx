@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../ui/sharedComponents/LoadingSpinner";
 import OAuth from "../../google/OAuth";
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "../../../redux/user/userSlice";
 
 type FormData = {
   email_or_username: string;
@@ -20,11 +22,13 @@ const Login = () => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
   const [, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { mutate: loginMutate, isPending: loginLoading } = useMutation({
     mutationFn: signin,
-    onSuccess: () => {
+    onSuccess: (response: any) => {
       navigate("/news-feed");
+      dispatch(saveUserInfo(response?.data?.data?.user));
     },
     onError: (error: any) => {
       toast.error(error?.response?.data?.message);

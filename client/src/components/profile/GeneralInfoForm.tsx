@@ -1,5 +1,5 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import CustomInput from "../ui/customInputs/CustomInput";
 import { useTranslate } from "../../hooks/useTranslate";
@@ -9,6 +9,12 @@ import { useEffect } from "react";
 
 import ImagePicker from "./ImagePicker.tsx";
 import { useSearchParams } from "react-router-dom";
+import { removeEmpty } from "../../utils/objectFunctions.ts";
+import { updateMe } from "../../services/user.ts";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { saveUserInfo } from "../../redux/user/userSlice.ts";
+import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner.tsx";
 
 type FormData = {
   username: string;
@@ -16,10 +22,17 @@ type FormData = {
   image: FileList | null;
 };
 
+type toSendFormData = {
+  username: string;
+  email: string;
+  image: string;
+};
+
 const GeneralInfoForm = () => {
   const { t } = useTranslate();
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
   const {
     uploadImage,
@@ -27,6 +40,7 @@ const GeneralInfoForm = () => {
     imageFileUploadProgress,
     imgUrl,
     resetImageUpload,
+    imageFileUploading,
   } = useUploadImage(app);
 
   const {
@@ -44,8 +58,24 @@ const GeneralInfoForm = () => {
   });
   const imageInput = useWatch({ control, name: "image" });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: updateMe,
+    onSuccess: (response: any) => {
+      toast.success(t("profile_updated_successfully"));
+      dispatch(saveUserInfo(response?.data?.data?.user));
+    },
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message);
+    },
+  });
+
   const submitHandler = (data: FormData) => {
-    console.log(data, imgUrl);
+    const requestData = {
+      ...data,
+      image: imgUrl,
+    };
+
+    mutate(removeEmpty(requestData) as toSendFormData);
   };
 
   useEffect(() => {
@@ -207,10 +237,11 @@ const GeneralInfoForm = () => {
             {t("cancel")}
           </button>
           <button
+            disabled={imageFileUploading || isPending}
             onClick={() => {}}
-            className="bg-project-red px-4 py-2 rounded"
+            className="bg-project-red px-4 py-2 rounded w-36 flex justify-center items-center h-10 disabled:bg-red-500 disabled:cursor-not-allowed"
           >
-            {t("save_changes")}
+            {isPending ? <LoadingSpinner /> : t("save_changes")}
           </button>
         </div>
       )}
