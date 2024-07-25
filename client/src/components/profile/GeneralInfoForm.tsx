@@ -208,6 +208,7 @@ const GeneralInfoForm = () => {
         label="email"
         placeholder={t("email_placeholder_text")}
         errorText={errors?.email?.message as string | undefined}
+        readOnly={currentUser?.isGoogleUser}
       />
 
       <button
@@ -222,7 +223,7 @@ const GeneralInfoForm = () => {
       </button>
 
       {isDirty && (
-        <div className="flex gap-6 mt-4 justify-end">
+        <div className="flex gap-6 mt-16 justify-end">
           <button
             onClick={() => {
               reset({

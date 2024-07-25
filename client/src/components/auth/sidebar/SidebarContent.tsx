@@ -16,7 +16,13 @@ const SidebarContent = () => {
         to={"/profile?tab=general"}
         className="flex items-center gap-4 group"
       >
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-red-500 border-2 border-project-red">
+        <div
+          className={`w-12 h-12 rounded-full overflow-hidden bg-project-dark-blue border-2   ${
+            pathname.includes("profile")
+              ? "border-project-red"
+              : "border-transparent"
+          } `}
+        >
           <img
             className="h-full w-full object-cover"
             src={currentUser?.image}

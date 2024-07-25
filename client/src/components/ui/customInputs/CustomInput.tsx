@@ -43,7 +43,7 @@ const CustomInput = ({
       <div className="relative">
         {name.includes("password") && (
           <button
-          tabIndex={-1}
+            tabIndex={-1}
             onClick={() =>
               setPasswordIsVisible((currentState) => !currentState)
             }
@@ -55,7 +55,7 @@ const CustomInput = ({
         )}
         <input
           {...register(name, rule)}
-          className={`w-full px-3 py-2 md:px-[10px] md:py-[6px] bg-project-light-sky-blue text-gray-900 rounded placeholder:text-sm placeholder:text-project-gray border-transparent border-2 block outline-none shadow-md
+          className={`w-full px-3 py-2 md:px-[10px] md:py-[6px] bg-project-light-sky-blue text-gray-900 rounded placeholder:text-sm placeholder:text-project-gray border-transparent border-2 block outline-none shadow-md disabled:bg-gray-500 disabled:cursor-not-allowed
          focus:ring focus:ring-project-outline-blue transition-all md:text-sm ${
            errorText ? "!border-project-danger" : ""
          } ${className}`}

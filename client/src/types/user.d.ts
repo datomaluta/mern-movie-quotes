@@ -3,5 +3,5 @@ export type UserType = {
   username: string;
   email: string;
   image: string;
-  isGoogleUser: string;
+  isGoogleUser: boolean;
 };

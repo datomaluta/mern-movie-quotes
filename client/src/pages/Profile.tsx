@@ -13,7 +13,13 @@ const Profile = () => {
     <div className="">
       <h1 className="text-xl font-helvetica-medium">{t("my_profile")}</h1>
 
-      <div className="bg-project-dark-blue mt-28 relative rounded-xl py-36 px-4">
+      <div
+        className={`bg-project-dark-blue  relative rounded-xl ${
+          searchParams.get("tab") === "general"
+            ? "pt-36 pb-12 mt-28"
+            : " py-12 mt-12"
+        } px-4`}
+      >
         {searchParams.get("tab") === "general" && <GeneralInfoForm />}
         {searchParams.get("tab") === "password" && <PasswordForm />}
       </div>

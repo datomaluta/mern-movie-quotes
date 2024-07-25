@@ -7,11 +7,13 @@ import NewsFeed from "./pages/NewsFeed";
 import Profile from "./pages/Profile";
 import AuthLayout from "./components/layouts/AuthLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import ScrollToTop from "./components/ui/sharedComponents/ScrollToTop";
 
 function App() {
   return (
     <div className="font-helvetica-light text-white ">
       <Toaster position="bottom-left" reverseOrder={false} />
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

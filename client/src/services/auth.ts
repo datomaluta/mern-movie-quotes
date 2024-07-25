@@ -21,7 +21,7 @@ export const signin = async (data: {
 };
 
 export const forgotPassword = async (data: { email: string }) => {
-  return instance.post("/auth/forgot-password", data);
+  return await instance.post("/auth/forgot-password", data);
 };
 
 export const resetPassword = async ({
@@ -31,7 +31,7 @@ export const resetPassword = async ({
   data: { password: string; confirm_password: string };
   token: string;
 }) => {
-  return instance.patch(`/auth/reset-password/${token}`, data);
+  return await instance.patch(`/auth/reset-password/${token}`, data);
 };
 
 export const googleAuth = async (data: {
@@ -39,5 +39,9 @@ export const googleAuth = async (data: {
   email: string;
   googlePhotoUrl: string;
 }) => {
-  return instance.post("/auth/google", data);
+  return await instance.post("/auth/google", data);
+};
+
+export const logout = async () => {
+  return await instance.get("/auth/logout");
 };

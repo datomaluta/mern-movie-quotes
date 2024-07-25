@@ -7,18 +7,20 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaGoogle } from "react-icons/fa";
 import { useTranslate } from "../../hooks/useTranslate.ts";
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "../../redux/user/userSlice.ts";
 
 const OAuth = () => {
   const auth = getAuth(app);
   const navigate = useNavigate();
   const { t } = useTranslate();
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { mutate: googleAuthMutate } = useMutation({
     mutationFn: googleAuth,
-    onSuccess: () => {
-      //   dispatch(saveUserInfo(response?.data?.data?.user));
-      navigate("/");
+    onSuccess: (response: any) => {
+      dispatch(saveUserInfo(response?.data?.data?.user));
+      navigate("/news-feed");
     },
     onError: () => {
       toast.error("Sign in failed, Something went wrong!");

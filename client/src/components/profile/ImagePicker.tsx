@@ -36,6 +36,7 @@ const ImagePicker = ({
                 top: 0,
                 left: 0,
                 zIndex: 100,
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
               },
               path: {
                 stroke: `rgba(62, 152, 199, ${imageFileUploadProgress / 100})`,
@@ -46,7 +47,7 @@ const ImagePicker = ({
           ""
         )}
         <img
-          className={`w-[11.75rem]  h-[11.75rem] object-cover   ${
+          className={`w-[11.75rem]  h-[11.75rem] object-cover ${
             imageFileUploadProgress &&
             imageFileUploadProgress < 100 &&
             "opacity-60"

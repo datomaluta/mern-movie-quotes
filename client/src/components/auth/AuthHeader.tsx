@@ -3,6 +3,12 @@ import { IoIosSearch } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import LanguageSwitcher from "../ui/sharedComponents/LanguageSwitcher";
 import { useTranslate } from "../../hooks/useTranslate";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "../../services/auth";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "../../redux/user/userSlice";
+import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
 
 const AuthHeader = ({
   setSidebarIsVisible,
@@ -10,6 +16,18 @@ const AuthHeader = ({
   setSidebarIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { t } = useTranslate();
+  const dispatch = useDispatch();
+
+  const { mutate: mutateLogout, isPending: isLogoutPending } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      dispatch(saveUserInfo(null));
+    },
+    onError: () => {
+      toast.error(t("something_went_wrong"));
+    },
+  });
+
   return (
     <header className="bg-project-light-blue px-16 xl:px-10 lg:px-8 py-6  flex justify-between items-center fixed top-0 w-full z-50">
       <h1 className="text-project-yellow uppercase font-helvetica-medium lg:hidden">
@@ -36,8 +54,11 @@ const AuthHeader = ({
 
         <LanguageSwitcher className="lg:hidden" />
 
-        <button className="rounded w-24 border border-white text-white px-2 py-[7px] lg:hidden">
-          {t("logout")}
+        <button
+          className="rounded w-24 border border-white text-white px-2 py-[7px] lg:hidden"
+          onClick={() => mutateLogout()}
+        >
+          {isLogoutPending ? <LoadingSpinner /> : t("logout")}
         </button>
       </div>
     </header>

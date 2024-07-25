@@ -124,7 +124,7 @@ const PasswordForm = () => {
       </button>
 
       {isDirty && (
-        <div className="flex gap-6 mt-4 justify-end">
+        <div className="flex gap-6 mt-16 justify-end">
           <button
             onClick={() => {
               reset({

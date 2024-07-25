@@ -17,6 +17,13 @@ const useUploadImage = (app: any) => {
   >(null);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
 
+  const resetImageUpload = () => {
+    setImageFileUploading(false);
+    setImageFileUploadError(null);
+    setImageFileUploadProgress(null);
+    setImgUrl(null);
+  };
+
   const uploadImage = useCallback(
     async (imageFile: File) => {
       setImageFileUploading(true);
@@ -52,13 +59,6 @@ const useUploadImage = (app: any) => {
     },
     [app]
   );
-
-  const resetImageUpload = () => {
-    setImageFileUploading(false);
-    setImageFileUploadError(null);
-    setImageFileUploadProgress(null);
-    setImgUrl(null);
-  };
 
   return {
     uploadImage,
