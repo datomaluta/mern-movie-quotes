@@ -1,0 +1,6 @@
+{
+  "title": "Book shop",
+  "emailAndUsernameRequired": "Email and username is required",
+  "incorrectCredentials": "Incorrect credentials",
+  "required_field": "Required Field"
+}

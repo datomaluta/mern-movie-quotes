@@ -131,9 +131,7 @@ export const signin = catchAsync(async (req, res, next) => {
   const { email_or_username: emailOrUsername, password } = req.body;
 
   if (!emailOrUsername || !password) {
-    return next(
-      new AppError("Please provide email/username and password", 400)
-    );
+    return next(new AppError(req.t("emailAndUsernameRequired"), 400));
   }
 
   // 2) check if user exists, user is verified and password is correct (email also used as username)
@@ -142,7 +140,7 @@ export const signin = catchAsync(async (req, res, next) => {
   }).select("+password +verified");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect credentials", 401));
+    return next(new AppError(req.t("incorrectCredentials"), 401));
   }
 
   if (!user.verified) {
