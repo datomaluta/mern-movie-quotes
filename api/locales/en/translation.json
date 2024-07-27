@@ -1,6 +1,23 @@
 {
-  "title": "Book shop",
-  "emailAndUsernameRequired": "Email and username is required",
-  "incorrectCredentials": "Incorrect credentials",
-  "required_field": "Required Field"
+  "Invalid token. Please log in again!": "Invalid token. Please log in again!",
+
+  "Your token has expired! Please log in again.": "Your token has expired! Please log in again.",
+
+  "validations": {
+    "required_field": "Required Field",
+    "emailAndUsernameRequired": "Email and username is required",
+    "incorrectCredentials": "Incorrect credentials",
+    "income_field_required": "Income field is required",
+    "title_en_field_required": "English title field is required",
+    "title_ka_field_required": "Georgian title field is required",
+    "poster_field_required": "Poster field is required",
+    "releaseYear_field_required": "Release year field is required"
+  },
+  "errors": {
+    "Something went very wrong!": "Something went very wrong!",
+    "You are not logged in! Please log in to get access.": "You are not logged in! Please log in to get access."
+  },
+  "Invalid input data. {{errors}}": "Invalid input data. {{errors}}",
+  "Duplicate field value: {{value}}. Please use another value!": "Duplicate field value: {{value}}. Please use another value!",
+  "Invalid {{path}}: {{value}}.": "Invalid {{path}}: {{value}}."
 }

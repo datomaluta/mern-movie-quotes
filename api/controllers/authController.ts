@@ -10,6 +10,7 @@ import ejs from "ejs";
 import shortid from "shortid";
 import { promisify } from "util";
 import { CustomRequest } from "../types";
+import i18next from "i18next";
 
 interface UserDocument extends Document {
   _id: string;
@@ -280,7 +281,12 @@ export const protect = catchAsync(
     token = req.cookies.jwt;
     if (!token) {
       return next(
-        new AppError("You are not logged in! Please log in to get access.", 401)
+        new AppError(
+          i18next.t(
+            "errors.You are not logged in! Please log in to get access."
+          ),
+          401
+        )
       );
     }
 

@@ -24,20 +24,22 @@ const movieSchema: Schema<IMovie> = new mongoose.Schema({
   title: {
     en: {
       type: String,
-      required: [true, i18next.t("required_field")],
+      required: [true, "title_en_field_required"],
+      unique: true,
     },
     ka: {
       type: String,
-      required: [true, i18next.t("required_field")],
+      required: [true, "title_ka_field_required"],
+      unique: true,
     },
   },
   poster: {
     type: String,
-    required: [true, i18next.t("required_field")],
+    required: [true, "poster_field_required"],
   },
   releaseYear: {
     type: Number,
-    required: [true, i18next.t("required_field")],
+    required: [true, "releaseYear_field_required"],
   },
   genreIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Genre" }],
   description: {
@@ -62,9 +64,12 @@ const movieSchema: Schema<IMovie> = new mongoose.Schema({
   },
   income: {
     type: Number,
-    required: [true, i18next.t("required_field")],
+    required: [true, "income_field_required"],
   },
 });
+
+// movieSchema.index({ "title.en": 1 }, { unique: true });
+// movieSchema.index({ "title.ka": 1 }, { unique: true });
 
 const Movie = mongoose.model<IMovie>("Movie", movieSchema);
 

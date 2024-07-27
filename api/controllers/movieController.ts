@@ -2,7 +2,8 @@ import Movie from "../models/movieModel";
 import { catchAsync } from "../utils/catchAsync";
 
 export const createMovie = catchAsync(async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
+  // console.log(req.headers["accept-language"]);
   const {
     title,
     poster,
