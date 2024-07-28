@@ -12,7 +12,8 @@
     "description_en_field_required": "ინგლისური აღწერის ველი სავალდებულოა",
     "description_ka_field_required": "ქართული აღწერის ველი სავალდებულოა",
     "director_en_field_required": "ინგლისური რეჟისორის ველი სავალდებულია",
-    "director_ka_field_required": "ქართული რეჟისორის ველი სავალდებულია"
+    "director_ka_field_required": "ქართული რეჟისორის ველი სავალდებულია",
+    "userId_field_required": "მომხმარებლის ველი სავალდებულოა"
   },
   "errors": {
     "Something went very wrong!": "რაღაც ძალიან ცუდად მოხდა!",

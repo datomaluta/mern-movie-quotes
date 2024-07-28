@@ -17,7 +17,7 @@ const SidebarContent = () => {
         className="flex items-center gap-4 group"
       >
         <div
-          className={`w-12 h-12 rounded-full overflow-hidden bg-project-dark-blue border-2   ${
+          className={`w-12 h-12 shrink-0 rounded-full overflow-hidden bg-project-dark-blue border-2   ${
             pathname.includes("profile")
               ? "border-project-red"
               : "border-transparent"

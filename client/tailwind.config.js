@@ -6,6 +6,8 @@ export default {
     extend: {
       colors: {
         "project-red": "#E31221",
+        "project-dark-red": "#CC0E10",
+        "project-disabled-red": "#EC4C57",
         "project-yellow": "#DDCCAA",
         "project-dark-blue": "#11101A",
         "project-light-blue": "#222030",
@@ -39,6 +41,7 @@ export default {
       },
     },
     screens: {
+      "2xl": { max: "1536px" },
       xl: { max: "1279px" },
       lg: { max: "1023px" },
       md: { max: "800px" },

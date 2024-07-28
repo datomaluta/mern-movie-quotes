@@ -2,6 +2,7 @@ import i18next from "i18next";
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IMovie extends Document {
+  userId: mongoose.Types.ObjectId;
   title: {
     en: string;
     ka: string;
@@ -22,16 +23,21 @@ interface IMovie extends Document {
 
 const movieSchema: Schema<IMovie> = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "userId_field_required"],
+    },
     title: {
       en: {
         type: String,
         required: [true, "title_en_field_required"],
-        unique: true,
+        // unique: true,
       },
       ka: {
         type: String,
         required: [true, "title_ka_field_required"],
-        unique: true,
+        // unique: true,
       },
     },
     poster: {

@@ -16,7 +16,8 @@
     "description_en_field_required": "English description field is required",
     "description_ka_field_required": "Georgian description field is required",
     "director_en_field_required": "English director field is required",
-    "director_ka_field_required": "Georgian director field is required"
+    "director_ka_field_required": "Georgian director field is required",
+    "userId_field_required": "User field is required"
   },
   "errors": {
     "Something went very wrong!": "Something went very wrong!",

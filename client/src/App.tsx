@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import AuthLayout from "./components/layouts/AuthLayout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ScrollToTop from "./components/ui/sharedComponents/ScrollToTop";
+import Movies from "./pages/Movies";
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
             element={
               <AuthLayout>
                 <Profile />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/movies"
+            element={
+              <AuthLayout>
+                <Movies />
               </AuthLayout>
             }
           />

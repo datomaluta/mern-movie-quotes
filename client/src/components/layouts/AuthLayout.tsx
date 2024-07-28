@@ -39,7 +39,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 
       <div className="mt-[5.5rem] xl:mt-[4.5rem] pt-8 flex bg-project-middle-blue min-h-screen">
         {/* sidebar */}
-        <aside className="w-[26.25rem] xl:w-[15.625rem] h-screen fixed lg:hidden px-16 xl:px-10 lg:px-8">
+        <aside className="w-[26.25rem] xl:w-[15.625rem] h-screen fixed lg:hidden px-16 xl:px-10 lg:px-4">
           <SidebarContent />
         </aside>
 
@@ -74,7 +74,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         </AnimatePresence>
 
         {/* main content */}
-        <div className="bg-blue-60 flex-1 max-w-[58.625rem] lg:w-full lg:max-w-full ml-[26.25rem] xl:ml-[15.625rem] lg:ml-0  px-4 pb-4">
+        <div className="bg-blue-60 flex-1  lg:w-full lg:max-w-full ml-[26.25rem] xl:ml-[15.625rem] lg:ml-0  pb-4 px-16 xl:px-10 lg:px-4">
           {children}
         </div>
       </div>

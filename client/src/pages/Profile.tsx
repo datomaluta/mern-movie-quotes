@@ -10,7 +10,7 @@ const Profile = () => {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className="">
+    <div className="max-w-[58.625rem]">
       <h1 className="text-xl font-helvetica-medium">{t("my_profile")}</h1>
 
       <div

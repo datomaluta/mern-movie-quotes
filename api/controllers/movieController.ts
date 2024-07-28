@@ -3,8 +3,9 @@ import Movie from "../models/movieModel";
 import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/appError";
 import APIFeatures from "../utils/apiFeatures";
+import { CustomRequest } from "../types";
 
-export const createMovie = catchAsync(async (req, res, next) => {
+export const createMovie = catchAsync(async (req: CustomRequest, res, next) => {
   const {
     title,
     poster,
@@ -16,6 +17,7 @@ export const createMovie = catchAsync(async (req, res, next) => {
   } = req.body;
 
   const newMovie = await Movie.create({
+    userId: req.user._id,
     title: {
       en: title.en,
       ka: title.ka,

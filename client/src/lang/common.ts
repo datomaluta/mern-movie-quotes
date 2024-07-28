@@ -199,7 +199,7 @@ export const translations = {
   },
   edit_your_profile: {
     en: "Edit your profile",
-    ka: "პროფილის რედაქტირება",
+    ka: "რედაქტირება",
   },
   my_profile: {
     en: "My Profile",
@@ -211,7 +211,7 @@ export const translations = {
   },
   list_of_movies: {
     en: "List of movies",
-    ka: "ფილმების სია",
+    ka: "ფილმები",
   },
   upload_new_photo: {
     en: "Upload new photo",
@@ -252,5 +252,21 @@ export const translations = {
   password_updated_successfully: {
     en: "Password updated successfully",
     ka: "პაროლი წარმატებით განახლდა",
+  },
+  my_list_of_movies: {
+    en: "My list of movies",
+    ka: "ჩემი ფილმების სია",
+  },
+  total: {
+    en: "Total",
+    ka: "სულ",
+  },
+  search: {
+    en: "Search",
+    ka: "ძებნა",
+  },
+  add_movie: {
+    en: "Add movie",
+    ka: "ფილმის დამატება",
   },
 };
