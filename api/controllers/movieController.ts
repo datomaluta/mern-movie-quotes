@@ -1,9 +1,10 @@
+import i18next from "i18next";
 import Movie from "../models/movieModel";
 import { catchAsync } from "../utils/catchAsync";
+import { AppError } from "../utils/appError";
+import APIFeatures from "../utils/apiFeatures";
 
 export const createMovie = catchAsync(async (req, res, next) => {
-  // console.log(req.body);
-  // console.log(req.headers["accept-language"]);
   const {
     title,
     poster,
@@ -41,10 +42,26 @@ export const createMovie = catchAsync(async (req, res, next) => {
   });
 });
 
+export const getMovies = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(Movie.find(), req.query)
+    .search()
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const movies = await features.query;
+  res.status(200).json({
+    status: "success",
+    results: movies.length,
+    data: {
+      movies: movies,
+    },
+  });
+});
+
 export const getMovie = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const lang = req.headers["accept-language"];
-  console.log(lang);
 
   const movie = await Movie.findById(id).populate("genreIds");
   res.status(200).json({
@@ -52,5 +69,36 @@ export const getMovie = catchAsync(async (req, res, next) => {
     data: {
       movie: movie,
     },
+  });
+});
+
+export const updateMovie = catchAsync(async (req, res, next) => {
+  const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!movie) {
+    return next(new AppError(i18next.t("No movie found with that ID"), 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      movie: movie,
+    },
+  });
+});
+
+export const deleteMovie = catchAsync(async (req, res, next) => {
+  const movie = await Movie.findByIdAndDelete(req.params.id);
+
+  if (!movie) {
+    return next(new AppError(i18next.t("No movie found with that ID"), 404));
+  }
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

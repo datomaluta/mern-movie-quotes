@@ -69,7 +69,7 @@ const sendErrorProd = (err: any, req: Request, res: Response) => {
 
   return res.status(500).json({
     status: "error",
-    message: "Something went very wrong!",
+    message: i18next.t("Something went very wrong!", { lng: req.language }),
   });
 };
 
