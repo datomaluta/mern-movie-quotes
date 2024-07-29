@@ -6,10 +6,19 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMovies } from "../services/movies";
 import { MovieType } from "../types/movie.t";
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Movies = () => {
   const { t } = useTranslate();
-  const queryString = "";
+
+  const [searchState, setSearchState] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryString = searchParams.get("search")
+    ? `search=${searchParams.get("search")}&searchFields=${searchParams.get(
+        "searchFields"
+      )}`
+    : "";
 
   const {
     data: movies,
@@ -30,30 +39,86 @@ const Movies = () => {
     },
   });
 
-  console.log(movies?.pages?.flat());
+  useEffect(() => {
+    if (searchState.length === 0) {
+      setSearchParams({ search: "", searchFields: "" });
+    }
+  }, [searchState, setSearchParams]);
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-helvetica-medium">{`${t(
-          "my_list_of_movies"
-        )} (${t("total")} ${"25"})`}</h1>
+      <div className="flex sm:flex-col justify-between items-center sm:items-start gap-6">
+        <div className="flex justify-between w-max gap-4 bg- md:w-full items-center md:items-start ">
+          <h1 className="text-xl md:text-base font-helvetica-medium">
+            {t("my_list_of_movies")}
+            <span className="md:block ml-1">
+              ({t("total")} {"25"})
+            </span>
+          </h1>
 
-        <div className="flex gap-8 items-center">
-          <button className="flex items-center gap-1">
+          <button className="md:flex hidden items-center text-sm gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded">
+            <CiSquarePlus className="h-5 w-5" />
+            {t("add")}
+          </button>
+        </div>
+
+        <div className="flex gap-4 items-center md:hidden">
+          <button
+            className="flex items-center gap-1 border border-transparent hover:border-white rounded transition-all px-4 py-2"
+            onClick={() =>
+              setSearchParams({
+                search: searchState,
+                searchFields: "title.en,title.ka",
+              })
+            }
+          >
             <IoIosSearch className="h-5 w-5" />
             {t("search")}
           </button>
 
-          <button className="flex items-center gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded">
+          <button className="flex shrink-0 items-center gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded">
             <CiSquarePlus className="h-5 w-5" />
             {t("add_movie")}
           </button>
         </div>
       </div>
 
+      <div className="flex items-center gap-4 mt-3">
+        <input
+          type="text"
+          className="bg-transparent border-b border-project-gray py-1 w-full outline-none focus:border-b-slate-100 transition-all"
+          placeholder={t("search_movie_placeholder")}
+          onChange={(e) => setSearchState(e.target.value)}
+        />
+        <button
+          className="md:flex hidden items-center gap-1 bg-project-light-blue px-4 py-1 rounded"
+          onClick={() =>
+            setSearchParams({
+              search: searchState,
+              searchFields: "title.en,title.ka",
+            })
+          }
+        >
+          <IoIosSearch className="h-5 w-5" />
+          {t("search")}
+        </button>
+      </div>
+
       {status === "pending" && <LoadingSpinnerWithWrapper />}
-      <div className="mt-16 grid grid-cols-3 xl:grid-cols-2 md:grid-cols-1 gap-10 place-items-center">
+
+      {movies && movies?.pages[0]?.length === 0 && (
+        <h1 className="text-2xl font-bold text-center mt-20">
+          {t("movies_not_found")}
+        </h1>
+      )}
+
+      {status === "error" && (
+        <h1 className="text-2xl font-bold text-center mt-20">
+          {t("something_went_wrong")}
+        </h1>
+      )}
+
+      <div className="mt-16 md:mt-10 grid grid-cols-3 xl:grid-cols-2 md:grid-cols-1 gap-10 place-items-center">
         {/* <div className="w-full max-w-[440px]  hover:bg-project-light-blue  rounded-xl overflow-hidden group h-full flex flex-col">
           <div className=" bg-green-500 rounded-xl overflow-hidden max-h-[350px] h-auto">
             <img

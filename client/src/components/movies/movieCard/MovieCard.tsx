@@ -11,9 +11,9 @@ const MovieCard = ({ movie }: { movie: MovieType }) => {
   return (
     <Link
       to={`/movie/${movie._id}`}
-      className="w-full max-w-[440px] hover:bg-project-light-blue rounded-xl overflow-hidden group h-full flex flex-col transition-all"
+      className="w-full max-w-[27.5rem] hover:bg-project-light-blue rounded-xl overflow-hidden group h-full flex flex-col transition-all"
     >
-      <div className=" rounded-xl overflow-hidden h-[350px] 2xl:h-[250px] xl:h-[350px] sm:h-[250px] transition-all">
+      <div className=" rounded-xl overflow-hidden h-[22rem] 2xl:h-[15.625rem] xl:h-[22rem] sm:h-[15.625rem] transition-all">
         {/* <img
           className="h-full w-full object-cover group-hover:scale-110 transition-all duration-300"
           src={movie.poster}

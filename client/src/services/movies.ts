@@ -8,6 +8,6 @@ export const getMovies = async ({
   queryString?: string;
 }) => {
   return instance.get(
-    `/movies?page=${page}&limit=3&${queryString ? `&${queryString}` : ""}`
+    `/movies?page=${page}&limit=3${queryString ? `&${queryString}` : ""}`
   );
 };

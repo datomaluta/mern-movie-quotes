@@ -16,6 +16,7 @@ export default {
         "project-light-sky-blue": "#CED4DA",
         "project-outline-blue": "#929aa6",
         "project-danger": "#DC3545",
+        "project-purple": "#9747FF",
       },
       backgroundImage: {
         "dark-blue-gradient":

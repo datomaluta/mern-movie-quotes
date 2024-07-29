@@ -18,3 +18,13 @@ export const createGenre = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+export const getGenres = catchAsync(async (req, res, next) => {
+  const genres = await Genre.find();
+  res.status(200).json({
+    status: "success",
+    data: {
+      genres: genres,
+    },
+  });
+});

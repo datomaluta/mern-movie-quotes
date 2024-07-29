@@ -6,8 +6,10 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import toast from "react-hot-toast";
+import { useTranslate } from "./useTranslate";
 
 const useUploadImage = (app: any) => {
+  const { t } = useTranslate();
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [imageFileUploadError, setImageFileUploadError] = useState<
     string | null
@@ -16,6 +18,8 @@ const useUploadImage = (app: any) => {
     number | null
   >(null);
   const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const successMessage = t("image_uploaded_successfully");
+  const errorMessage = t("image_uploading_failed");
 
   const resetImageUpload = () => {
     setImageFileUploading(false);
@@ -41,9 +45,7 @@ const useUploadImage = (app: any) => {
           setImageFileUploadProgress(parseInt(progress.toFixed(0), 10));
         },
         () => {
-          setImageFileUploadError(
-            "Use only images (File must be less than 2MB)"
-          );
+          setImageFileUploadError(errorMessage);
           setImageFileUploadProgress(null);
           setImgUrl(null);
           setImageFileUploading(false);
@@ -51,13 +53,13 @@ const useUploadImage = (app: any) => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImgUrl(downloadURL);
-            toast.success("Image uploaded successfully, Please save changes");
+            toast.success(successMessage);
             setImageFileUploading(false);
           });
         }
       );
     },
-    [app]
+    [app, successMessage, errorMessage]
   );
 
   return {

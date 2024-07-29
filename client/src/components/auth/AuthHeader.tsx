@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
+import { useLocation } from "react-router-dom";
 
 const AuthHeader = ({
   setSidebarIsVisible,
@@ -17,6 +18,7 @@ const AuthHeader = ({
 }) => {
   const { t } = useTranslate();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const { mutate: mutateLogout, isPending: isLogoutPending } = useMutation({
     mutationFn: logout,
@@ -29,7 +31,7 @@ const AuthHeader = ({
   });
 
   return (
-    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-8 py-6  flex justify-between items-center fixed top-0 w-full z-50">
+    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-4 py-6  flex justify-between items-center fixed top-0 w-full z-50">
       <h1 className="text-project-yellow uppercase font-helvetica-medium lg:hidden">
         Movie Quotes
       </h1>
@@ -41,13 +43,15 @@ const AuthHeader = ({
       </button>
 
       <div className="flex gap-5 items-center">
-        <button className="hidden lg:inline-block">
-          <IoIosSearch className="h-6 w-6" />
-        </button>
+        {pathname === "/news-feed" && (
+          <button className="hidden lg:inline-block">
+            <IoIosSearch className="h-6 w-6" />
+          </button>
+        )}
 
         <button className="relative">
-          <FaRegBell className="h-6 lg:h-5 w-6 lg:w-5" />
-          <span className="bg-project-red absolute -top-[30%] -right-[35%] w-5 lg:w-4 h-5 lg:h-4 text-xs flex justify-center items-center  rounded-full text-center font-helvetica-medium ">
+          <FaRegBell className="h-6  w-6 " />
+          <span className="bg-project-red absolute -top-[30%] -right-[35%] w-5  h-5  text-xs flex justify-center items-center  rounded-full text-center font-helvetica-medium ">
             9
           </span>
         </button>

@@ -269,4 +269,48 @@ export const translations = {
     en: "Add movie",
     ka: "ფილმის დამატება",
   },
+  add: {
+    en: "Add",
+    ka: "დამატება",
+  },
+  search_movie_placeholder: {
+    en: "Search movie...",
+    ka: "მოძებნე ფილმი...",
+  },
+  movies_not_found: {
+    en: "Movies not found",
+    ka: "ფილმები არ მოიძებნა",
+  },
+  no_options: {
+    en: "No options",
+    ka: "არ მოიძებნა",
+  },
+  loading: {
+    en: "Loading",
+    ka: "იტვირთება",
+  },
+  select: {
+    en: "Select",
+    ka: "აირჩიეთ",
+  },
+  select_genre: {
+    en: "Select genre",
+    ka: "აირჩიეთ ჟანრი",
+  },
+  drag_image: {
+    en: "Drag & drop your image here or",
+    ka: "ჩააგდეთ ფოტო ან",
+  },
+  choose_file: {
+    en: "Choose file",
+    ka: "აირჩიეთ ფაილი",
+  },
+  drop_files_here: {
+    en: "Drop files here",
+    ka: "მოათავსეთ ფოტო აქ",
+  },
+  image_uploaded_successfully: {
+    en: "Image uploaded successfully",
+    ka: "ფოტო წარმატებით აიტვირთა",
+  },
 };

@@ -9,7 +9,6 @@ const CustomInput = ({
   rule,
   errorText,
   type,
-  //   backErrors,
   label,
   className,
   readOnly = false,
