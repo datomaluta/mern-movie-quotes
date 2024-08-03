@@ -1,3 +1,5 @@
+import { Genre } from "./genre";
+
 export type MovieFormDataType = {
   title_en: string;
   title_ka: string;
@@ -29,3 +31,24 @@ export type MovieFormDataToSendType = {
   poster: string;
   income: string;
 };
+
+export type MovieType = {
+  _id: string;
+  userId: UserType;
+  title: {
+    en: string;
+    ka: string;
+  };
+  poster: string;
+  releaseYear: number;
+  genreIds: Genre[];
+  description: {
+    en: string;
+    ka: string;
+  };
+  director: {
+    en: string;
+    ka: string;
+  };
+  income: number;
+}

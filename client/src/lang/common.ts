@@ -325,4 +325,32 @@ export const translations = {
     en: "Movie created successfully",
     ka: "ფილმი წარმატებით დაემატა",
   },
+  movie_details: {
+    en: "Movie details",
+    ka: "ფილმის დეტალები",
+  },
+  director: {
+    en: "Director",
+    ka: "რეჟისორი",
+  },
+  quotes: {
+    en: "Quotes",
+    ka: "ციტატები",
+  },
+  add_quote: {
+    en: "Add quote",
+    ka: "ციტატის დამატება",
+  },
+  view_quote: {
+    en: "View quote",
+    ka: "ციტატის ნახვა",
+  },
+  edit: {
+    en: "Edit",
+    ka: "რედაქტირება",
+  },
+  delete: {
+    en: "Delete",
+    ka: "წაშლა",
+  },
 };

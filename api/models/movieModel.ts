@@ -85,6 +85,11 @@ const movieSchema: Schema<IMovie> = new mongoose.Schema(
   }
 );
 
+movieSchema.pre<IMovie>(/^find/, function (next) {
+  this.populate("userId");
+  next();
+});
+
 const Movie = mongoose.model<IMovie>("Movie", movieSchema);
 
 export default Movie;

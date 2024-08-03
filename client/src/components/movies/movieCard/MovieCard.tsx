@@ -10,7 +10,7 @@ const MovieCard = ({ movie }: { movie: MovieType }) => {
 
   return (
     <Link
-      to={`/movie/${movie._id}`}
+      to={`/movies/${movie._id}`}
       className="w-full max-w-[27.5rem] hover:bg-project-light-blue rounded-xl overflow-hidden group h-full flex flex-col transition-all"
     >
       <div className=" rounded-xl overflow-hidden h-[22rem] 2xl:h-[15.625rem] xl:h-[22rem] sm:h-[15.625rem] transition-all">

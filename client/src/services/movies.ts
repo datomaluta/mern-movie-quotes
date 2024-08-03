@@ -16,3 +16,6 @@ export const getMovies = async ({
 export const createMovie = async (data: MovieFormDataToSendType) => {
   return await instance.post("/movies", data);
 };
+export const getMovie = async (id: string) => {
+  return await instance.get(`/movies/${id}`);
+};

@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ScrollToTop from "./components/ui/sharedComponents/ScrollToTop";
 import Movies from "./pages/Movies";
 import MovieCreate from "./pages/MovieCreate";
+import MovieDetails from "./pages/MovieDetails";
 
 function App() {
   return (
@@ -57,6 +58,14 @@ function App() {
             element={
               <AuthLayout>
                 <MovieCreate />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/movies/:id"
+            element={
+              <AuthLayout>
+                <MovieDetails />
               </AuthLayout>
             }
           />
