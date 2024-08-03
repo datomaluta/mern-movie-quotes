@@ -289,6 +289,10 @@ export const translations = {
     en: "Loading",
     ka: "იტვირთება",
   },
+  load_more: {
+    en: "Load more",
+    ka: "მეტის ნახვა",
+  },
   select: {
     en: "Select",
     ka: "აირჩიეთ",
@@ -312,5 +316,13 @@ export const translations = {
   image_uploaded_successfully: {
     en: "Image uploaded successfully",
     ka: "ფოტო წარმატებით აიტვირთა",
+  },
+  income: {
+    en: "Income",
+    ka: "შემოსავალი",
+  },
+  movie_create_successfully: {
+    en: "Movie created successfully",
+    ka: "ფილმი წარმატებით დაემატა",
   },
 };

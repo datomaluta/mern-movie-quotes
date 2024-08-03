@@ -3,7 +3,7 @@ import { useTranslate } from "../hooks/useTranslate";
 import { RootState } from "../redux/store";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import SpecialInput from "../components/ui/customInputs/SpecialInput";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getGenres } from "../services/genre";
 import MultiSelect from "../components/ui/customInputs/MultiSelect";
 import { Genre } from "../types/genre";
@@ -12,20 +12,20 @@ import DragAndDrop from "../components/ui/customInputs/DragAndDrop";
 import useUploadImage from "../hooks/useUploadImage";
 import { app } from "../firebase";
 import { useEffect } from "react";
+import { MovieFormDataType } from "../types/movie";
+import { createMovie } from "../services/movies";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
 
 const MovieCreate = () => {
   const { t } = useTranslate();
   const { lang } = useSelector((state: RootState) => state.lang);
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
 
-  const {
-    uploadImage,
-    imageFileUploadError,
-    imageFileUploadProgress,
-    imgUrl,
-    resetImageUpload,
-    imageFileUploading,
-  } = useUploadImage(app);
+  const { uploadImage, imageFileUploadError, imgUrl, imageFileUploading } =
+    useUploadImage(app);
 
   const { data: genres, isLoading: genresLoading } = useQuery({
     queryKey: ["genres"],
@@ -37,10 +37,46 @@ const MovieCreate = () => {
     formState: { errors },
     handleSubmit,
     control,
-  } = useForm();
+  } = useForm<MovieFormDataType>();
 
-  const submitHandler = (data) => {
-    console.log(data);
+  const { mutate: createMovieMutate, isPending: createMovieIsPending } =
+    useMutation({
+      mutationFn: createMovie,
+      onSuccess: () => {
+        toast.success(t("movie_create_successfully"));
+        setTimeout(() => {
+          navigate("/movies");
+        }, 2000);
+      },
+    });
+
+  const submitHandler = (data: MovieFormDataType) => {
+    // console.log(data);
+    if (imgUrl) {
+      const requestObj = {
+        title: {
+          en: data.title_en,
+          ka: data.title_ka,
+        },
+        genreIds: data.genreIds.map((genre) => genre.id),
+        releaseYear: data.releaseYear,
+        director: {
+          en: data.director_en,
+          ka: data.director_ka,
+        },
+        income: data.income,
+        description: {
+          en: data.description_en,
+          ka: data.description_ka,
+        },
+        poster: imgUrl,
+      };
+
+      console.log(requestObj);
+      createMovieMutate(requestObj);
+    } else {
+      return;
+    }
   };
 
   const poster = useWatch({
@@ -50,11 +86,11 @@ const MovieCreate = () => {
 
   useEffect(() => {
     if (poster) {
-      uploadImage(poster[0]);
+      uploadImage(poster[0] as File);
     }
   }, [poster, uploadImage]);
 
-  console.log(poster);
+  // console.log(poster);
 
   return (
     <>
@@ -146,6 +182,18 @@ const MovieCreate = () => {
               required: t("required_field"),
             }}
           />
+
+          <SpecialInput
+            register={register}
+            name="income"
+            type="number"
+            placeholder={t("income")}
+            error={(errors?.income?.message as string) || ""}
+            rules={{
+              required: t("required_field"),
+            }}
+          />
+
           <SpecialTextarea
             register={register}
             name="description_en"
@@ -170,17 +218,23 @@ const MovieCreate = () => {
           <Controller
             name="poster"
             control={control}
+            rules={{ required: t("required_field") }}
             render={({ field }) => (
               <DragAndDrop
                 control={field}
                 imgUrl={imgUrl}
                 imageFileUploading={imageFileUploading}
+                imageFileUploadError={imageFileUploadError}
+                validationError={(errors?.poster?.message as string) || ""}
               />
             )}
           />
 
-          <button className="bg-project-red hover:bg-project-dark-red w-full py-2 rounded mt-6">
-            {t("add_movie")}
+          <button
+            disabled={imageFileUploading}
+            className="bg-project-red hover:bg-project-dark-red w-full py-2 rounded mt-6 disabled:bg-red-400 min-h-10 flex justify-center items-center"
+          >
+            {createMovieIsPending ? <LoadingSpinner /> : t("add_movie")}
           </button>
         </form>
       </div>

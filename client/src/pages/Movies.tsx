@@ -150,7 +150,7 @@ const Movies = () => {
           disabled={isFetchingNextPage || !hasNextPage}
           onClick={() => fetchNextPage()}
         >
-          {isFetchingNextPage ? "Loading..." : "Load More"}
+          {isFetchingNextPage ? `${t("loading")}...` : t("load_more")}
         </button>
       )}
     </div>

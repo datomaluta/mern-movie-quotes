@@ -1,3 +1,4 @@
+import { MovieFormDataToSendType } from "../types/movie";
 import { instance } from "./axios";
 
 export const getMovies = async ({
@@ -10,4 +11,8 @@ export const getMovies = async ({
   return instance.get(
     `/movies?page=${page}&limit=3${queryString ? `&${queryString}` : ""}`
   );
+};
+
+export const createMovie = async (data: MovieFormDataToSendType) => {
+  return await instance.post("/movies", data);
 };
