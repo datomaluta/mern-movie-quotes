@@ -1,33 +1,29 @@
 import { useTranslate } from "../hooks/useTranslate";
 import { useMutation } from "@tanstack/react-query";
-import { MovieFormDataType } from "../types/movie";
-import { createMovie } from "../services/movies";
-import { useNavigate } from "react-router-dom";
+import { MovieFormDataToSendType, MovieFormDataType } from "../types/movie";
+import { updateMovie } from "../services/movies";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import MovieForm from "../components/movies/form/MovieForm";
 
-const MovieCreate = () => {
+const MovieEdit = () => {
   const { t } = useTranslate();
-
+  const { id } = useParams();
   const navigate = useNavigate();
 
-  const { mutate: createMovieMutate, isPending: createMovieIsPending } =
+  const { mutate: updateMovieMutate, isPending: updateMovieIsPending } =
     useMutation({
-      mutationFn: createMovie,
+      mutationFn: updateMovie,
       onSuccess: () => {
-        toast.success(t("movie_create_successfully"));
+        toast.success(t("movie_updated_successfully"));
         setTimeout(() => {
-          navigate("/movies");
+          navigate(`/movies/${id}`);
         }, 2000);
       },
     });
 
   const submitHandler = (data: MovieFormDataType) => {
-    if (!data.imgUrl) {
-      return;
-    }
-
-    const requestObj = {
+    let requestObj: MovieFormDataToSendType = {
       title: {
         en: data.title_en,
         ka: data.title_ka,
@@ -43,19 +39,28 @@ const MovieCreate = () => {
         en: data.description_en,
         ka: data.description_ka,
       },
-      poster: data.imgUrl,
     };
 
-    createMovieMutate(requestObj);
+    if (data.imgUrl) {
+      requestObj = {
+        ...requestObj,
+        poster: data.imgUrl,
+      };
+    }
+
+    updateMovieMutate({
+      id: id as string,
+      data: requestObj,
+    });
   };
 
   return (
     <MovieForm
       submitHandler={submitHandler}
-      actionLoading={createMovieIsPending}
-      action="create"
+      actionLoading={updateMovieIsPending}
+      action="edit"
     />
   );
 };
 
-export default MovieCreate;
+export default MovieEdit;

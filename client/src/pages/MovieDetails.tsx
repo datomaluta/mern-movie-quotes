@@ -1,9 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslate } from "../hooks/useTranslate";
-import { useParams } from "react-router-dom";
-import { getMovie } from "../services/movies";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteMovie, getMovie } from "../services/movies";
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
-import { MovieType } from "../types/movie.t";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { MdOutlineModeEditOutline } from "react-icons/md";
@@ -13,12 +12,20 @@ import { CiSquarePlus } from "react-icons/ci";
 import { VscComment } from "react-icons/vsc";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { RxDotsHorizontal } from "react-icons/rx";
+import { useState } from "react";
+import ModalWrapper from "../components/ui/sharedComponents/ModalWrapper";
+import toast from "react-hot-toast";
+import { GenreType } from "../types/genre";
+import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
+import { MovieType } from "../types/movie";
 // import { FaRegEye } from "react-icons/fa";
 
 const MovieDetails = () => {
   const { t } = useTranslate();
   const { id } = useParams();
   const { lang } = useSelector((state: RootState) => state.lang);
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const {
     data: movie,
@@ -30,13 +37,43 @@ const MovieDetails = () => {
     enabled: !!id,
   });
 
-  console.log(isError);
+  const { mutate: movieDeleteMutate, isPending: deleteIsLoading } = useMutation(
+    {
+      mutationFn: () => deleteMovie(id as string),
+      onSuccess: () => {
+        setDeleteModalIsOpen(false);
+        setTimeout(() => {
+          navigate("/movies");
+        }, 1000);
+        toast.success(t("movie_deleted_successfully"));
+      },
+      onError: () => {
+        toast.error(t("something_went_wrong"));
+      },
+    }
+  );
 
   return (
     <div className="">
       <h1 className="text-xl md:text-base font-helvetica-medium mb-4">
         {t("movie_details")}
       </h1>
+      {deleteModalIsOpen && (
+        <ModalWrapper setModalIsVisible={setDeleteModalIsOpen}>
+          <div className="p-4">
+            <p className="text-center mb-5">{t("are_you_sure_with_delete")}</p>
+            <div className="flex justify-center gap-10">
+              <button
+                onClick={() => movieDeleteMutate()}
+                className="bg-project-red py-1 px-2 rounded h-8 min-w-16 flex justify-center items-center"
+              >
+                {deleteIsLoading ? <LoadingSpinner /> : t("delete")}
+              </button>
+              <button>{t("cancel")}</button>
+            </div>
+          </div>
+        </ModalWrapper>
+      )}
       {isLoading && <LoadingSpinnerWithWrapper />}
       {isError && <p className="text-center">{t("something_went_wrong")}</p>}
       {movie && (
@@ -51,17 +88,23 @@ const MovieDetails = () => {
                 <span>({movie?.releaseYear})</span>
               </h1>
               <div className="flex items-center gap-1 bg-project-light-blue rounded-lg overflow-hidden shrink-0">
-                <button className="hover:bg-project-dark-blue py-2 px-4">
+                <Link
+                  to={`/movies/edit/${movie._id}`}
+                  className="hover:bg-project-dark-blue py-2 px-4"
+                >
                   <MdOutlineModeEditOutline />
-                </button>
+                </Link>
                 <span className="block h-[14px] w-[0.2px] bg-project-gray"></span>
-                <button className="hover:bg-project-dark-blue py-2 px-4">
+                <button
+                  onClick={() => setDeleteModalIsOpen(true)}
+                  className="hover:bg-project-dark-blue py-2 px-4"
+                >
                   <RiDeleteBin6Line />
                 </button>
               </div>
             </div>
             <div className="flex gap-2 flex-wrap mb-6">
-              {movie?.genreIds?.map((genre) => (
+              {movie?.genreIds?.map((genre: GenreType) => (
                 <p
                   className="bg-project-gray px-3 py-1 rounded font-helvetica-medium text-sm"
                   key={genre?._id}

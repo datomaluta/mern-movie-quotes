@@ -19,3 +19,16 @@ export const createMovie = async (data: MovieFormDataToSendType) => {
 export const getMovie = async (id: string) => {
   return await instance.get(`/movies/${id}`);
 };
+
+export const updateMovie = async ({
+  id,
+  data,
+}: {
+  id: string;
+  data: MovieFormDataToSendType;
+}) => {
+  return await instance.put(`/movies/${id}`, data);
+};
+export const deleteMovie = async (id: string) => {
+  return await instance.delete(`/movies/${id}`);
+};

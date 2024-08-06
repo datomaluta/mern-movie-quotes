@@ -4,10 +4,11 @@ import { IoIosSearch } from "react-icons/io";
 import { CiSquarePlus } from "react-icons/ci";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getMovies } from "../services/movies";
-import { MovieType } from "../types/movie.t";
+
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { MovieType } from "../types/movie";
 
 const Movies = () => {
   const { t } = useTranslate();
@@ -76,10 +77,13 @@ const Movies = () => {
             {t("search")}
           </button>
 
-          <button className="flex shrink-0 items-center gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded">
+          <Link
+            to={"/movies/create"}
+            className="flex shrink-0 items-center gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded"
+          >
             <CiSquarePlus className="h-5 w-5" />
             {t("add_movie")}
-          </button>
+          </Link>
         </div>
       </div>
 

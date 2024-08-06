@@ -353,4 +353,20 @@ export const translations = {
     en: "Delete",
     ka: "წაშლა",
   },
+  movie_updated_successfully: {
+    en: "Movie updated successfully",
+    ka: "ფილმი წარმატებით განახლდა",
+  },
+  edit_movie: {
+    en: "Edit movie",
+    ka: "ფილმის რედაქტირება",
+  },
+  are_you_sure_with_delete: {
+    en: "Are you sure with delete?",
+    ka: "დარწმუნებული ხართ რომ გსურთ წაშლა?",
+  },
+  movie_deleted_successfully: {
+    en: "Movie deleted successfully",
+    ka: "ფილმი წარმატებით წაიშალა",
+  },
 };

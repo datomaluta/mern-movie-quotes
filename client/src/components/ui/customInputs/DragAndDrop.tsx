@@ -12,7 +12,7 @@ const DragAndDrop = ({
   validationError,
 }: {
   control: any;
-  imgUrl: string | null;
+  imgUrl: string | null | undefined;
   imageFileUploading: boolean;
   imageFileUploadError: string | null;
   validationError: string;

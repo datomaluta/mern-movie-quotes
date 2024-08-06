@@ -31,7 +31,7 @@ const AuthHeader = ({
   });
 
   return (
-    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-4 py-6  flex justify-between items-center fixed top-0 w-full z-50">
+    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-4 py-6  flex justify-between items-center fixed top-0 w-full z-40">
       <h1 className="text-project-yellow uppercase font-helvetica-medium lg:hidden">
         Movie Quotes
       </h1>

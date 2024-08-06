@@ -11,6 +11,7 @@ export type MovieFormDataType = {
   description_ka: string;
   poster: string | FileList;
   income: string;
+  imgUrl?: string;
 };
 
 export type MovieFormDataToSendType = {
@@ -28,7 +29,7 @@ export type MovieFormDataToSendType = {
     en: string;
     ka: string;
   };
-  poster: string;
+  poster?: string;
   income: string;
 };
 
@@ -40,7 +41,7 @@ export type MovieType = {
     ka: string;
   };
   poster: string;
-  releaseYear: number;
+  releaseYear: string;
   genreIds: Genre[];
   description: {
     en: string;
@@ -50,5 +51,5 @@ export type MovieType = {
     en: string;
     ka: string;
   };
-  income: number;
-}
+  income: string;
+};

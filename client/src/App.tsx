@@ -11,6 +11,7 @@ import ScrollToTop from "./components/ui/sharedComponents/ScrollToTop";
 import Movies from "./pages/Movies";
 import MovieCreate from "./pages/MovieCreate";
 import MovieDetails from "./pages/MovieDetails";
+import MovieEdit from "./pages/MovieEdit";
 
 function App() {
   return (
@@ -66,6 +67,14 @@ function App() {
             element={
               <AuthLayout>
                 <MovieDetails />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/movies/edit/:id"
+            element={
+              <AuthLayout>
+                <MovieEdit />
               </AuthLayout>
             }
           />

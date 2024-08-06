@@ -66,6 +66,11 @@ export const getMovie = catchAsync(async (req, res, next) => {
   const lang = req.headers["accept-language"];
 
   const movie = await Movie.findById(id).populate("genreIds");
+
+  if (!movie) {
+    return next(new AppError(i18next.t("No movie found with that ID"), 404));
+  }
+
   res.status(200).json({
     status: "success",
     data: {

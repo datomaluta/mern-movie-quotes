@@ -45,7 +45,9 @@ const ModalWrapper = ({
         }  top-0 left-0 z-40 bg-opacity-60 transition-all`}
       ></div>
       <motion.div
-        className={`bg-project-light-blue absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[38rem] rounded-lg  py-8
+        className={`bg-project-light-blue absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
+          isLanding ? "max-w-[38rem]" : "max-w-[26rem]"
+        } rounded-lg  py-8
     w-[90%] z-50 flex flex-col ${isReadOnly && "md:bg-mobile-modal-gradient"}`}
         initial={{ opacity: 0, y: "-150%", x: "-50%" }}
         animate={{
