@@ -1,4 +1,5 @@
 import { Genre } from "./genre";
+import { QuoteType } from "./quote";
 
 export type MovieFormDataType = {
   title_en: string;
@@ -52,4 +53,5 @@ export type MovieType = {
     ka: string;
   };
   income: string;
+  quotes: QuoteType[];
 };

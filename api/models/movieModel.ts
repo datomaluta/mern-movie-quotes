@@ -87,6 +87,7 @@ const movieSchema: Schema<IMovie> = new mongoose.Schema(
 
 movieSchema.pre<IMovie>(/^find/, function (next) {
   this.populate("userId");
+  this.populate("genreIds");
   next();
 });
 

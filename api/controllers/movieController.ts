@@ -4,6 +4,7 @@ import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/appError";
 import APIFeatures from "../utils/apiFeatures";
 import { CustomRequest } from "../types";
+import mongoose from "mongoose";
 
 export const createMovie = catchAsync(async (req: CustomRequest, res, next) => {
   const {
@@ -61,20 +62,68 @@ export const getMovies = catchAsync(async (req, res, next) => {
   });
 });
 
+// export const getMovie = catchAsync(async (req, res, next) => {
+//   const { id } = req.params;
+
+//   const movie = await Movie.findById(id);
+
+//   if (!movie) {
+//     return next(new AppError(i18next.t("No movie found with that ID"), 404));
+//   }
+
+//   res.status(200).json({
+//     status: "success",
+//     data: {
+//       movie: movie,
+//     },
+//   });
+// });
+
 export const getMovie = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const lang = req.headers["accept-language"];
 
-  const movie = await Movie.findById(id).populate("genreIds");
+  const movieWithQuotes = await Movie.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(id) } },
+    {
+      $lookup: {
+        from: "quotes",
+        localField: "_id",
+        foreignField: "movieId",
+        as: "quotes",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "userId",
+      },
+    },
+    {
+      $unwind: {
+        path: "$user",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "genres",
+        localField: "genreIds",
+        foreignField: "_id",
+        as: "genreIds",
+      },
+    },
+  ]);
 
-  if (!movie) {
+  if (movieWithQuotes.length === 0) {
     return next(new AppError(i18next.t("No movie found with that ID"), 404));
   }
 
   res.status(200).json({
     status: "success",
     data: {
-      movie: movie,
+      movie: movieWithQuotes[0],
     },
   });
 });

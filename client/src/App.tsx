@@ -12,6 +12,8 @@ import Movies from "./pages/Movies";
 import MovieCreate from "./pages/MovieCreate";
 import MovieDetails from "./pages/MovieDetails";
 import MovieEdit from "./pages/MovieEdit";
+import QuoteCreate from "./pages/QuoteCreate";
+import QuoteEdit from "./pages/QuoteEdit";
 
 function App() {
   return (
@@ -75,6 +77,24 @@ function App() {
             element={
               <AuthLayout>
                 <MovieEdit />
+              </AuthLayout>
+            }
+          />
+
+          <Route
+            path="/movies/:movieId/quotes/create"
+            element={
+              <AuthLayout>
+                <QuoteCreate />
+              </AuthLayout>
+            }
+          />
+
+          <Route
+            path="/movies/:movieId/quotes/edit/:quoteId"
+            element={
+              <AuthLayout>
+                <QuoteEdit />
               </AuthLayout>
             }
           />

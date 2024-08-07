@@ -11,6 +11,7 @@ import Backend from "i18next-fs-backend";
 import middleware from "i18next-http-middleware";
 import path from "path";
 import genreRouter from "./routes/genreRoutes";
+import quoteRouter from "./routes/quoteRoutes";
 
 dotenv.config();
 
@@ -61,5 +62,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/genres", genreRouter);
+app.use("/api/quotes", quoteRouter);
 
 app.use(globalErrorHandler);

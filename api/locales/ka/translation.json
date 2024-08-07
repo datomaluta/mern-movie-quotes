@@ -6,6 +6,8 @@
     "income_field_required": "შემოსავლის ველი სავალდებულოა",
     "title_en_field_required": "ინგლისური სათაურის ველი სავალდებულოა",
     "title_ka_field_required": "ქართული სათაურის ველი სავალდებულოა",
+    "text_en_field_required": "ინგლისური ტექსტის ველი სავალდებულია",
+    "text_ka_field_required": "ქართული ტექსტის ველი სავალდებულია",
     "poster_field_required": "პოსტერის ველი აუცილებელია",
     "releaseYear_field_required": "გამოშვების წლის ველი აუცილებელია",
     "genreIds_field_required": "ჟანრის ველი სავალდებულოა",
@@ -13,12 +15,14 @@
     "description_ka_field_required": "ქართული აღწერის ველი სავალდებულოა",
     "director_en_field_required": "ინგლისური რეჟისორის ველი სავალდებულია",
     "director_ka_field_required": "ქართული რეჟისორის ველი სავალდებულია",
-    "userId_field_required": "მომხმარებლის ველი სავალდებულოა"
+    "userId_field_required": "მომხმარებლის ველი სავალდებულოა",
+    "image_field_required": "სურათის ველი სავალდებულოა"
   },
   "errors": {
     "Something went very wrong!": "რაღაც ძალიან ცუდად მოხდა!",
     "You are not logged in! Please log in to get access.": "თქვენ არ ხართ ავტორიზებული! გაიარეთ ავტორიზაცია წვდომის მისაღებად.",
-    "No movie found with that ID": "ასეთი ფილმი არ მოიძებნა"
+    "No movie found with that ID": "ასეთი ფილმი არ მოიძებნა",
+    "No quote found with that ID": "ასეთი ციტატა არ მოიძებნა"
   },
   "tokens": {
     "Invalid token. Please log in again!": "არავალიდური ტოკენი. გთხოვთ, გაიაროთ ავტორიზაცია!",

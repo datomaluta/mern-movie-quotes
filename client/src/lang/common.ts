@@ -325,6 +325,10 @@ export const translations = {
     en: "Movie created successfully",
     ka: "ფილმი წარმატებით დაემატა",
   },
+  quote_create_successfully: {
+    en: "Quote created successfully",
+    ka: "ციტატა წარმატებით დაემატა",
+  },
   movie_details: {
     en: "Movie details",
     ka: "ფილმის დეტალები",
@@ -368,5 +372,21 @@ export const translations = {
   movie_deleted_successfully: {
     en: "Movie deleted successfully",
     ka: "ფილმი წარმატებით წაიშალა",
+  },
+  choose_movie: {
+    en: "Choose movie",
+    ka: "აირჩიეთ ფილმი",
+  },
+  quote_updated_successfully: {
+    en: "Quote updated successfully",
+    ka: "ციტატა წარმატებით განახლდა",
+  },
+  edit_quote: {
+    en: "Edit quote",
+    ka: "ციტატის რედაქტირება",
+  },
+  quote_deleted_successfully: {
+    en: "Quote deleted successfully",
+    ka: "ციტატა წარმატებით წაიშალა",
   },
 };

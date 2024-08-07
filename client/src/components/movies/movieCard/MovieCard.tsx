@@ -1,9 +1,9 @@
 import { BsChatQuote } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { MovieType } from "../../../types/movie.t";
 import LazyImageDisplay from "../../ui/sharedComponents/lazyImage/LazyImageDisplay";
 import { Link } from "react-router-dom";
+import { MovieType } from "../../../types/movie";
 
 const MovieCard = ({ movie }: { movie: MovieType }) => {
   const { lang } = useSelector((state: RootState) => state.lang);

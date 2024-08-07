@@ -10,6 +10,8 @@
     "income_field_required": "Income field is required",
     "title_en_field_required": "English title field is required",
     "title_ka_field_required": "Georgian title field is required",
+    "text_en_field_required": "English text field is required",
+    "text_ka_field_required": "Georgian text field is required",
     "poster_field_required": "Poster field is required",
     "releaseYear_field_required": "Release year field is required",
     "genreIds_field_required": "Genre field is required",
@@ -17,12 +19,14 @@
     "description_ka_field_required": "Georgian description field is required",
     "director_en_field_required": "English director field is required",
     "director_ka_field_required": "Georgian director field is required",
-    "userId_field_required": "User field is required"
+    "userId_field_required": "User field is required",
+    "image_field_required": "Image field is required"
   },
   "errors": {
     "Something went very wrong!": "Something went very wrong!",
     "You are not logged in! Please log in to get access.": "You are not logged in! Please log in to get access.",
-    "No movie found with that ID": "No movie found with that ID"
+    "No movie found with that ID": "No movie found with that ID",
+    "No quote found with that ID": "No quote found with that ID"
   },
   "Invalid input data. {{errors}}": "Invalid input data. {{errors}}",
   "Duplicate field value: {{value}}. Please use another value!": "Duplicate field value: {{value}}. Please use another value!",
