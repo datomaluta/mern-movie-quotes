@@ -389,4 +389,8 @@ export const translations = {
     en: "Quote deleted successfully",
     ka: "ციტატა წარმატებით წაიშალა",
   },
+  write_a_comment: {
+    en: "Write a comment",
+    ka: "დატოვეთ კომენტარი",
+  },
 };

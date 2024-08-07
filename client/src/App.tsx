@@ -14,6 +14,7 @@ import MovieDetails from "./pages/MovieDetails";
 import MovieEdit from "./pages/MovieEdit";
 import QuoteCreate from "./pages/QuoteCreate";
 import QuoteEdit from "./pages/QuoteEdit";
+import QuoteView from "./pages/QuoteView";
 
 function App() {
   return (
@@ -95,6 +96,15 @@ function App() {
             element={
               <AuthLayout>
                 <QuoteEdit />
+              </AuthLayout>
+            }
+          />
+
+          <Route
+            path="/quotes/:id"
+            element={
+              <AuthLayout>
+                <QuoteView />
               </AuthLayout>
             }
           />

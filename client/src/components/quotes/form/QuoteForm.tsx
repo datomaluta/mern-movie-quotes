@@ -45,7 +45,8 @@ const QuoteForm = ({
 
   const { data: quote, isLoading: quoteLoading } = useQuery<QuoteType>({
     queryKey: ["quote", quoteId],
-    queryFn: () => getQuote(quoteId as string).then((res) => res.data?.data?.quote),
+    queryFn: () =>
+      getQuote(quoteId as string).then((res) => res.data?.data?.quote),
     enabled: !!quoteId && action === "edit",
   });
 
@@ -58,11 +59,6 @@ const QuoteForm = ({
     name: "image",
     control,
   });
-  const movieId2 = useWatch({
-    name: "movieId",
-    control,
-  });
-  console.log(movieId2);
 
   useEffect(() => {
     if (image) {
@@ -162,7 +158,11 @@ const QuoteForm = ({
           disabled={imageFileUploading}
           className="bg-project-red hover:bg-project-dark-red w-full py-2 rounded mt-6 disabled:bg-red-400 min-h-10 flex justify-center items-center"
         >
-          {actionLoading ? <LoadingSpinner /> : t("add_quote")}
+          {actionLoading ? (
+            <LoadingSpinner />
+          ) : (
+            t(`${action === "create" ? "add_quote" : "edit_quote"}`)
+          )}
         </button>
       </form>
     </div>

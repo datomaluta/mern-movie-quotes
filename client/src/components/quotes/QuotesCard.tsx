@@ -41,7 +41,10 @@ const QuotesCard = ({
           </button>
           {contextMenuIsOpen && (
             <div className="flex flex-col gap-4 bg-project-light-blue rounded p-6 absolute top-[15%] -right-28 2xl:right-0">
-              <Link to={`/quotes`} className="flex gap-4 items-center">
+              <Link
+                to={`/quotes/${quote._id}`}
+                className="flex gap-4 items-center"
+              >
                 <FaRegEye />
                 {t("view_quote")}
               </Link>

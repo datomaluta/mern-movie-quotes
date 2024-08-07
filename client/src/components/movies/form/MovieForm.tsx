@@ -232,7 +232,11 @@ const MovieForm = ({
           disabled={imageFileUploading}
           className="bg-project-red hover:bg-project-dark-red w-full py-2 rounded mt-6 disabled:bg-red-400 min-h-10 flex justify-center items-center"
         >
-          {actionLoading ? <LoadingSpinner /> : t("add_movie")}
+          {actionLoading ? (
+            <LoadingSpinner />
+          ) : (
+            t(`${action === "create" ? "add_movie" : "edit_movie"}`)
+          )}
         </button>
       </form>
     </div>
