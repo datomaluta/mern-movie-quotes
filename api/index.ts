@@ -13,6 +13,7 @@ import path from "path";
 import genreRouter from "./routes/genreRoutes";
 import quoteRouter from "./routes/quoteRoutes";
 import commentRouter from "./routes/commentRoutes";
+import likeRouter from "./routes/likeRoutes";
 
 dotenv.config();
 
@@ -65,5 +66,6 @@ app.use("/api/movies", movieRouter);
 app.use("/api/genres", genreRouter);
 app.use("/api/quotes", quoteRouter);
 app.use("/api/comments", commentRouter);
+app.use("/api/likes", likeRouter);
 
 app.use(globalErrorHandler);

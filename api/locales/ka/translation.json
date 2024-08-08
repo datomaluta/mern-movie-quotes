@@ -27,7 +27,8 @@
     "No movie found with that ID": "ასეთი ფილმი არ მოიძებნა",
     "No quote found with that ID": "ასეთი ციტატა არ მოიძებნა",
     "You are not allowed to edit this comment": "თქვენ არ გაქვთ კომენტარის რედაქტირების უფლება",
-    "No comment found with that ID": "ასეთი კომენტარი არ მოიძებნა"
+    "No comment found with that ID": "ასეთი კომენტარი არ მოიძებნა",
+    "You already liked this quote": "თქვენ უკვე მოწონებული გაქვთ ეს ციტატა"
   },
   "tokens": {
     "Invalid token. Please log in again!": "არავალიდური ტოკენი. გთხოვთ, გაიაროთ ავტორიზაცია!",

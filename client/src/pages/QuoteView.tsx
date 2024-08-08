@@ -7,7 +7,7 @@ import { QuoteType } from "../types/quote";
 import LazyImageDisplay from "../components/ui/sharedComponents/lazyImage/LazyImageDisplay";
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
 import { VscComment } from "react-icons/vsc";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import UserImageAndName from "../components/ui/sharedComponents/UserImageAndName";
 import { IoSend } from "react-icons/io5";
 import { useTranslate } from "../hooks/useTranslate";
@@ -21,6 +21,8 @@ import { createComment, deleteComment } from "../services/comments";
 import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
 import CommentEditForm from "../components/comments/CommentEditForm";
 import { CommentType } from "../types/comment";
+import { getLikes, likeQuote, unlikeQuote } from "../services/likes";
+import { LikeType } from "../types/like";
 
 const QuoteView = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -96,6 +98,36 @@ const QuoteView = () => {
     setCommentValue("");
   };
 
+  const { data: likes, isLoading: likesLoading } = useQuery<LikeType[]>({
+    queryKey: ["likes", id],
+    queryFn: () =>
+      getLikes(`quoteId=${id}`).then((res) => res.data?.data?.likes),
+  });
+  const likesArray = likes?.map((like) => like.userId._id);
+
+  const { mutate: likeQuoteMutate, isPending: likeQuoteLoading } = useMutation({
+    mutationFn: likeQuote,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["likes", id] });
+      toast.success("Quote liked!");
+    },
+    onError: () => {
+      toast.error(t("something_went_wrong"));
+    },
+  });
+
+  const { mutate: unlikeQuoteMutate, isPending: unlikeQuoteLoading } =
+    useMutation({
+      mutationFn: unlikeQuote,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["likes", id] });
+        toast.success("Quote unliked!");
+      },
+      onError: () => {
+        toast.error(t("something_went_wrong"));
+      },
+    });
+
   return (
     <div>
       <div className="flex items-center w-max ml-auto  mb-3 gap-1 rounded-lg overflow-hidden shrink-0">
@@ -139,7 +171,7 @@ const QuoteView = () => {
       </AnimatePresence>
 
       {quoteLoading && <LoadingSpinnerWithWrapper />}
-      {quote && !quoteLoading && (
+      {quote && !quoteLoading && !likesLoading && (
         <div className="max-w-[961px] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
           <UserImageAndName
             imgSrc={currentUser?.image || ""}
@@ -170,10 +202,33 @@ const QuoteView = () => {
               {quote?.comments?.length}
               <VscComment className="h-7 w-7" />
             </p>
-            <p className="flex items-center gap-2">
-              10
-              <IoMdHeartEmpty className="h-7 w-7" />
-            </p>
+            <div className="flex items-center gap-2">
+              {likesArray?.length}
+              <button
+                disabled={likeQuoteLoading || unlikeQuoteLoading}
+                onClick={() => {
+                  likesArray?.includes(currentUser?._id as string)
+                    ? unlikeQuoteMutate(
+                        likes?.find(
+                          (like) =>
+                            like.userId._id === currentUser?._id &&
+                            like.quoteId === id
+                        )?._id || ""
+                      )
+                    : likeQuoteMutate({
+                        quoteId: id as string,
+                        userId: currentUser?._id as string,
+                      });
+                }}
+                className="disabled:cursor-not-allowed"
+              >
+                {likesArray?.includes(currentUser?._id as string) ? (
+                  <IoMdHeart className="h-7 w-7 fill-red-500" />
+                ) : (
+                  <IoMdHeartEmpty className="h-7 w-7" />
+                )}
+              </button>
+            </div>
           </div>
 
           <div className=" mt-6 flex flex-col gap-4 overflow-hidden">
