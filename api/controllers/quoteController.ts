@@ -4,6 +4,7 @@ import { CustomRequest } from "../types";
 import APIFeatures from "../utils/apiFeatures";
 import { AppError } from "../utils/appError";
 import { catchAsync } from "../utils/catchAsync";
+import mongoose from "mongoose";
 
 export const createQuote = catchAsync(async (req: CustomRequest, res, next) => {
   const { movieId, text, image } = req.body;
@@ -44,17 +45,42 @@ export const getQuotes = catchAsync(async (req, res, next) => {
   });
 });
 
+// export const getQuote = catchAsync(async (req, res, next) => {
+//   const { id } = req.params;
+//   const quote = await Quote.findById(id);
+
+//   if (!quote) {
+//     return next(new AppError(i18next.t("No quote found with that ID"), 404));
+//   }
+
+//   res.status(200).json({
+//     status: "success",
+//     data: {
+//       quote: quote,
+//     },
+//   });
+// });
+
 export const getQuote = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const quote = await Quote.findById(id);
-  if (!quote) {
+  const { id: quoteId } = req.params;
+  const quoteWithComments = await Quote.findById(quoteId)
+    .populate("userId")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "userId",
+      },
+    })
+    .populate("movieId"); // Populate the movie details
+
+  if (!quoteWithComments) {
     return next(new AppError(i18next.t("No quote found with that ID"), 404));
   }
 
   res.status(200).json({
     status: "success",
     data: {
-      quote: quote,
+      quote: quoteWithComments,
     },
   });
 });

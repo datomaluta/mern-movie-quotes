@@ -20,7 +20,10 @@
     "director_en_field_required": "English director field is required",
     "director_ka_field_required": "Georgian director field is required",
     "userId_field_required": "User field is required",
-    "image_field_required": "Image field is required"
+    "image_field_required": "Image field is required",
+    "text_field_required": "Text field is required",
+    "movieId_field_required": "Movie field is required",
+    "quoteId_field_required": "Quote field is required"
   },
   "errors": {
     "Something went very wrong!": "Something went very wrong!",

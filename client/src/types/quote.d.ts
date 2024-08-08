@@ -1,3 +1,4 @@
+import { CommentType } from "./comment";
 import { MovieType } from "./movie";
 
 export type QuoteType = {
@@ -8,6 +9,7 @@ export type QuoteType = {
   };
   movieId: MovieType;
   image: string;
+  comments: CommentType[];
 };
 
 export type QuoteFormDataToSendType = {

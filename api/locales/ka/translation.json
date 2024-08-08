@@ -16,7 +16,10 @@
     "director_en_field_required": "ინგლისური რეჟისორის ველი სავალდებულია",
     "director_ka_field_required": "ქართული რეჟისორის ველი სავალდებულია",
     "userId_field_required": "მომხმარებლის ველი სავალდებულოა",
-    "image_field_required": "სურათის ველი სავალდებულოა"
+    "image_field_required": "სურათის ველი სავალდებულოა",
+    "text_field_required": "ტექსტის ველი სავალდებულოა",
+    "movieId_field_required": "ფილმის ველი სავალდებულოა",
+    "quoteId_field_required": "ციტატის ველი სავალდებულოა"
   },
   "errors": {
     "Something went very wrong!": "რაღაც ძალიან ცუდად მოხდა!",

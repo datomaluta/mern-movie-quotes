@@ -74,7 +74,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         </AnimatePresence>
 
         {/* main content */}
-        <div className="bg-blue-60 flex-1  lg:w-full lg:max-w-full ml-[26.25rem] xl:ml-[15.625rem] lg:ml-0  pb-4 px-16 xl:px-10 lg:px-4">
+        <div className="bg-blue-60 flex-1  lg:w-full lg:max-w-full ml-[26.25rem] xl:ml-[15.625rem] lg:ml-0 pb-16 px-16 xl:px-10 lg:px-4">
           {children}
         </div>
       </div>

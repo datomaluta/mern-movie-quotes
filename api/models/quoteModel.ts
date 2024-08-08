@@ -8,6 +8,7 @@ interface IQuote extends Document {
     ka: string;
   };
   image: string;
+  comments: [mongoose.Types.ObjectId];
 }
 
 const quoteSchema: Schema<IQuote> = new mongoose.Schema(
@@ -36,6 +37,12 @@ const quoteSchema: Schema<IQuote> = new mongoose.Schema(
       type: String,
       required: [true, "image_field_required"],
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   {
     timestamps: true,
