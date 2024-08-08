@@ -25,7 +25,9 @@
     "Something went very wrong!": "რაღაც ძალიან ცუდად მოხდა!",
     "You are not logged in! Please log in to get access.": "თქვენ არ ხართ ავტორიზებული! გაიარეთ ავტორიზაცია წვდომის მისაღებად.",
     "No movie found with that ID": "ასეთი ფილმი არ მოიძებნა",
-    "No quote found with that ID": "ასეთი ციტატა არ მოიძებნა"
+    "No quote found with that ID": "ასეთი ციტატა არ მოიძებნა",
+    "You are not allowed to edit this comment": "თქვენ არ გაქვთ კომენტარის რედაქტირების უფლება",
+    "No comment found with that ID": "ასეთი კომენტარი არ მოიძებნა"
   },
   "tokens": {
     "Invalid token. Please log in again!": "არავალიდური ტოკენი. გთხოვთ, გაიაროთ ავტორიზაცია!",

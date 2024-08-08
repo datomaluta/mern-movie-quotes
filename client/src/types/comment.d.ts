@@ -12,3 +12,7 @@ export type CommentFormDataToSendType = {
   quoteId: string;
   userId: string;
 };
+
+export type CommentFormDataType = {
+  text: string;
+};

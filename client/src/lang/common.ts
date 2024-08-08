@@ -393,4 +393,24 @@ export const translations = {
     en: "Write a comment",
     ka: "დატოვეთ კომენტარი",
   },
+  update_comment: {
+    en: "Update comment",
+    ka: "კომენტარის განახლება",
+  },
+  edit_comment: {
+    en: "Edit comment",
+    ka: "კომენტარის რედაქტირება",
+  },
+  submit: {
+    en: "Submit",
+    ka: "დადასტურება",
+  },
+  comment_updated_successfully: {
+    en: "Comment updated successfully",
+    ka: "კომენტარი წარმატებით განახლდა",
+  },
+  comment_deleted_successfully: {
+    en: "Comment deleted successfully",
+    ka: "კომენტარი წარმატებით წაიშალა",
+  },
 };

@@ -63,6 +63,7 @@ export const getQuotes = catchAsync(async (req, res, next) => {
 
 export const getQuote = catchAsync(async (req, res, next) => {
   const { id: quoteId } = req.params;
+
   const quoteWithComments = await Quote.findById(quoteId)
     .populate("userId")
     .populate({

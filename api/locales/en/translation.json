@@ -29,7 +29,9 @@
     "Something went very wrong!": "Something went very wrong!",
     "You are not logged in! Please log in to get access.": "You are not logged in! Please log in to get access.",
     "No movie found with that ID": "No movie found with that ID",
-    "No quote found with that ID": "No quote found with that ID"
+    "No quote found with that ID": "No quote found with that ID",
+    "You are not allowed to edit this comment": "You are not allowed to edit this comment",
+    "No comment found with that ID": "No comment found with that ID"
   },
   "Invalid input data. {{errors}}": "Invalid input data. {{errors}}",
   "Duplicate field value: {{value}}. Please use another value!": "Duplicate field value: {{value}}. Please use another value!",

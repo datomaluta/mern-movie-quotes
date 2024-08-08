@@ -71,8 +71,8 @@ const QuotesCard = ({
             <div className="h-[140px] sm:h-[200px] w-[226px] sm:w-full shrink-0 rounded overflow-hidden">
               <LazyImageDisplay imageUrl={quote?.image} alt={quote.text.en} />
             </div>
-            <div>
-              <p className="text-gray-400 text-2xl md:text-xl italic line-clamp-3 ">
+            <div className="w-full">
+              <p className="text-gray-400 text-2xl md:text-xl italic line-clamp-3 w-full">
                 {quote?.text[lang]}
               </p>
             </div>

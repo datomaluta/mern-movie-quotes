@@ -17,13 +17,19 @@ import { useState } from "react";
 import DeleteModal from "../components/ui/sharedComponents/DeleteModal";
 import { AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { createComment } from "../services/comments";
+import { createComment, deleteComment } from "../services/comments";
 import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
+import CommentEditForm from "../components/comments/CommentEditForm";
+import { CommentType } from "../types/comment";
 
 const QuoteView = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const { lang } = useSelector((state: RootState) => state.lang);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [commentDeleteModalIsOpen, setCommentDeleteModalIsOpen] =
+    useState(false);
+  const [commentEditModalIsOpen, setCommentEditModalIsOpen] = useState(false);
+  const [chosenComment, setChosenComment] = useState<CommentType | null>(null);
   const { t } = useTranslate();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -50,6 +56,19 @@ const QuoteView = () => {
       },
     }
   );
+
+  const { mutate: commentDeleteMutate, isPending: commentDeleteIsLoading } =
+    useMutation({
+      mutationFn: deleteComment,
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["quote", id] });
+        setCommentDeleteModalIsOpen(false);
+        toast.success(t("comment_deleted_successfully"));
+      },
+      onError: () => {
+        toast.error(t("something_went_wrong"));
+      },
+    });
 
   const [commentValue, setCommentValue] = useState("");
 
@@ -103,6 +122,20 @@ const QuoteView = () => {
             setDeleteModalIsOpen={setDeleteModalIsOpen}
           />
         )}
+        {commentEditModalIsOpen && (
+          <CommentEditForm
+            setCommentEditModalIsOpen={setCommentEditModalIsOpen}
+            comment={chosenComment}
+          />
+        )}
+
+        {commentDeleteModalIsOpen && (
+          <DeleteModal
+            deleteIsLoading={commentDeleteIsLoading}
+            onSubmit={() => commentDeleteMutate(chosenComment?._id as string)}
+            setDeleteModalIsOpen={setCommentDeleteModalIsOpen}
+          />
+        )}
       </AnimatePresence>
 
       {quoteLoading && <LoadingSpinnerWithWrapper />}
@@ -143,14 +176,41 @@ const QuoteView = () => {
             </p>
           </div>
 
-          <div className=" mt-6 flex flex-col gap-4">
+          <div className=" mt-6 flex flex-col gap-4 overflow-hidden">
             {quote?.comments?.map((comment) => (
-              <div className="flex flex-col gap-2 border-b border-gray-700 pb-4">
+              <div
+                key={comment?._id}
+                className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
+              >
                 <UserImageAndName
                   imgSrc={comment?.userId?.image || ""}
                   userName={comment?.userId?.username || ""}
                 />
                 <p className="ml-12 text-gray-400">{comment?.text}</p>
+
+                {currentUser?._id === comment?.userId?._id && (
+                  <div className="flex items-center gap-3  ml-auto">
+                    <button
+                      onClick={() => {
+                        setCommentEditModalIsOpen(true);
+                        setChosenComment(comment);
+                      }}
+                      className="hover:bg-project-light-blue rounded"
+                    >
+                      <MdOutlineModeEditOutline />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setCommentDeleteModalIsOpen(true);
+                        setChosenComment(comment);
+                      }}
+                      className="hover:bg-project-light-blue rounded"
+                    >
+                      <RiDeleteBin6Line className="text-project-danger" />
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
