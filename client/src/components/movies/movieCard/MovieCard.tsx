@@ -14,12 +14,7 @@ const MovieCard = ({ movie }: { movie: MovieType }) => {
       className="w-full max-w-[27.5rem] hover:bg-project-light-blue rounded-xl overflow-hidden group h-full flex flex-col transition-all"
     >
       <div className=" rounded-xl overflow-hidden h-[22rem] 2xl:h-[15.625rem] xl:h-[22rem] sm:h-[15.625rem] transition-all">
-        {/* <img
-          className="h-full w-full object-cover group-hover:scale-110 transition-all duration-300"
-          src={movie.poster}
-          alt="img"
-        /> */}
-        <LazyImageDisplay imageUrl={movie.poster} alt={movie.title[lang]} />
+        <LazyImageDisplay imageUrl={movie?.poster} alt={movie?.title[lang]} />
       </div>
 
       <h1 className="text-xl md:text-lg font-helvetica-medium p-2 mt-3">

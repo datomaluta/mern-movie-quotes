@@ -28,7 +28,15 @@ export const createQuote = catchAsync(async (req: CustomRequest, res, next) => {
 });
 
 export const getQuotes = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Quote.find(), req.query)
+  const features = new APIFeatures(
+    Quote.find().populate({
+      path: "comments",
+      populate: {
+        path: "userId",
+      },
+    }),
+    req.query
+  )
     .search()
     .filter()
     .sort()
@@ -72,7 +80,7 @@ export const getQuote = catchAsync(async (req, res, next) => {
         path: "userId",
       },
     })
-    .populate("movieId"); // Populate the movie details
+    .populate("movieId");
 
   if (!quoteWithComments) {
     return next(new AppError(i18next.t("No quote found with that ID"), 404));

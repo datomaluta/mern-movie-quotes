@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LikeType } from "../../types/like";
-import { useParams } from "react-router-dom";
 import { getLikes, likeQuote, unlikeQuote } from "../../services/likes";
 import toast from "react-hot-toast";
 import { useTranslate } from "../../hooks/useTranslate";
@@ -8,23 +7,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 
-const QuoteLikesSection = () => {
-  const { id } = useParams();
+const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
   const { t } = useTranslate();
   const { currentUser } = useSelector((state: RootState) => state.user);
   const queryClient = useQueryClient();
 
   const { data: likes, isLoading: likesLoading } = useQuery<LikeType[]>({
-    queryKey: ["likes", id],
+    queryKey: ["likes", quoteId],
     queryFn: () =>
-      getLikes(`quoteId=${id}`).then((res) => res.data?.data?.likes),
+      getLikes(`quoteId=${quoteId}`).then((res) => res.data?.data?.likes),
   });
   const likesArray = likes?.map((like) => like.userId._id);
 
   const { mutate: likeQuoteMutate, isPending: likeQuoteLoading } = useMutation({
     mutationFn: likeQuote,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["likes", id] });
+      queryClient.invalidateQueries({ queryKey: ["likes", quoteId] });
     },
     onError: () => {
       toast.error(t("something_went_wrong"));
@@ -35,7 +33,7 @@ const QuoteLikesSection = () => {
     useMutation({
       mutationFn: unlikeQuote,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["likes", id] });
+        queryClient.invalidateQueries({ queryKey: ["likes", quoteId] });
         toast.success("Quote unliked!");
       },
       onError: () => {
@@ -54,11 +52,12 @@ const QuoteLikesSection = () => {
             ? unlikeQuoteMutate(
                 likes?.find(
                   (like) =>
-                    like.userId._id === currentUser?._id && like.quoteId === id
+                    like.userId._id === currentUser?._id &&
+                    like.quoteId === quoteId
                 )?._id || ""
               )
             : likeQuoteMutate({
-                quoteId: id as string,
+                quoteId: quoteId as string,
                 userId: currentUser?._id as string,
               });
         }}

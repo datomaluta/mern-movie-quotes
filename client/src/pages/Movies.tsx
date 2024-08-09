@@ -123,26 +123,6 @@ const Movies = () => {
       )}
 
       <div className="mt-16 md:mt-10 grid grid-cols-3 xl:grid-cols-2 md:grid-cols-1 gap-10 place-items-center">
-        {/* <div className="w-full max-w-[440px]  hover:bg-project-light-blue  rounded-xl overflow-hidden group h-full flex flex-col">
-          <div className=" bg-green-500 rounded-xl overflow-hidden max-h-[350px] h-auto">
-            <img
-              className="h-full w-full object-cover group-hover:scale-110 transition-all duration-300"
-              src={
-                "https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
-              }
-              alt="img"
-            />
-          </div>
-
-          <h1 className="text-xl font-helvetica-medium  p-2">
-            Movie Nameasdasdas asdasda dasdasda dad asdasd asd adasd asdasd
-          </h1>
-          <p className="flex items-center gap-2 p-2 mt-auto">
-            <span>10</span>
-            <BsChatQuote className="w-5 h-5" />
-          </p>
-        </div> */}
-
         {movies?.pages?.flat().map((movie: MovieType) => (
           <MovieCard key={movie._id} movie={movie} />
         ))}

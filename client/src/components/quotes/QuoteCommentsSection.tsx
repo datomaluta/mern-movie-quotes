@@ -8,7 +8,7 @@ import { createComment, deleteComment } from "../../services/comments";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslate } from "../../hooks/useTranslate";
-import { useParams } from "react-router-dom";
+
 import { AnimatePresence } from "framer-motion";
 import CommentEditForm from "../comments/CommentEditForm";
 import DeleteModal from "../ui/sharedComponents/DeleteModal";
@@ -16,9 +16,15 @@ import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
 import { IoSend } from "react-icons/io5";
 import { CommentType } from "../../types/comment";
 
-const QuoteCommentsSection = ({ comments }: { comments: CommentType[] }) => {
+const QuoteCommentsSection = ({
+  comments,
+  quoteId,
+}: {
+  comments: CommentType[];
+  quoteId: string;
+}) => {
   const { t } = useTranslate();
-  const { id } = useParams();
+
   const { currentUser } = useSelector((state: RootState) => state.user);
   const queryClient = useQueryClient();
 
@@ -32,9 +38,8 @@ const QuoteCommentsSection = ({ comments }: { comments: CommentType[] }) => {
     useMutation({
       mutationFn: deleteComment,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["quote", id] });
+        queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
         setCommentDeleteModalIsOpen(false);
-        toast.success(t("comment_deleted_successfully"));
       },
       onError: () => {
         toast.error(t("something_went_wrong"));
@@ -45,8 +50,10 @@ const QuoteCommentsSection = ({ comments }: { comments: CommentType[] }) => {
     useMutation({
       mutationFn: createComment,
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["quote", id] });
+        queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
+        queryClient.invalidateQueries({ queryKey: ["quotes"] });
       },
+
       onError: () => {
         toast.error(t("something_went_wrong"));
       },
@@ -57,7 +64,7 @@ const QuoteCommentsSection = ({ comments }: { comments: CommentType[] }) => {
       return;
     }
     createCommentMutate({
-      quoteId: id as string,
+      quoteId: quoteId as string,
       userId: currentUser?._id as string,
       text: commentValue,
     });

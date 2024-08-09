@@ -413,4 +413,16 @@ export const translations = {
     en: "Comment deleted successfully",
     ka: "კომენტარი წარმატებით წაიშალა",
   },
+  write_new_quote: {
+    en: "Write new quote",
+    ka: "შექმენი ახალი ციტატა",
+  },
+  search_by: {
+    en: "Search by",
+    ka: "ძებნა",
+  },
+  news_feed_search_placeholder: {
+    en: "Enter @ to search movies, Enter # to search quotes ",
+    ka: "შეიყვანეთ @ ფილმის ძებნისთვის, # ციტატის ძებნისთვის",
+  },
 };

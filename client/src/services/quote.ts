@@ -5,8 +5,17 @@ export const createQuote = async (data: QuoteFormDataToSendType) => {
   return await instance.post("/quotes", data);
 };
 
-export const getQuotes = async () => {
-  return await instance.get("/quotes");
+export const getQuotes = async ({
+  page,
+  queryString,
+}: {
+  page?: number | string;
+  queryString?: string;
+}) => {
+  // return await instance.get("/quotes");
+  return instance.get(
+    `/quotes?page=${page}&limit=2${queryString ? `&${queryString}` : ""}`
+  );
 };
 
 export const getQuote = async (id: string) => {

@@ -19,6 +19,8 @@ const QuoteCreate = () => {
         setTimeout(() => {
           if (movieId) {
             navigate(`/movies/${movieId}`);
+          } else {
+            navigate("/news-feed");
           }
         }, 2000);
       },

@@ -92,6 +92,24 @@ function App() {
           />
 
           <Route
+            path="/quotes/create"
+            element={
+              <AuthLayout>
+                <QuoteCreate />
+              </AuthLayout>
+            }
+          />
+
+          <Route
+            path="/quotes/edit/:quoteId"
+            element={
+              <AuthLayout>
+                <QuoteEdit />
+              </AuthLayout>
+            }
+          />
+
+          <Route
             path="/movies/:movieId/quotes/edit/:quoteId"
             element={
               <AuthLayout>
