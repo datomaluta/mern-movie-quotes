@@ -1,15 +1,13 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteQuote, getQuote } from "../services/quote";
 import { QuoteType } from "../types/quote";
 import LazyImageDisplay from "../components/ui/sharedComponents/lazyImage/LazyImageDisplay";
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
 import { VscComment } from "react-icons/vsc";
-import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import UserImageAndName from "../components/ui/sharedComponents/UserImageAndName";
-import { IoSend } from "react-icons/io5";
 import { useTranslate } from "../hooks/useTranslate";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -17,25 +15,17 @@ import { useState } from "react";
 import DeleteModal from "../components/ui/sharedComponents/DeleteModal";
 import { AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { createComment, deleteComment } from "../services/comments";
-import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
-import CommentEditForm from "../components/comments/CommentEditForm";
-import { CommentType } from "../types/comment";
-import { getLikes, likeQuote, unlikeQuote } from "../services/likes";
-import { LikeType } from "../types/like";
+import QuoteCommentsSection from "../components/quotes/QuoteCommentsSection";
+import QuoteLikesSection from "../components/quotes/QuoteLikesSection";
 
 const QuoteView = () => {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const { lang } = useSelector((state: RootState) => state.lang);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-  const [commentDeleteModalIsOpen, setCommentDeleteModalIsOpen] =
-    useState(false);
-  const [commentEditModalIsOpen, setCommentEditModalIsOpen] = useState(false);
-  const [chosenComment, setChosenComment] = useState<CommentType | null>(null);
+
   const { t } = useTranslate();
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { data: quote, isLoading: quoteLoading } = useQuery<QuoteType>({
     queryKey: ["quote", id],
@@ -59,77 +49,8 @@ const QuoteView = () => {
     }
   );
 
-  const { mutate: commentDeleteMutate, isPending: commentDeleteIsLoading } =
-    useMutation({
-      mutationFn: deleteComment,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["quote", id] });
-        setCommentDeleteModalIsOpen(false);
-        toast.success(t("comment_deleted_successfully"));
-      },
-      onError: () => {
-        toast.error(t("something_went_wrong"));
-      },
-    });
-
-  const [commentValue, setCommentValue] = useState("");
-
-  const { mutate: createCommentMutate, isPending: commentIsCreating } =
-    useMutation({
-      mutationFn: createComment,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["quote", id] });
-      },
-      onError: () => {
-        toast.error(t("something_went_wrong"));
-      },
-    });
-
-  const submitComment = () => {
-    if (commentValue.trim() === "") {
-      return;
-    }
-    createCommentMutate({
-      quoteId: id as string,
-      userId: currentUser?._id as string,
-      text: commentValue,
-    });
-
-    setCommentValue("");
-  };
-
-  const { data: likes, isLoading: likesLoading } = useQuery<LikeType[]>({
-    queryKey: ["likes", id],
-    queryFn: () =>
-      getLikes(`quoteId=${id}`).then((res) => res.data?.data?.likes),
-  });
-  const likesArray = likes?.map((like) => like.userId._id);
-
-  const { mutate: likeQuoteMutate, isPending: likeQuoteLoading } = useMutation({
-    mutationFn: likeQuote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["likes", id] });
-      toast.success("Quote liked!");
-    },
-    onError: () => {
-      toast.error(t("something_went_wrong"));
-    },
-  });
-
-  const { mutate: unlikeQuoteMutate, isPending: unlikeQuoteLoading } =
-    useMutation({
-      mutationFn: unlikeQuote,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["likes", id] });
-        toast.success("Quote unliked!");
-      },
-      onError: () => {
-        toast.error(t("something_went_wrong"));
-      },
-    });
-
   return (
-    <div>
+    <div className="max-w-[961px]">
       <div className="flex items-center w-max ml-auto  mb-3 gap-1 rounded-lg overflow-hidden shrink-0">
         <Link
           to={`/movies/${quote?.movieId?._id}/quotes/edit/${quote?._id}`}
@@ -154,24 +75,10 @@ const QuoteView = () => {
             setDeleteModalIsOpen={setDeleteModalIsOpen}
           />
         )}
-        {commentEditModalIsOpen && (
-          <CommentEditForm
-            setCommentEditModalIsOpen={setCommentEditModalIsOpen}
-            comment={chosenComment}
-          />
-        )}
-
-        {commentDeleteModalIsOpen && (
-          <DeleteModal
-            deleteIsLoading={commentDeleteIsLoading}
-            onSubmit={() => commentDeleteMutate(chosenComment?._id as string)}
-            setDeleteModalIsOpen={setCommentDeleteModalIsOpen}
-          />
-        )}
       </AnimatePresence>
 
       {quoteLoading && <LoadingSpinnerWithWrapper />}
-      {quote && !quoteLoading && !likesLoading && (
+      {quote && !quoteLoading && (
         <div className="max-w-[961px] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
           <UserImageAndName
             imgSrc={currentUser?.image || ""}
@@ -202,96 +109,11 @@ const QuoteView = () => {
               {quote?.comments?.length}
               <VscComment className="h-7 w-7" />
             </p>
-            <div className="flex items-center gap-2">
-              {likesArray?.length}
-              <button
-                disabled={likeQuoteLoading || unlikeQuoteLoading}
-                onClick={() => {
-                  likesArray?.includes(currentUser?._id as string)
-                    ? unlikeQuoteMutate(
-                        likes?.find(
-                          (like) =>
-                            like.userId._id === currentUser?._id &&
-                            like.quoteId === id
-                        )?._id || ""
-                      )
-                    : likeQuoteMutate({
-                        quoteId: id as string,
-                        userId: currentUser?._id as string,
-                      });
-                }}
-                className="disabled:cursor-not-allowed"
-              >
-                {likesArray?.includes(currentUser?._id as string) ? (
-                  <IoMdHeart className="h-7 w-7 fill-red-500" />
-                ) : (
-                  <IoMdHeartEmpty className="h-7 w-7" />
-                )}
-              </button>
-            </div>
+
+            <QuoteLikesSection />
           </div>
 
-          <div className=" mt-6 flex flex-col gap-4 overflow-hidden">
-            {quote?.comments?.map((comment) => (
-              <div
-                key={comment?._id}
-                className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
-              >
-                <UserImageAndName
-                  imgSrc={comment?.userId?.image || ""}
-                  userName={comment?.userId?.username || ""}
-                />
-                <p className="ml-12 text-gray-400">{comment?.text}</p>
-
-                {currentUser?._id === comment?.userId?._id && (
-                  <div className="flex items-center gap-3  ml-auto">
-                    <button
-                      onClick={() => {
-                        setCommentEditModalIsOpen(true);
-                        setChosenComment(comment);
-                      }}
-                      className="hover:bg-project-light-blue rounded"
-                    >
-                      <MdOutlineModeEditOutline />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setCommentDeleteModalIsOpen(true);
-                        setChosenComment(comment);
-                      }}
-                      className="hover:bg-project-light-blue rounded"
-                    >
-                      <RiDeleteBin6Line className="text-project-danger" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex items-center gap-4">
-            <img
-              className="h-10 w-10 rounded-full shrink-0"
-              src={currentUser?.image}
-              alt="avatar"
-            />
-            <div className="w-full h-12 relative">
-              <textarea
-                value={commentValue}
-                onChange={(e) => setCommentValue(e.target.value)}
-                className="w-full bg-project-light-blue rounded resize-none h-full p-2 pr-10 outline-none focus:border-project-gray border border-transparent transition-all scrollbar-thin"
-                placeholder={t("write_a_comment")}
-              ></textarea>
-              <button
-                onClick={submitComment}
-                disabled={commentValue.trim() === "" || commentIsCreating}
-                className="absolute top-1/2 right-5 -translate-y-1/2"
-              >
-                {commentIsCreating ? <LoadingSpinner /> : <IoSend />}
-              </button>
-            </div>
-          </div>
+          <QuoteCommentsSection comments={quote?.comments} />
         </div>
       )}
     </div>
