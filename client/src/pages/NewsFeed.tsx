@@ -1,7 +1,7 @@
 import { FaEdit } from "react-icons/fa";
 import { useTranslate } from "../hooks/useTranslate";
 import { motion } from "framer-motion";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import LoadingSpinner from "../components/ui/sharedComponents/LoadingSpinner";
 
 const NewsFeed = () => {
   const { t } = useTranslate();
+  const [searchState, setSearchState] = useState("");
   const [searchIsActive, setSearchIsActive] = useState(false);
   const [searchParams] = useSearchParams();
   const queryString = searchParams.get("search")
@@ -21,6 +22,7 @@ const NewsFeed = () => {
         "searchFields"
       )}`
     : "";
+  const navigate = useNavigate();
 
   const {
     data: quotes,
@@ -41,8 +43,23 @@ const NewsFeed = () => {
     },
   });
 
-  console.log(quotes?.pages?.flat());
-  console.log(quotes?.pages?.flat().length);
+  const submitSearch = () => {
+    if (searchState.startsWith("@")) {
+      console.log(searchState);
+      navigate(
+        `/movies?search=${searchState.substring(
+          1
+        )}&searchFields=title.en,title.ka`
+      );
+    }
+    if (searchState.startsWith("#")) {
+      navigate(
+        `/quotes/search?search=${searchState.substring(
+          1
+        )}&searchFields=text.en,text.ka`
+      );
+    }
+  };
 
   return (
     <div className="max-w-[938px]">
@@ -71,10 +88,11 @@ const NewsFeed = () => {
             animate={{ opacity: 1 }}
             className="relative w-full border-b border-gray-700 "
           >
-            <button>
+            <button onClick={submitSearch}>
               <IoIosSearch className="h-5 w-5 absolute top-1/2 left- -translate-y-1/2" />
             </button>
             <input
+              onChange={(e) => setSearchState(e.target.value)}
               type="text"
               className="w-full bg-transparent  pl-8 py-2 outline-none"
               placeholder={t("news_feed_search_placeholder")}
@@ -87,7 +105,7 @@ const NewsFeed = () => {
 
       {quotes && quotes?.pages[0]?.length === 0 && (
         <h1 className="text-2xl font-bold text-center mt-20">
-          {t("movies_not_found")}
+          {t("quotes_not_found")}
         </h1>
       )}
 

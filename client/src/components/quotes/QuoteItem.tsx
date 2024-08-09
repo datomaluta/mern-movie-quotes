@@ -9,14 +9,14 @@ import QuoteLikesSection from "./QuoteLikesSection";
 import QuoteCommentsSection from "./QuoteCommentsSection";
 
 const QuoteItem = ({ quote }: { quote: QuoteType }) => {
-  const { currentUser } = useSelector((state: RootState) => state.user);
   const { lang } = useSelector((state: RootState) => state.lang);
 
+  console.log(quote);
   return (
     <div className="max-w-[961px] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
       <UserImageAndName
-        imgSrc={currentUser?.image || ""}
-        userName={currentUser?.username || ""}
+        imgSrc={quote?.userId?.image || ""}
+        userName={quote?.userId?.username || ""}
       />
 
       <div className=" mt-6 mb-6">

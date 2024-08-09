@@ -15,6 +15,7 @@ import MovieEdit from "./pages/MovieEdit";
 import QuoteCreate from "./pages/QuoteCreate";
 import QuoteEdit from "./pages/QuoteEdit";
 import QuoteView from "./pages/QuoteView";
+import SearchedQuotes from "./pages/SearchedQuotes";
 
 function App() {
   return (
@@ -123,6 +124,15 @@ function App() {
             element={
               <AuthLayout>
                 <QuoteView />
+              </AuthLayout>
+            }
+          />
+
+          <Route
+            path="/quotes/search"
+            element={
+              <AuthLayout>
+                <SearchedQuotes />
               </AuthLayout>
             }
           />

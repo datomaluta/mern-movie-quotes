@@ -425,4 +425,8 @@ export const translations = {
     en: "Enter @ to search movies, Enter # to search quotes ",
     ka: "შეიყვანეთ @ ფილმის ძებნისთვის, # ციტატის ძებნისთვის",
   },
+  quotes_not_found: {
+    en: "Quotes not found",
+    ka: "ციტატები არ მოიძებნა",
+  },
 };

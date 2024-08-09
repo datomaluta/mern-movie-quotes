@@ -42,7 +42,7 @@ const Movies = () => {
 
   useEffect(() => {
     if (searchState.length === 0) {
-      setSearchParams({ search: "", searchFields: "" });
+      // setSearchParams({ search: "", searchFields: "" });
     }
   }, [searchState, setSearchParams]);
 
