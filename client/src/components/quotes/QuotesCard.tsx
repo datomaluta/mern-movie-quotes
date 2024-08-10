@@ -3,7 +3,7 @@ import { useTranslate } from "../../hooks/useTranslate";
 import { QuoteType } from "../../types/quote";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { FaRegEye } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import LazyImageDisplay from "../ui/sharedComponents/lazyImage/LazyImageDisplay";
@@ -24,7 +24,8 @@ const QuotesCard = ({
   const { t } = useTranslate();
   const { lang } = useSelector((state: RootState) => state.lang);
   const [contextMenuIsOpen, setContextMenuIsOpen] = useState(false);
-
+  const { pathname } = useLocation();
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const { id: movieId } = useParams();
 
   return (
@@ -48,23 +49,31 @@ const QuotesCard = ({
                 <FaRegEye />
                 {t("view_quote")}
               </Link>
-              <Link
-                to={`/movies/${movieId}/quotes/edit/${quote._id}`}
-                className="flex gap-4 items-center"
-              >
-                <MdOutlineModeEditOutline />
-                {t("edit")}
-              </Link>
-              <button
-                onClick={() => {
-                  setChosenQuote(quote);
-                  setDeleteModalIsOpen(true);
-                }}
-                className="flex gap-4 items-center"
-              >
-                <RiDeleteBin6Line />
-                {t("delete")}
-              </button>
+              {currentUser?._id === quote.userId?._id && (
+                <>
+                  <Link
+                    to={`${
+                      pathname.includes("search")
+                        ? `/quotes/edit/${quote._id}`
+                        : `/movies/${movieId}/quotes/edit/${quote._id}`
+                    }`}
+                    className="flex gap-4 items-center"
+                  >
+                    <MdOutlineModeEditOutline />
+                    {t("edit")}
+                  </Link>
+                  <button
+                    onClick={() => {
+                      setChosenQuote(quote);
+                      setDeleteModalIsOpen(true);
+                    }}
+                    className="flex gap-4 items-center"
+                  >
+                    <RiDeleteBin6Line />
+                    {t("delete")}
+                  </button>{" "}
+                </>
+              )}
             </div>
           )}
           <div className="border-b border-gray-700 flex pb-6 gap-8 items-center sm:flex-col">

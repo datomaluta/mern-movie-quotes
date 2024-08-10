@@ -9,18 +9,19 @@ import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/Loading
 import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MovieType } from "../types/movie";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Movies = () => {
   const { t } = useTranslate();
-
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const [searchState, setSearchState] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const queryString = searchParams.get("search")
-    ? `search=${searchParams.get("search")}&searchFields=${searchParams.get(
-        "searchFields"
-      )}`
-    : "";
-
+  const queryString = `search=${
+    searchParams.get("search") || ""
+  }&searchFields=${searchParams.get("searchFields") || ""}&${
+    currentUser ? `userId=${currentUser._id}` : ""
+  }`;
   const {
     data: movies,
     fetchNextPage,
@@ -30,9 +31,10 @@ const Movies = () => {
   } = useInfiniteQuery({
     queryKey: ["movies", queryString],
     queryFn: ({ pageParam }) =>
-      getMovies({ page: pageParam, queryString })?.then(
-        (res) => res.data?.data?.movies
-      ),
+      getMovies({
+        page: pageParam,
+        queryString,
+      })?.then((res) => res.data?.data?.movies),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any, allPages) => {
       const nextPage = lastPage?.length ? allPages?.length + 1 : undefined;

@@ -77,8 +77,10 @@ const QuoteForm = ({
   useEffect(() => {
     if (movieId) {
       setValue("movieId", movieId);
+    } else {
+      setValue("movieId", quote?.movieId?._id as string);
     }
-  }, [movieId, setValue, movies]);
+  }, [movieId, setValue, movies, quote]);
 
   return (
     <div className="max-w-[961px] bg-project-dark-blue rounded-xl relative">
