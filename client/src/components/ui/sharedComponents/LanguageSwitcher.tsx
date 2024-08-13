@@ -20,7 +20,7 @@ const LanguageSwitcher = ({ className }: { className?: string }) => {
         {lang === "en" ? "Eng" : "ქარ"} <FaCaretDown />
       </button>
       {languageSwitcherIsOpen && (
-        <div className="flex flex-col bg-project-light-blue items-start  absolute bottom-0 left-0 translate-y-full w-full rounded overflow-hidden">
+        <div className="flex flex-col bg-project-light-blue items-start  absolute z-40 bottom-0 left-0 translate-y-full w-full rounded overflow-hidden">
           <button
             onClick={() => {
               dispatch(setLanguage("en"));

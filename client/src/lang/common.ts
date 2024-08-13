@@ -429,4 +429,68 @@ export const translations = {
     en: "Quotes not found",
     ka: "ციტატები არ მოიძებნა",
   },
+  notifications: {
+    en: "Notifications",
+    ka: "შეტყობინებები",
+  },
+  minutesAgo: {
+    en: "{{count}} minute ago",
+    ka: "{{count}} წუთის წინ",
+  },
+  minutesAgo_plural: {
+    en: "{{count}} minutes ago",
+    ka: "{{count}} წუთის წინ",
+  },
+  secondsAgo: {
+    en: "{{count}} second ago",
+    ka: "{{count}} წამის წინ",
+  },
+  secondsAgo_plural: {
+    en: "{{count}} seconds ago",
+    ka: "{{count}} წამის წინ",
+  },
+  hoursAgo: {
+    en: "{{count}} hour ago",
+    ka: "{{count}} საათის წინ",
+  },
+  hoursAgo_plural: {
+    en: "{{count}} hours ago",
+    ka: "{{count}} საათის წინ",
+  },
+  daysAgo: {
+    en: "{{count}} day ago",
+    ka: "{{count}} დღის წინ",
+  },
+  daysAgo_plural: {
+    en: "{{count}} days ago",
+    ka: "{{count}} დღის წინ",
+  },
+  monthsAgo: {
+    en: "{{count}} month ago",
+    ka: "{{count}} თვის წინ",
+  },
+  monthsAgo_plural: {
+    en: "{{count}} months ago",
+    ka: "{{count}} თვის წინ",
+  },
+  yearsAgo: {
+    en: "{{count}} year ago",
+    ka: "{{count}} წლის წინ",
+  },
+  yearsAgo_plural: {
+    en: "{{count}} years ago",
+    ka: "{{count}} წლის წინ",
+  },
+  now: {
+    en: "Now",
+    ka: "ახლა",
+  },
+  notifications_not_found: {
+    en: "Notifications not found",
+    ka: "შეტყობინებები არ მოიძებნა",
+  },
+  mark_all_as_read: {
+    en: "Mark all as read",
+    ka: "ყველას წაკითხვა",
+  },
 };

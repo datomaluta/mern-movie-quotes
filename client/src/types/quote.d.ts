@@ -11,7 +11,7 @@ export type QuoteType = {
   movieId: MovieType;
   image: string;
   comments: CommentType[];
-  userId: UserType;
+  userId: UserType | string;
 };
 
 export type QuoteFormDataToSendType = {

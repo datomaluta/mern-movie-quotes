@@ -11,12 +11,19 @@ import QuoteCommentsSection from "./QuoteCommentsSection";
 const QuoteItem = ({ quote }: { quote: QuoteType }) => {
   const { lang } = useSelector((state: RootState) => state.lang);
 
-  console.log(quote);
   return (
     <div className="max-w-[961px] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
       <UserImageAndName
-        imgSrc={quote?.userId?.image || ""}
-        userName={quote?.userId?.username || ""}
+        imgSrc={
+          quote?.userId && typeof quote.userId === "object"
+            ? quote.userId.image
+            : ""
+        }
+        userName={
+          quote?.userId && typeof quote.userId === "object"
+            ? quote.userId.username
+            : ""
+        }
       />
 
       <div className=" mt-6 mb-6">

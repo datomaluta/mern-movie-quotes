@@ -41,7 +41,7 @@ const QuotesCard = ({
             <RxDotsHorizontal className="h-6 w-6" />
           </button>
           {contextMenuIsOpen && (
-            <div className="flex flex-col gap-4 bg-project-light-blue rounded p-6 absolute top-[15%] -right-28 2xl:right-0">
+            <div className="flex flex-col gap-4 bg-project-light-blue rounded p-6 absolute top-[15%] -right-28 2xl:right-0 z-40">
               <Link
                 to={`/quotes/${quote._id}`}
                 className="flex gap-4 items-center"
@@ -49,7 +49,7 @@ const QuotesCard = ({
                 <FaRegEye />
                 {t("view_quote")}
               </Link>
-              {currentUser?._id === quote.userId?._id && (
+              {currentUser?._id === quote.userId && (
                 <>
                   <Link
                     to={`${
@@ -77,7 +77,7 @@ const QuotesCard = ({
             </div>
           )}
           <div className="border-b border-gray-700 flex pb-6 gap-8 items-center sm:flex-col">
-            <div className="h-[140px] sm:h-[200px] w-[226px] sm:w-full shrink-0 rounded overflow-hidden">
+            <div className="h-[140px] sm:h-[200px] w-[226px] sm:w-full shrink-0 rounded overflow-hidden mt-6">
               <LazyImageDisplay imageUrl={quote?.image} alt={quote.text.en} />
             </div>
             <div className="w-full">
