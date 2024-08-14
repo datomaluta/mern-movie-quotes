@@ -493,4 +493,12 @@ export const translations = {
     en: "Mark all as read",
     ka: "ყველას წაკითხვა",
   },
+  reacted_your_quote: {
+    en: "Reacted your quote",
+    ka: "გამოხატა რეაქცია თქვენს ციტატაზე",
+  },
+  commented_on_your_quote: {
+    en: "Commented on your quote",
+    ka: "დატოვა კომენტარი თქვენს ციტატაზე",
+  },
 };

@@ -47,8 +47,6 @@ const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
     });
   }, []);
 
-  console.log(import.meta.env.VITE_SOCKET_URL);
-
   useEffect(() => {
     if (!socketRef.current) return;
 

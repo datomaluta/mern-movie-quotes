@@ -23,6 +23,7 @@ import Notification from "./models/notificationModel";
 import cors from "cors";
 import cookie from "cookie";
 import notificationRouter from "./routes/notificationRouter";
+import Comment from "./models/commentModel";
 
 dotenv.config();
 
@@ -186,57 +187,53 @@ io.on("connection", (socket: any) => {
       socket
         .to(quote.userId?._id?.toString())
         .emit("notification", notification);
-      // socket.broadcast.emit("notification", "NOTIFICATION");
-      // socket.broadcast.emit("receive_message", "HEHEHE");
     } catch (error) {
       socket.emit("error", "An error occurred while commenting on the quote");
       console.error(error);
     }
   });
 
-  //   console.log("LIKEEE");
-  //   if (!socket.user) {
-  //     console.log("User not authenticated");
-  //     return;
-  //   }
-  //   const { quoteId } = data;
-  //   const userId = socket.user.id;
+  socket.on("createComment", async (data:any) => {
+    try {
+      const { quoteId, text } = data;
+      const userId = socket.user.id;
 
-  //   try {
-  //     const quote = await Quote.findById(quoteId);
-  //     if (!quote) {
-  //       socket.emit("error", "Quote not found");
-  //       return;
-  //     }
+      const quote = await Quote.findById(quoteId);
+      // console.log("QUOTEEE", quote);
 
-  //     const existingLike = await Like.findOne({
-  //       userId: userId,
-  //       quoteId: quoteId,
-  //     });
-  //     console.log(existingLike);
-  //     if (existingLike) {
-  //       console.log("Existing like found");
-  //       socket.emit("error", "You already liked this quote");
-  //       return;
-  //     }
+      if (!quote) {
+        socket.emit("error", "Quote not found");
+        return;
+      }
 
-  //     const notification = new Notification({
-  //       recipient: quote.userId,
-  //       sender: userId,
-  //       type: "like",
-  //       quote: quoteId,
-  //     });
-  //     await notification.save();
+      const comment = new Comment({ userId, quoteId, text });
+      await comment.save();
 
-  //     const like = new Like({ userId: userId, quoteId });
-  //     await like.save();
+      await Quote.findByIdAndUpdate(quoteId, {
+        $push: { comments: comment._id },
+      });
 
-  //     io.to(quote.userId.toString()).emit("notification", notification);
-  //   } catch (error) {
-  //     socket.emit("error", "An error occurred while commenting on the quote");
-  //     console.error(error);
-  //   }
-  // });
+      const notification = new Notification({
+        recipient: quote.userId?._id?.toString(),
+        sender: userId,
+        type: "comment",
+        quote: quoteId,
+      });
+      await notification.save();
+
+      console.log(
+        "Comment notification SENT TO: ",
+        quote.userId?._id?.toString()
+      );
+
+      socket
+        .to(quote.userId?._id?.toString())
+        .emit("notification", notification);
+    } catch (error) {
+      socket.emit("error", "An error occurred while commenting on the quote");
+      console.error(error);
+    }
+  });
 });
 
 app.listen(3000, () => {

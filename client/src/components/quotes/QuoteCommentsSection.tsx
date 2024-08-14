@@ -4,17 +4,18 @@ import { RootState } from "../../redux/store";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createComment, deleteComment } from "../../services/comments";
-import { useState } from "react";
+import { deleteComment } from "../../services/comments";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslate } from "../../hooks/useTranslate";
-
 import { AnimatePresence } from "framer-motion";
 import CommentEditForm from "../comments/CommentEditForm";
 import DeleteModal from "../ui/sharedComponents/DeleteModal";
-import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
 import { IoSend } from "react-icons/io5";
 import { CommentType } from "../../types/comment";
+import { DefaultEventsMap } from "@socket.io/component-emitter"; // Import the type for DefaultEventsMap if needed
+import { io, Socket } from "socket.io-client";
+import { UserType } from "../../types/user";
 
 const QuoteCommentsSection = ({
   comments,
@@ -33,6 +34,31 @@ const QuoteCommentsSection = ({
   const [commentEditModalIsOpen, setCommentEditModalIsOpen] = useState(false);
   const [chosenComment, setChosenComment] = useState<CommentType | null>(null);
   const [commentValue, setCommentValue] = useState("");
+  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
+    null
+  );
+  const [localComments, setLocalComments] = useState<CommentType[]>(comments);
+
+  useEffect(() => {
+    socketRef.current = io(import.meta.env.VITE_SOCKET_URL, {
+      withCredentials: true,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!socketRef.current) return;
+
+    socketRef.current.on("notification", (notification) => {
+      console.log("Notification received:", notification);
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    });
+
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, [queryClient, quoteId]);
 
   const { mutate: commentDeleteMutate, isPending: commentDeleteIsLoading } =
     useMutation({
@@ -46,31 +72,32 @@ const QuoteCommentsSection = ({
       },
     });
 
-  const { mutate: createCommentMutate, isPending: commentIsCreating } =
-    useMutation({
-      mutationFn: createComment,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
-        queryClient.invalidateQueries({ queryKey: ["quotes"] });
-      },
+  const createComment2 = () => {
+    if (!socketRef.current) return;
 
-      onError: () => {
-        toast.error(t("something_went_wrong"));
-      },
-    });
-
-  const submitComment = () => {
     if (commentValue.trim() === "") {
       return;
     }
-    createCommentMutate({
-      quoteId: quoteId as string,
-      userId: currentUser?._id as string,
-      text: commentValue,
-    });
 
+    socketRef.current.emit("createComment", { quoteId, text: commentValue });
+
+    setLocalComments((prev) => {
+      return [
+        ...prev,
+        {
+          _id: Date.now().toString(),
+          text: commentValue,
+          userId: currentUser as UserType,
+          quoteId: quoteId,
+        },
+      ];
+    });
     setCommentValue("");
   };
+
+  useEffect(() => {
+    setLocalComments(comments);
+  }, [comments]);
 
   return (
     <>
@@ -92,7 +119,7 @@ const QuoteCommentsSection = ({
       </AnimatePresence>
 
       <div className=" mt-6 flex flex-col gap-4 overflow-hidden">
-        {comments?.map((comment) => (
+        {localComments?.map((comment) => (
           <div
             key={comment?._id}
             className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
@@ -143,11 +170,11 @@ const QuoteCommentsSection = ({
             placeholder={t("write_a_comment")}
           ></textarea>
           <button
-            onClick={submitComment}
-            disabled={commentValue.trim() === "" || commentIsCreating}
+            onClick={createComment2}
+            disabled={commentValue.trim() === ""}
             className="absolute top-1/2 right-5 -translate-y-1/2"
           >
-            {commentIsCreating ? <LoadingSpinner /> : <IoSend />}
+            <IoSend />
           </button>
         </div>
       </div>

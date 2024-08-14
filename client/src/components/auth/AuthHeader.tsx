@@ -21,7 +21,7 @@ import "moment/min/locales";
 import { translations } from "../../lang/common";
 import { RootState } from "../../redux/store";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { AnimatePresence, motion } from "framer-motion";
+import { BsChatQuote } from "react-icons/bs";
 
 const AuthHeader = ({
   setSidebarIsVisible,
@@ -160,65 +160,72 @@ const AuthHeader = ({
           {isLogoutPending ? <LoadingSpinner /> : t("logout")}
         </button>
       </div>
-      <AnimatePresence>
-        {notificationDropdownIsVisible && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            ref={notificationDropdownRef}
-            className="absolute bottom-0 translate-y-full right-5 sm:right-0 bg-black max-w-[600px] max-h-[400px] overflow-auto w-full p-4 rounded"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-xl  sm:text-base">{t("notifications")}</h1>
-              <button
-                onClick={() => markNotificationsMutate()}
-                className="text-sm text-gray-400 underline flex items-center gap-2"
+
+      {notificationDropdownIsVisible && (
+        <div
+          ref={notificationDropdownRef}
+          className="absolute bottom-0 translate-y-full right-5 sm:right-0 bg-black max-w-[600px] max-h-[400px] overflow-auto w-full p-4 rounded"
+        >
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-xl  sm:text-base">{t("notifications")}</h1>
+            <button
+              onClick={() => markNotificationsMutate()}
+              className="text-sm text-gray-400 underline flex items-center gap-2"
+            >
+              {markNotificationsIsPending ? <LoadingSpinner /> : ""}
+              {t("mark_all_as_read")}
+            </button>
+          </div>
+          <div className="flex flex-col gap-4">
+            {!notifications?.length && (
+              <p className="text-center text-gray-400">
+                {t("notifications_not_found")}
+              </p>
+            )}
+            {notifications?.map((notification) => (
+              <Link
+                to={`/quotes/${notification?.quote}`}
+                key={notification?._id}
+                className="border border-gray-700 p-4 sm:p-2 rounded flex justify-between sm:flex-col gap-2"
               >
-                {markNotificationsIsPending ? <LoadingSpinner /> : ""}
-                {t("mark_all_as_read")}
-              </button>
-            </div>
-            <div className="flex flex-col gap-4">
-              {!notifications?.length && (
-                <p className="text-center text-gray-400">
-                  {t("notifications_not_found")}
-                </p>
-              )}
-              {notifications?.map((notification) => (
-                <Link
-                  to={`/quotes/${notification?.quote}`}
-                  key={notification?._id}
-                  className="border border-gray-700 p-4 rounded flex justify-between "
-                >
-                  <div className="flex items-center gap-2">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src="https://firebasestorage.googleapis.com/v0/b/movie-quotes-34603.appspot.com/o/1721893251005Screenshot_18.jpg?alt=media&token=c3872e15-447c-4658-91e8-517945abb115"
-                      alt="asd"
-                    />
-                    <div className="flex flex-col sm:text-sm">
-                      <p>{notification?.sender?.username}</p>
-                      <p className="flex items-center gap-1 ">
-                        <IoMdHeart className="h-7 w-7 sm:h-5 sm:w-5 fill-red-500" />{" "}
-                        Reacted your quote
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1 text-sn sm:text-xs">
-                    <p>{timeAgo(notification?.createdAt)}</p>
-                    <p className="text-green-500 ">
-                      {moment().diff(notification?.createdAt, "minutes") < 2
-                        ? t("now")
-                        : ""}
+                <div className="flex items-center sm:items-start gap-2">
+                  <img
+                    className="h-12 w-12 sm:w-10 sm:h-10 rounded-full"
+                    src={notification?.sender.image}
+                    alt="asd"
+                  />
+                  <div className="flex flex-col gap-2 sm:text-sm">
+                    <p>{notification?.sender?.username}</p>
+                    <p className="flex items-center gap-1 sm:items-start">
+                      {notification.type === "like" ? (
+                        <>
+                          <IoMdHeart className="h-6 w-6 sm:h-5 sm:w-5 fill-red-500 shrink-0" />
+                          {t("reacted_your_quote")}
+                        </>
+                      ) : (
+                        <>
+                          <BsChatQuote className="h-5 w-5 sm:h-4 sm:w-4 shrink-0" />
+                          {t("commented_on_your_quote")}
+                        </>
+                      )}
                     </p>
                   </div>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                </div>
+                <div className="flex flex-col items-end gap-1 text-sn sm:text-xs">
+                  <p className="text-gray-400">
+                    {timeAgo(notification?.createdAt)}
+                  </p>
+                  <p className="text-green-500 ">
+                    {moment().diff(notification?.createdAt, "minutes") < 2
+                      ? t("now")
+                      : ""}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 };
