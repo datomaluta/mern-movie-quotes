@@ -28,6 +28,8 @@ const QuotesCard = ({
   const { currentUser } = useSelector((state: RootState) => state.user);
   const { id: movieId } = useParams();
 
+  console.log(quote);
+
   return (
     <>
       <div key={quote._id} className="flex flex-col w-[60%] 2xl:w-full mt-8">
@@ -88,7 +90,8 @@ const QuotesCard = ({
           </div>
           <div className="flex gap-4 mt-4">
             <p className="flex items-center gap-2">
-              3<VscComment className="h-7 w-7" />
+              {quote?.comments.length}
+              <VscComment className="h-7 w-7" />
             </p>
             <p className="flex items-center gap-2">
               10

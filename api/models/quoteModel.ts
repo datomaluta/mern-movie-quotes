@@ -46,8 +46,16 @@ const quoteSchema: Schema<IQuote> = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+quoteSchema.virtual("likes", {
+  ref: "Like",
+  foreignField: "quoteId",
+  localField: "_id",
+});
 
 quoteSchema.pre<IQuote>(/^find/, function (next) {
   this.populate("userId");

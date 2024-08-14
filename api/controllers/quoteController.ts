@@ -29,12 +29,14 @@ export const createQuote = catchAsync(async (req: CustomRequest, res, next) => {
 
 export const getQuotes = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
-    Quote.find().populate({
-      path: "comments",
-      populate: {
-        path: "userId",
-      },
-    }),
+    Quote.find()
+      .populate({
+        path: "comments",
+        populate: {
+          path: "userId",
+        },
+      })
+      .populate("likes"),
     req.query
   )
     .search()

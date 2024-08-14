@@ -16,6 +16,8 @@ import { MovieType } from "../types/movie";
 import { AnimatePresence } from "framer-motion";
 import QuotesList from "../components/quotes/QuotesList";
 import DeleteModal from "../components/ui/sharedComponents/DeleteModal";
+import { QuoteType } from "../types/quote";
+import { getQuotes } from "../services/quote";
 
 const MovieDetails = () => {
   const { t } = useTranslate();
@@ -31,6 +33,19 @@ const MovieDetails = () => {
   } = useQuery<MovieType>({
     queryKey: ["movie", id],
     queryFn: () => getMovie(id as string).then((res) => res.data?.data?.movie),
+    enabled: !!id,
+  });
+
+  const {
+    data: movieQuotes,
+    isLoading: isLoadingMovieQuotes,
+    isError: isErrorMovieQuotes,
+  } = useQuery<QuoteType[]>({
+    queryKey: ["movie-quotes", id],
+    queryFn: () =>
+      getQuotes({ queryString: `movieId=${id}` }).then(
+        (res) => res.data?.data?.quotes
+      ),
     enabled: !!id,
   });
 
@@ -64,9 +79,11 @@ const MovieDetails = () => {
           />
         )}
       </AnimatePresence>
-      {isLoading && <LoadingSpinnerWithWrapper />}
-      {isError && <p className="text-center">{t("something_went_wrong")}</p>}
-      {movie && (
+      {(isLoading || isLoadingMovieQuotes) && <LoadingSpinnerWithWrapper />}
+      {(isError || isErrorMovieQuotes) && (
+        <p className="text-center">{t("something_went_wrong")}</p>
+      )}
+      {movie && movieQuotes && (
         <>
           <div className="flex gap-4 md:flex-col">
             <div className="w-[60%] md:w-full h-[441px] sm:h-[300px] rounded-lg overflow-hidden">
@@ -137,7 +154,7 @@ const MovieDetails = () => {
               {t("add_quote")}
             </Link>
           </div>
-          <QuotesList quotes={movie?.quotes} />
+          <QuotesList quotes={movieQuotes} />
         </>
       )}
     </div>

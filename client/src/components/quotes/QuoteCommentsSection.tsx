@@ -48,7 +48,7 @@ const QuoteCommentsSection = ({
   useEffect(() => {
     if (!socketRef.current) return;
 
-    socketRef.current.on("notification", (notification) => {
+    socketRef.current.on("notification_comment", (notification) => {
       console.log("Notification received:", notification);
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     });

@@ -50,7 +50,7 @@ const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
   useEffect(() => {
     if (!socketRef.current) return;
 
-    socketRef.current.on("notification", (notification) => {
+    socketRef.current.on("notification_like", (notification) => {
       console.log("Notification received:", notification);
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     });

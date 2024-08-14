@@ -14,7 +14,7 @@ import genreRouter from "./routes/genreRoutes";
 import quoteRouter from "./routes/quoteRoutes";
 import commentRouter from "./routes/commentRoutes";
 import likeRouter from "./routes/likeRoutes";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import http from "http";
 import jwt from "jsonwebtoken";
 import Quote from "./models/quoteModel";
@@ -24,6 +24,8 @@ import cors from "cors";
 import cookie from "cookie";
 import notificationRouter from "./routes/notificationRouter";
 import Comment from "./models/commentModel";
+import { IUser } from "./models/userModel";
+import { setupSocketRoutes } from "./routes/socketRoutes";
 
 dotenv.config();
 
@@ -50,6 +52,8 @@ const io = new Server(server, {
   },
   cookie: true,
 });
+
+setupSocketRoutes(io);
 
 i18next
   .use(Backend)
@@ -86,155 +90,137 @@ i18next
 //   }
 // });
 
-io.use((socket: any, next) => {
-  const cookies = socket.handshake.headers.cookie;
-  // console.log(cookies);
+// interface SocketWithUser extends Socket {
+//   user?: IUser;
+// }
 
-  if (!cookies) {
-    // console.log("No cookies found");
-    return next(new Error("No cookies found"));
-  }
+// io.use((socket: SocketWithUser, next) => {
+//   const cookies = socket.handshake.headers.cookie;
 
-  const parsedCookies = cookie.parse(cookies);
-  const token = parsedCookies["jwt"]; // Adjust the cookie name as necessary
-  console.log(token);
+//   if (!cookies) {
+//     return next(new Error("No cookies found"));
+//   }
 
-  if (!token) {
-    return next(new Error("Authentication error"));
-  }
+//   const parsedCookies = cookie.parse(cookies);
+//   const token = parsedCookies["jwt"]; // Adjust the cookie name as necessary
 
-  jwt.verify(token, process.env.JWT_SECRET as string, (err, user: any) => {
-    if (err) {
-      return next(new Error("Authentication error"));
-    }
-    console.log(user);
-    socket.user = user;
-    // socket.join(user.id);
-    console.log("MIDDLEWARE HAPPENED");
-    next();
-  });
-});
+//   if (!token) {
+//     return next(new Error("Authentication error"));
+//   }
 
-io.on("connection", (socket: any) => {
-  console.log("Connected to socket.io ", socket.id);
-  socket.join(socket.user.id);
+//   jwt.verify(token, process.env.JWT_SECRET as string, (err, user: any) => {
+//     if (err) {
+//       return next(new Error("Authentication error"));
+//     }
+//     socket.user = user;
+//     next();
+//   });
+// });
 
-  // socket.on("authenticate", (token: any) => {
-  //   console.log("Token ", token);
-  //   jwt.verify(
-  //     token,
-  //     process.env.JWT_SECRET as string,
-  //     (err: any, user: any) => {
-  //       if (err) {
-  //         socket.disconnect("unauthorized");
-  //       } else {
-  //         socket.user = user;
-  //         socket.join(user._id);
-  //       }
-  //     }
-  //   );
-  // });
+// io.on("connection", (socket: SocketWithUser) => {
+//   console.log("Connected to socket.io ", socket.id);
 
-  socket.on("message", (data: any) => {
-    console.log(data);
-    socket.broadcast.emit("receive_message", data);
-    // io.broadcast("message", data);
-  });
+//   if (socket.user) {
+//     socket.join(socket.user.id);
+//   }
 
-  socket.on("like", async (data: any) => {
-    console.log("LIKEEE");
-    if (!socket.user) {
-      console.log("User not authenticated");
-      return;
-    }
-    const { quoteId } = data;
-    const userId = socket.user.id;
-    // console.log(userId);
+//   socket.on("like", async (data: { quoteId: string }) => {
+//     if (!socket.user) {
+//       console.log("User not authenticated");
+//       return;
+//     }
+//     const { quoteId } = data;
+//     const userId = socket.user.id;
 
-    try {
-      const quote = await Quote.findById(quoteId);
-      // console.log("QUOTEEE", quote);
+//     try {
+//       const quote = await Quote.findById(quoteId);
+//       // console.log("QUOTEEE", quote);
 
-      if (!quote) {
-        socket.emit("error", "Quote not found");
-        return;
-      }
+//       if (!quote) {
+//         socket.emit("error", "Quote not found");
+//         return;
+//       }
 
-      const existingLike = await Like.findOne({
-        userId: userId,
-        quoteId: quoteId,
-      });
+//       const existingLike = await Like.findOne({
+//         userId: userId,
+//         quoteId: quoteId,
+//       });
 
-      if (existingLike) {
-        console.log("Existing like found");
-        socket.emit("error", "You already liked this quote");
-        return;
-      }
+//       if (existingLike) {
+//         console.log("Existing like found");
+//         socket.emit("error", "You already liked this quote");
+//         return;
+//       }
 
-      const notification = new Notification({
-        recipient: quote.userId?._id?.toString(),
-        sender: userId,
-        type: "like",
-        quote: quoteId,
-      });
-      await notification.save();
+//       const notification = new Notification({
+//         recipient: quote.userId?._id?.toString(),
+//         sender: userId,
+//         type: "like",
+//         quote: quoteId,
+//       });
+//       await notification.save();
 
-      const like = new Like({ userId: userId, quoteId });
-      await like.save();
+//       const like = new Like({ userId: userId, quoteId });
+//       await like.save();
 
-      console.log("SENT TO: ", quote.userId?._id?.toString());
+//       console.log("SENT TO: ", quote.userId?._id?.toString());
 
-      socket
-        .to(quote.userId?._id?.toString())
-        .emit("notification", notification);
-    } catch (error) {
-      socket.emit("error", "An error occurred while commenting on the quote");
-      console.error(error);
-    }
-  });
+//       socket
+//         .to(quote.userId?._id?.toString())
+//         .emit("notification", notification);
+//     } catch (error) {
+//       socket.emit("error", "An error occurred while commenting on the quote");
+//       console.error(error);
+//     }
+//   });
 
-  socket.on("createComment", async (data:any) => {
-    try {
-      const { quoteId, text } = data;
-      const userId = socket.user.id;
+//   socket.on("createComment", async (data: { quoteId: string; text: string }) => {
+//     try {
+//       if (!socket.user) {
+//         console.log("User not authenticated");
+//         return;
+//       }
+//       const { quoteId, text } = data;
 
-      const quote = await Quote.findById(quoteId);
-      // console.log("QUOTEEE", quote);
+//       const userId = socket.user.id;
 
-      if (!quote) {
-        socket.emit("error", "Quote not found");
-        return;
-      }
+//       const quote = await Quote.findById(quoteId);
+//       // console.log("QUOTEEE", quote);
 
-      const comment = new Comment({ userId, quoteId, text });
-      await comment.save();
+//       if (!quote) {
+//         socket.emit("error", "Quote not found");
+//         return;
+//       }
 
-      await Quote.findByIdAndUpdate(quoteId, {
-        $push: { comments: comment._id },
-      });
+//       const comment = new Comment({ userId, quoteId, text });
+//       await comment.save();
 
-      const notification = new Notification({
-        recipient: quote.userId?._id?.toString(),
-        sender: userId,
-        type: "comment",
-        quote: quoteId,
-      });
-      await notification.save();
+//       await Quote.findByIdAndUpdate(quoteId, {
+//         $push: { comments: comment._id },
+//       });
 
-      console.log(
-        "Comment notification SENT TO: ",
-        quote.userId?._id?.toString()
-      );
+//       const notification = new Notification({
+//         recipient: quote.userId?._id?.toString(),
+//         sender: userId,
+//         type: "comment",
+//         quote: quoteId,
+//       });
+//       await notification.save();
 
-      socket
-        .to(quote.userId?._id?.toString())
-        .emit("notification", notification);
-    } catch (error) {
-      socket.emit("error", "An error occurred while commenting on the quote");
-      console.error(error);
-    }
-  });
-});
+//       console.log(
+//         "Comment notification SENT TO: ",
+//         quote.userId?._id?.toString()
+//       );
+
+//       socket
+//         .to(quote.userId?._id?.toString())
+//         .emit("notification", notification);
+//     } catch (error) {
+//       socket.emit("error", "An error occurred while commenting on the quote");
+//       console.error(error);
+//     }
+//   });
+// });
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");

@@ -1,12 +1,14 @@
-import { BsChatQuote } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import LazyImageDisplay from "../../ui/sharedComponents/lazyImage/LazyImageDisplay";
 import { Link } from "react-router-dom";
 import { MovieType } from "../../../types/movie";
+import { BsChatQuote } from "react-icons/bs";
 
 const MovieCard = ({ movie }: { movie: MovieType }) => {
   const { lang } = useSelector((state: RootState) => state.lang);
+
+  console.log(movie);
 
   return (
     <Link
@@ -21,7 +23,7 @@ const MovieCard = ({ movie }: { movie: MovieType }) => {
         {movie?.title[lang]}
       </h1>
       <p className="flex items-center gap-2 p-2 mt-auto">
-        <span>10</span>
+        <span>{movie?.quotes?.length}</span>
         <BsChatQuote className="w-5 h-5" />
       </p>
     </Link>

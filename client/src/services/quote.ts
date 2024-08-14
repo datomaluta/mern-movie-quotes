@@ -14,7 +14,9 @@ export const getQuotes = async ({
 }) => {
   // return await instance.get("/quotes");
   return instance.get(
-    `/quotes?page=${page}&limit=2${queryString ? `&${queryString}` : ""}`
+    `/quotes?page=${page ? page : ""}&limit=${page ? "2" : ""}${
+      queryString ? `&${queryString}` : ""
+    }`
   );
 };
 

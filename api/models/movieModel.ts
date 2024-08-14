@@ -1,4 +1,3 @@
-import i18next from "i18next";
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IMovie extends Document {
@@ -82,6 +81,8 @@ const movieSchema: Schema<IMovie> = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
@@ -89,6 +90,12 @@ movieSchema.pre<IMovie>(/^find/, function (next) {
   this.populate("userId");
   this.populate("genreIds");
   next();
+});
+
+movieSchema.virtual("quotes", {
+  ref: "Quote",
+  foreignField: "movieId",
+  localField: "_id",
 });
 
 const Movie = mongoose.model<IMovie>("Movie", movieSchema);
