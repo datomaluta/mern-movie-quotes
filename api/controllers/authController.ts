@@ -27,7 +27,7 @@ const signToken = (id: string) => {
 };
 
 const createSendToken = (
-  user: UserDocument,
+  user: any,
   statusCode: number,
   req: Request,
   res: Response
@@ -124,7 +124,7 @@ export const verifyUser = catchAsync(async (req, res, next) => {
   user.verifyTokenExpires = undefined;
   await user.save({ validateBeforeSave: false });
 
-  createSendToken(user as any, 200, req, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const signin = catchAsync(async (req, res, next) => {
@@ -149,7 +149,7 @@ export const signin = catchAsync(async (req, res, next) => {
   }
 
   // 3) if everything ok, send token to client
-  createSendToken(user as any, 200, req, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
@@ -228,7 +228,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  createSendToken(user as any, 200, req, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const googleSignin = catchAsync(
@@ -237,7 +237,7 @@ export const googleSignin = catchAsync(
 
     const user = await User.findOne({ email });
     if (user) {
-      createSendToken(user as any, 200, req, res);
+      createSendToken(user, 200, req, res);
     } else {
       const generateUsername = (name: string) => {
         const baseUsername = name
@@ -269,7 +269,7 @@ export const googleSignin = catchAsync(
       });
 
       await newUser.save();
-      createSendToken(newUser as any, 200, req, res);
+      createSendToken(newUser, 200, req, res);
     }
   }
 );
@@ -346,7 +346,7 @@ export const updateMyPassword = catchAsync(
     await user.save();
 
     // 4) log user in, send JWT
-    createSendToken(user as any, 200, req, res);
+    createSendToken(user, 200, req, res);
   }
 );
 

@@ -19,7 +19,14 @@
     "image_field_required": "სურათის ველი სავალდებულოა",
     "text_field_required": "ტექსტის ველი სავალდებულოა",
     "movieId_field_required": "ფილმის ველი სავალდებულოა",
-    "quoteId_field_required": "ციტატის ველი სავალდებულოა"
+    "quoteId_field_required": "ციტატის ველი სავალდებულოა",
+    "Username field is required": "სახელის ველი სავალდებულოა",
+    "Email field is required": "მეილის ველი სავალდებულოა",
+    "Please provide a valid email": "შეიყვანეთ სწორი მეილი",
+    "Password field is required": "პაროლის ველი ველი სავალდებულოა",
+    "Only English letters and numbers are allowed.": "დაშვებულია მხოლოდ ლათინური ასოები და ციფრები.",
+    "Please confirm your password": "დაადასტურეთ თქვენი პაროლი",
+    "Passwords are not the same": "პაროლები არ ემთხვევა"
   },
   "errors": {
     "Something went very wrong!": "რაღაც ძალიან ცუდად მოხდა!",

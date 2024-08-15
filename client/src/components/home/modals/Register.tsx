@@ -27,7 +27,7 @@ const Register = () => {
     onSuccess: () => {
       setSearchParams({ action: "check-email-verify" });
     },
-    onError: (error: any) => {
+    onError: (error: { response: { data: { message: string } } }) => {
       toast.error(error?.response?.data?.message);
     },
   });

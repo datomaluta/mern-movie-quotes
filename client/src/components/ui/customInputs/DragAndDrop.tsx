@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { useTranslate } from "../../../hooks/useTranslate";
 import { IoCameraOutline } from "react-icons/io5";
 import LoadingSpinner from "../sharedComponents/LoadingSpinner";
+import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 const DragAndDrop = ({
   control,
@@ -11,16 +12,22 @@ const DragAndDrop = ({
   imageFileUploadError,
   validationError,
 }: {
-  control: any;
+  control: ControllerRenderProps<FieldValues, string>;
   imgUrl: string | null | undefined;
   imageFileUploading: boolean;
   imageFileUploadError: string | null;
   validationError: string;
 }) => {
   const { t } = useTranslate();
-  const onDrop = useCallback((acceptedFiles, onChange) => {
-    onChange(acceptedFiles);
-  }, []);
+  const onDrop = useCallback(
+    (
+      acceptedFiles: File[],
+      onChange: ControllerRenderProps<FieldValues, string>["onChange"]
+    ) => {
+      onChange(acceptedFiles);
+    },
+    []
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => onDrop(acceptedFiles, control.onChange),

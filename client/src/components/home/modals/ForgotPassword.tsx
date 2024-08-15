@@ -23,7 +23,7 @@ const ForgotPassword = () => {
       //   navigate("/news-feed");
       setSearchParams({ action: "check-email-password" });
     },
-    onError: (error: any) => {
+    onError: (error: { response: { data: { message: string } } }) => {
       toast.error(error?.response?.data?.message);
     },
   });

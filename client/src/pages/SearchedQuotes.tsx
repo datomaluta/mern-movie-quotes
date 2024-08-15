@@ -31,7 +31,7 @@ const SearchedQuotes = () => {
         (res) => res.data?.data?.quotes
       ),
     initialPageParam: 1,
-    getNextPageParam: (lastPage: any, allPages) => {
+    getNextPageParam: (lastPage: { length: number }, allPages) => {
       const nextPage = lastPage?.length ? allPages?.length + 1 : undefined;
       return nextPage;
     },

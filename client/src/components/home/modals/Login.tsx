@@ -11,6 +11,7 @@ import LoadingSpinner from "../../ui/sharedComponents/LoadingSpinner";
 import OAuth from "../../google/OAuth";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../../../redux/user/userSlice";
+import { UserType } from "../../../types/user";
 
 type FormData = {
   email_or_username: string;
@@ -26,11 +27,11 @@ const Login = () => {
 
   const { mutate: loginMutate, isPending: loginLoading } = useMutation({
     mutationFn: signin,
-    onSuccess: (response: any) => {
+    onSuccess: (response: { data: { data: { user: UserType } } }) => {
       navigate("/news-feed");
       dispatch(saveUserInfo(response?.data?.data?.user));
     },
-    onError: (error: any) => {
+    onError: (error: { response: { data: { message: string } } }) => {
       toast.error(error?.response?.data?.message);
     },
   });

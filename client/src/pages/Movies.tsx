@@ -36,7 +36,7 @@ const Movies = () => {
         queryString,
       })?.then((res) => res.data?.data?.movies),
     initialPageParam: 1,
-    getNextPageParam: (lastPage: any, allPages) => {
+    getNextPageParam: (lastPage: { length: number }, allPages) => {
       const nextPage = lastPage?.length ? allPages?.length + 1 : undefined;
       return nextPage;
     },

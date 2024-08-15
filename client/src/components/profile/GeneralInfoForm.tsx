@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { saveUserInfo } from "../../redux/user/userSlice.ts";
 import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner.tsx";
+import { UserType } from "../../types/user";
 
 type FormData = {
   username: string;
@@ -60,11 +61,11 @@ const GeneralInfoForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: updateMe,
-    onSuccess: (response: any) => {
+    onSuccess: (response: { data: { data: { user: UserType } } }) => {
       toast.success(t("profile_updated_successfully"));
       dispatch(saveUserInfo(response?.data?.data?.user));
     },
-    onError: (error: any) => {
+    onError: (error: { response: { data: { message: string } } }) => {
       toast.error(error?.response?.data?.message);
     },
   });
@@ -211,16 +212,18 @@ const GeneralInfoForm = () => {
         readOnly={currentUser?.isGoogleUser}
       />
 
-      <button
-        onClick={() =>
-          setSearchParams({
-            tab: "password",
-          })
-        }
-        className="mx-auto inline-block text-blue-500 text-left"
-      >
-        {t("change_password")}
-      </button>
+      {!currentUser?.isGoogleUser && (
+        <button
+          onClick={() =>
+            setSearchParams({
+              tab: "password",
+            })
+          }
+          className="mx-auto inline-block text-blue-500 text-left"
+        >
+          {t("change_password")}
+        </button>
+      )}
 
       {isDirty && (
         <div className="flex gap-6 mt-16 justify-end">

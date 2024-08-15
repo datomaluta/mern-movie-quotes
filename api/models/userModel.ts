@@ -38,7 +38,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       validator: function (v: string) {
         return /^[a-z]+$/.test(v);
       },
-      message: (props: any) =>
+      message: (props: { value: string }) =>
         `${props.value} is not a valid username! Only lowercase English letters are allowed.`,
     },
   },
@@ -64,8 +64,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
       validator: function (v: string) {
         return /^[a-zA-Z0-9]+$/.test(v);
       },
-      message: () =>
-        `This value is not a valid password! Only English letters and numbers are allowed.`,
+      message: () => `Only English letters and numbers are allowed.`,
     },
   },
   passwordConfirm: {

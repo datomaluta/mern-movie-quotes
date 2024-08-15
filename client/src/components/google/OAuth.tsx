@@ -9,6 +9,7 @@ import { FaGoogle } from "react-icons/fa";
 import { useTranslate } from "../../hooks/useTranslate.ts";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../../redux/user/userSlice.ts";
+import { UserType } from "../../types/user";
 
 const OAuth = () => {
   const auth = getAuth(app);
@@ -18,7 +19,7 @@ const OAuth = () => {
 
   const { mutate: googleAuthMutate } = useMutation({
     mutationFn: googleAuth,
-    onSuccess: (response: any) => {
+    onSuccess: (response: { data: { data: { user: UserType } } }) => {
       dispatch(saveUserInfo(response?.data?.data?.user));
       navigate("/news-feed");
     },

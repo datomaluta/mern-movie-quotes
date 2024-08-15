@@ -6,7 +6,6 @@ const InputWrapper = ({
   name,
   children,
   errorText,
-  //   backErrors,
   label,
   className,
   required,
@@ -14,7 +13,6 @@ const InputWrapper = ({
 }: {
   name: string;
   errorText: string | undefined;
-  //   backErrors?: any;
   children?: ReactNode;
   label?: string;
   className?: string;

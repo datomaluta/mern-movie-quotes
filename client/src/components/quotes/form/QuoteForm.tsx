@@ -141,7 +141,7 @@ const QuoteForm = ({
 
         <Controller
           name="image"
-          control={control}
+          control={control as any}
           rules={{
             required: action === "create" ? t("required_field") : false,
           }}

@@ -34,7 +34,7 @@ const PasswordForm = () => {
     onSuccess: () => {
       toast.success(t("password_updated_successfully"));
     },
-    onError: (error: any) => {
+    onError: (error: { response: { data: { message: string } } }) => {
       toast.error(error?.response?.data?.message);
     },
   });

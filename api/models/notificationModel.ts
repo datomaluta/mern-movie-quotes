@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 interface INotification extends Document {
   recipient: mongoose.Types.ObjectId;
@@ -41,7 +41,7 @@ const notificationSchema: Schema<INotification> = new mongoose.Schema(
   }
 );
 
-notificationSchema.pre<INotification>(/^find/, function (this: any, next) {
+notificationSchema.pre<INotification>(/^find/, function (next) {
   this.populate("sender");
   next();
 });

@@ -22,7 +22,6 @@ const CustomInput = ({
   rule?: { [key: string]: any };
   errorText: string | undefined;
   type: string;
-  backErrors?: any;
   label?: string;
   className?: string;
   readOnly?: boolean;

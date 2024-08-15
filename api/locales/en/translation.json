@@ -23,7 +23,14 @@
     "image_field_required": "Image field is required",
     "text_field_required": "Text field is required",
     "movieId_field_required": "Movie field is required",
-    "quoteId_field_required": "Quote field is required"
+    "quoteId_field_required": "Quote field is required",
+    "Username field is required": "Username field is required",
+    "Email field is required": "Email field is required",
+    "Please provide a valid email": "Please provide a valid email",
+    "Password field is required": "Password field is required",
+    "Only English letters and numbers are allowed.": "Only English letters and numbers are allowed.",
+    "Please confirm your password": "Please confirm your password",
+    "Passwords are not the same": "Passwords are not the same"
   },
   "errors": {
     "Something went very wrong!": "Something went very wrong!",
