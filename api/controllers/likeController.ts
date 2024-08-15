@@ -35,7 +35,6 @@ export const likeQuote = catchAsync(async (req: CustomRequest, res, next) => {
 
 export const unlikeQuote = catchAsync(async (req: CustomRequest, res, next) => {
   const { id: quoteId } = req.params;
-  console.log(quoteId, req.user._id?.toString());
 
   const like = await Like.findOneAndDelete({
     quoteId: quoteId,

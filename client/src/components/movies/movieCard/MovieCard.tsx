@@ -8,8 +8,6 @@ import { BsChatQuote } from "react-icons/bs";
 const MovieCard = ({ movie }: { movie: MovieType }) => {
   const { lang } = useSelector((state: RootState) => state.lang);
 
-  console.log(movie);
-
   return (
     <Link
       to={`/movies/${movie._id}`}

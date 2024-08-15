@@ -45,7 +45,6 @@ const NewsFeed = () => {
 
   const submitSearch = () => {
     if (searchState.startsWith("@")) {
-      console.log(searchState);
       navigate(
         `/movies?search=${searchState.substring(
           1
@@ -63,11 +62,11 @@ const NewsFeed = () => {
 
   return (
     <div className="max-w-[938px]">
-      <div className="flex gap-4">
+      <div className="flex gap-4 sm:flex-col">
         <Link
           to={"/quotes/create"}
           className={`flex gap-2 items-center bg-project-light-blue ${
-            searchIsActive ? "w-max" : "flex-1"
+            searchIsActive ? "w-max sm:w-full" : "flex-1"
           } px-4 py-2 rounded shrink-0 transition-all`}
         >
           <FaEdit />
@@ -94,7 +93,7 @@ const NewsFeed = () => {
             <input
               onChange={(e) => setSearchState(e.target.value)}
               type="text"
-              className="w-full bg-transparent  pl-8 py-2 outline-none"
+              className="w-full bg-transparent  pl-8 py-2 outline-none sm:text-xs"
               placeholder={t("news_feed_search_placeholder")}
             />
           </motion.div>

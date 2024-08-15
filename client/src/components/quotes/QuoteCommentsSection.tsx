@@ -118,47 +118,51 @@ const QuoteCommentsSection = ({
         )}
       </AnimatePresence>
 
-      <div className=" mt-6 flex flex-col gap-4 overflow-hidden">
-        {localComments?.map((comment) => (
-          <div
-            key={comment?._id}
-            className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
-          >
-            <UserImageAndName
-              imgSrc={comment?.userId?.image || ""}
-              userName={comment?.userId?.username || ""}
-            />
-            <p className="ml-12 text-gray-400">{comment?.text}</p>
+      {localComments?.length ? (
+        <div className="mt-6 flex flex-col gap-4 overflow-hidden sm:text-sm">
+          {localComments?.map((comment) => (
+            <div
+              key={comment?._id}
+              className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
+            >
+              <UserImageAndName
+                imgSrc={comment?.userId?.image || ""}
+                userName={comment?.userId?.username || ""}
+              />
+              <p className="ml-12 sm:ml-10 text-gray-400">{comment?.text}</p>
 
-            {currentUser?._id === comment?.userId?._id && (
-              <div className="flex items-center gap-3  ml-auto">
-                <button
-                  onClick={() => {
-                    setCommentEditModalIsOpen(true);
-                    setChosenComment(comment);
-                  }}
-                  className="hover:bg-project-light-blue rounded"
-                >
-                  <MdOutlineModeEditOutline />
-                </button>
+              {currentUser?._id === comment?.userId?._id && (
+                <div className="flex items-center gap-3  ml-auto">
+                  <button
+                    onClick={() => {
+                      setCommentEditModalIsOpen(true);
+                      setChosenComment(comment);
+                    }}
+                    className="hover:bg-project-light-blue rounded"
+                  >
+                    <MdOutlineModeEditOutline />
+                  </button>
 
-                <button
-                  onClick={() => {
-                    setCommentDeleteModalIsOpen(true);
-                    setChosenComment(comment);
-                  }}
-                  className="hover:bg-project-light-blue rounded"
-                >
-                  <RiDeleteBin6Line className="text-project-danger" />
-                </button>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="mt-6 flex items-center gap-4">
+                  <button
+                    onClick={() => {
+                      setCommentDeleteModalIsOpen(true);
+                      setChosenComment(comment);
+                    }}
+                    className="hover:bg-project-light-blue rounded"
+                  >
+                    <RiDeleteBin6Line className="text-project-danger" />
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="mt-6 flex items-center gap-4 sm:text-sm">
         <img
-          className="h-10 w-10 rounded-full shrink-0"
+          className="h-10 w-10 sm:h-8 sm:w-8 rounded-full shrink-0"
           src={currentUser?.image}
           alt="avatar"
         />

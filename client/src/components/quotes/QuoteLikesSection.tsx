@@ -55,14 +55,6 @@ const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     });
 
-    socketRef.current.on("error", (error) => {
-      console.log("Error", error);
-    });
-
-    socketRef.current.on("receive_message", (message) => {
-      console.log("Message received:", message);
-    });
-
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();

@@ -35,7 +35,11 @@
     "No quote found with that ID": "ასეთი ციტატა არ მოიძებნა",
     "You are not allowed to edit this comment": "თქვენ არ გაქვთ კომენტარის რედაქტირების უფლება",
     "No comment found with that ID": "ასეთი კომენტარი არ მოიძებნა",
-    "You already liked this quote": "თქვენ უკვე მოწონებული გაქვთ ეს ციტატა"
+    "You already liked this quote": "თქვენ უკვე მოწონებული გაქვთ ეს ციტატა",
+    "verify_first": "ჯერ გაირეთ ვერიფიკაცია",
+    "there_is_no_user_with_that_email": "მითითებული მეილით იუზერი ვერ მოიძებნა",
+    "email_could_not_be_sent": "მეილი ვერ გაიგზავნა",
+    "token_is_invalid_or_has_expired": "ტოკენი არასწორია ან ვადა გაუივიდა"
   },
   "tokens": {
     "Invalid token. Please log in again!": "არავალიდური ტოკენი. გთხოვთ, გაიაროთ ავტორიზაცია!",
@@ -43,5 +47,11 @@
   },
   "Invalid input data. {{errors}}": "არასწორი მონაცემები. {{errors}}",
   "Duplicate field value: {{value}}. Please use another value!": "დუბლირებული ველი: {{value}}. გთხოვთ გამოიყენოთ სხვა მნიშვნელობა!",
-  "Invalid {{path}}: {{value}}.": "არასწორია {{path}}: {{value}}."
+  "Invalid {{path}}: {{value}}.": "არასწორია {{path}}: {{value}}.",
+  "Password reset (valid for 10 minutes)": "პაროლის აღდგენა (გამოყენების დრო - 10 წუთი)",
+  "The user belonging to this token does no longer exist": "მომხმარებელი აღარ არსებობს",
+  "User recently changed password! Please log in again.": "მომხმარებელმა ბოლო დროს შეცვალა პაროლი! სცადეთ თავიდან",
+  "no_user_find_with_this_id": "მომხმარებელი არ მოიძებნა",
+  "Your current password is wrong": "მიმდინარე პაროლის არასწორია",
+  "Welcome to Movie Quotes": "მოგესალმებით Movie Quotes-ში"
 }

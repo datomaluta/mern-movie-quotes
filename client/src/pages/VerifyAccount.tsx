@@ -16,7 +16,6 @@ const VerifyAccount = () => {
     onSuccess: (response: any) => {
       navigate("/?action=account-verified");
       dispatch(saveUserInfo(response?.data?.data?.user));
-      console.log(response);
     },
     onError: () => {
       navigate("/?action=verify-link-expired");

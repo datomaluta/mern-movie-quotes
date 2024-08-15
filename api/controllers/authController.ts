@@ -64,11 +64,13 @@ export const signup = catchAsync(async (req, res, next) => {
 
   const verifyURL = `${process.env.CLIENT_URL}/verify/${verifyToken}`;
 
+  console.log(i18next.language);
+
   const emailTemplatePath = path.join(
     __dirname,
     "..",
     "views",
-    "verifyUser.html"
+    i18next.language === "en" ? "verifyUser.html" : "verifyUserKa.html"
   );
 
   ejs.renderFile(
@@ -83,7 +85,7 @@ export const signup = catchAsync(async (req, res, next) => {
       try {
         await sendEmail({
           email: newUser.email,
-          subject: "Welcome to Movie Quotes",
+          subject: req.t("Welcome to Movie Quotes"),
           html: data,
         });
 
@@ -132,7 +134,9 @@ export const signin = catchAsync(async (req, res, next) => {
   const { email_or_username: emailOrUsername, password } = req.body;
 
   if (!emailOrUsername || !password) {
-    return next(new AppError(req.t("emailAndUsernameRequired"), 400));
+    return next(
+      new AppError(req.t("validations.emailAndUsernameRequired"), 400)
+    );
   }
 
   // 2) check if user exists, user is verified and password is correct (email also used as username)
@@ -141,11 +145,11 @@ export const signin = catchAsync(async (req, res, next) => {
   }).select("+password +verified");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError(req.t("incorrectCredentials"), 401));
+    return next(new AppError(req.t("validations.incorrectCredentials"), 401));
   }
 
   if (!user.verified) {
-    return next(new AppError("Please verify your account first!", 401));
+    return next(new AppError(req.t("errors.verify_first"), 401));
   }
 
   // 3) if everything ok, send token to client
@@ -158,7 +162,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   const user: IUser | null = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new AppError("There is no user with that email address", 404));
+    return next(new AppError(req.t("there_is_no_user_with_that_email"), 404));
   }
 
   // 2) generate random reset token
@@ -171,7 +175,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
     __dirname,
     "..",
     "views",
-    "passwordReset.html"
+    i18next.language === "en" ? "passwordReset.html" : "passwordResetKa.html"
   );
 
   ejs.renderFile(
@@ -186,7 +190,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
       try {
         await sendEmail({
           email: user.email,
-          subject: "Password reset (valid for 10 minutes)",
+          subject: req.t("Password reset (valid for 10 minutes)"),
           html: data,
         });
 
@@ -199,7 +203,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
         user.passwordResetExpires = undefined;
         await user.save({ validateBeforeSave: false });
 
-        return next(new AppError("Email could not be sent", 500));
+        return next(new AppError("errors.email_could_not_be_sent", 500));
       }
     }
   );
@@ -219,7 +223,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
   // 2) if token has not expired and there is user, set the new password
   if (!user) {
-    return next(new AppError("Token is invalid or has expired", 400));
+    return next(new AppError(req.t("token_is_invalid_or_has_expired"), 400));
   }
 
   user.password = req.body.password;
@@ -302,7 +306,7 @@ export const protect = catchAsync(
     if (!currentUser) {
       return next(
         new AppError(
-          "The user belonging to this token does no longer exist.",
+          i18next.t("The user belonging to this token does no longer exist."),
           401
         )
       );
@@ -312,7 +316,7 @@ export const protect = catchAsync(
     if (currentUser.changedPasswordAfter(decoded.iat)) {
       return next(
         new AppError(
-          "User recently changed password! Please log in again.",
+          i18next.t("User recently changed password! Please log in again."),
           401
         )
       );
@@ -330,14 +334,14 @@ export const updateMyPassword = catchAsync(
     const user = await User.findById(req.user.id).select("+password");
 
     if (!user) {
-      return next(new AppError("No user found with that ID", 404));
+      return next(new AppError(req.t("no_user_find_with_this_id"), 404));
     }
 
     // 2) check if POSTed current password is correct
     if (
       !(await user.correctPassword(req.body.current_password, user.password))
     ) {
-      return next(new AppError("Your current password is wrong", 401));
+      return next(new AppError(req.t("Your current password is wrong"), 401));
     }
 
     // 3) if so, update password

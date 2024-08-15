@@ -39,9 +39,19 @@
     "No quote found with that ID": "No quote found with that ID",
     "You are not allowed to edit this comment": "You are not allowed to edit this comment",
     "No comment found with that ID": "No comment found with that ID",
-    "You already liked this quote": "You already liked this quote"
+    "You already liked this quote": "You already liked this quote",
+    "verify_first": "Please verify your account first",
+    "there_is_no_user_with_that_email": "There is no user with that email",
+    "email_could_not_be_sent": "Email could not be sent",
+    "token_is_invalid_or_has_expired": "Token is invalid or has expired"
   },
   "Invalid input data. {{errors}}": "Invalid input data. {{errors}}",
   "Duplicate field value: {{value}}. Please use another value!": "Duplicate field value: {{value}}. Please use another value!",
-  "Invalid {{path}}: {{value}}.": "Invalid {{path}}: {{value}}."
+  "Invalid {{path}}: {{value}}.": "Invalid {{path}}: {{value}}.",
+  "Password reset (valid for 10 minutes)": "Password reset (valid for 10 minutes)",
+  "The user belonging to this token does no longer exist": "The user belonging to this token does no longer exist.",
+  "User recently changed password! Please log in again.": "User recently changed password! Please log in again.",
+  "no_user_find_with_this_id": "No user find with this id",
+  "Your current password is wrong": "Your current password is wrong",
+  "Welcome to Movie Quotes": "Welcome to Movie Quotes"
 }

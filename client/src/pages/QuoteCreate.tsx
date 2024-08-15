@@ -27,7 +27,6 @@ const QuoteCreate = () => {
     });
 
   const submitHandler = (data: QuoteFormDataType) => {
-    console.log(data);
     if (!data.imgUrl) {
       return;
     }
