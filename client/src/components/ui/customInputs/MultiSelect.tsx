@@ -65,7 +65,7 @@ const MultiSelect = ({
           </button>
         </div>
         {optionsTabIsOpen && (
-          <div className="h-[200px] overflow-auto bg-project-light-blue rounded absolute -bottom-0 w-full translate-y-full flex flex-col z-50">
+          <div className="h-[12.5rem] overflow-auto bg-project-light-blue rounded absolute -bottom-0 w-full translate-y-full flex flex-col z-50">
             {loading && <p className="px-2 py-2">{t("loading")}</p>}
             {filteredOptions?.length && !loading ? (
               filteredOptions.map((option) => (

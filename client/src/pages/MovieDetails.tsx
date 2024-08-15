@@ -86,7 +86,7 @@ const MovieDetails = () => {
       {movie && movieQuotes && (
         <>
           <div className="flex gap-4 md:flex-col">
-            <div className="w-[60%] md:w-full h-[441px] sm:h-[300px] rounded-lg overflow-hidden">
+            <div className="w-[60%] md:w-full h-[27.5rem] sm:h-[18.75rem] rounded-lg overflow-hidden">
               <LazyImageDisplay
                 imageUrl={movie.poster}
                 alt={movie.title[lang]}
@@ -105,7 +105,7 @@ const MovieDetails = () => {
                   >
                     <MdOutlineModeEditOutline />
                   </Link>
-                  <span className="block h-[14px] w-[0.2px] bg-project-gray"></span>
+                  <span className="block h-[0.875rem] w-[0.2px] bg-project-gray"></span>
                   <button
                     onClick={() => setDeleteModalIsOpen(true)}
                     className="hover:bg-project-dark-blue py-2 px-4"
@@ -145,7 +145,7 @@ const MovieDetails = () => {
                 ({t("total")} {movie?.quotes?.length})
               </span>
             </p>
-            <span className="block h-[18px] w-[0.2px] bg-project-gray"></span>
+            <span className="block h-[1.125rem] w-[0.2px] bg-project-gray"></span>
             <Link
               to={`/movies/${movie?._id}/quotes/create`}
               className="flex shrink-0 items-center gap-1 bg-project-red hover:bg-project-dark-red px-4 py-2 rounded"

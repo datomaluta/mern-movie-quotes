@@ -51,7 +51,7 @@ const OAuth = () => {
     <button
       onClick={handleGoogleClick}
       type="button"
-      className="w-full border border-white py-2 md:py-[6px] rounded flex gap-2 items-center justify-center mt-4 md:mt-2"
+      className="w-full border border-white py-2 md:py-[0.375rem] rounded flex gap-2 items-center justify-center mt-4 md:mt-2"
     >
       <FaGoogle />
       {t("sign_up_with_google")}

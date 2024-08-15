@@ -56,7 +56,7 @@ const Register = () => {
       isLanding={true}
       setModalIsVisible={() => setSearchParams({ action: "" })}
     >
-      <div className="flex flex-col items-center max-w-[360px] w-full mx-auto">
+      <div className="flex flex-col items-center max-w-[22.5rem] w-full mx-auto">
         <h1 className="text-3xl font-helvetica-medium mb-3 xl:text-xl md:text-lg xl:mb-0 md:text-project-gray md:font-helvetica-light">
           {t("create_an_account")}
         </h1>
@@ -142,7 +142,7 @@ const Register = () => {
             setPasswordIsVisible={setPasswordIsVisible}
           />
 
-          <button className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 flex justify-center items-center min-h-10 md:min-h-9">
+          <button className="w-full bg-project-red py-2 md:py-[0.375rem] rounded mt-1 flex justify-center items-center min-h-10 md:min-h-9">
             {registerIsPending ? <LoadingSpinner /> : t("sign_up")}
           </button>
         </form>

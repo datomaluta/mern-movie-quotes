@@ -61,7 +61,7 @@ const NewsFeed = () => {
   };
 
   return (
-    <div className="max-w-[938px]">
+    <div className="max-w-[58.625rem]">
       <div className="flex gap-4 sm:flex-col">
         <Link
           to={"/quotes/create"}

@@ -86,7 +86,7 @@ const MovieForm = ({
   }, [action, setValue, movie, lang]);
 
   return (
-    <div className="max-w-[961px] bg-project-dark-blue rounded-xl relative oveflow-hidden">
+    <div className="max-w-[60rem] bg-project-dark-blue rounded-xl relative oveflow-hidden">
       <p className="border-b border-zinc-700 py-6 text-center font-helvetica-medium text-xl">
         {t(action === "create" ? "add_movie" : "edit_movie")}
       </p>

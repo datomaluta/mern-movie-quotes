@@ -22,14 +22,14 @@ const Success = ({ text }: { text: string }) => {
         {searchParams.get("action") === "account-verified" ? (
           <Link
             to={"/news-feed"}
-            className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 md:w-max md:px-4 text-center"
+            className="w-full bg-project-red py-2 md:py-[0.375rem] rounded mt-1 md:w-max md:px-4 text-center"
           >
             {t("go_to_my_news_feed")}
           </Link>
         ) : (
           <button
             onClick={() => setSearchParams({ action: "login" })}
-            className="w-full bg-project-red py-2 md:py-[6px] rounded mt-1 md:w-max md:px-4 text-center"
+            className="w-full bg-project-red py-2 md:py-[0.375rem] rounded mt-1 md:w-max md:px-4 text-center"
           >
             {t("login")}
           </button>

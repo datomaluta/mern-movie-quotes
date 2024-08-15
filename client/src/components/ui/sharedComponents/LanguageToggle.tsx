@@ -10,7 +10,7 @@ const LanguageToggle = ({ className }: { className?: string }) => {
     <div className="flex gap-2">
       <button
         onClick={() => dispatch(toggleLanguage())}
-        className={`w-12 h-7 shrink-0 rounded-full py-[2px] block px-[3px] ${
+        className={`w-12 h-7 shrink-0 rounded-full py-[0.125rem] block px-[0.188rem] ${
           lang === "light" ? "bg-zinc-300" : "bg-project-light-blue"
         } transition-all duration-300 ${className}`}
       >

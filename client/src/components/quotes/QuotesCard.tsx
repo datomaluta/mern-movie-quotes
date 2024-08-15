@@ -79,7 +79,7 @@ const QuotesCard = ({
             </div>
           )}
           <div className="border-b border-gray-700 flex pb-6 gap-8 items-center sm:flex-col">
-            <div className="h-[140px] sm:h-[200px] w-[226px] sm:w-full shrink-0 rounded overflow-hidden mt-6">
+            <div className="h-[8.75rem] sm:h-[12.5rem] w-[14.125rem] sm:w-full shrink-0 rounded overflow-hidden mt-6">
               <LazyImageDisplay imageUrl={quote?.image} alt={quote.text.en} />
             </div>
             <div className="w-full">

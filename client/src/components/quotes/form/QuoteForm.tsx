@@ -83,7 +83,7 @@ const QuoteForm = ({
   }, [movieId, setValue, movies, quote]);
 
   return (
-    <div className="max-w-[961px] bg-project-dark-blue rounded-xl relative">
+    <div className="max-w-[60rem] bg-project-dark-blue rounded-xl relative">
       <p className="border-b border-zinc-700 py-6 text-center font-helvetica-medium text-xl">
         {t(action === "create" ? "add_quote" : "edit_quote")}
       </p>

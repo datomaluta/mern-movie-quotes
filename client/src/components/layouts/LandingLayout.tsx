@@ -22,7 +22,7 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
           </button>
           <button
             onClick={() => setSearchParams({ action: "login" })}
-            className="rounded w-24 border border-white text-white px-2 py-[7px] md:hidden"
+            className="rounded w-24 border border-white text-white px-2 py-[0.4rem] md:hidden"
           >
             {t("login")}
           </button>

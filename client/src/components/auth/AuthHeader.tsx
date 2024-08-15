@@ -154,7 +154,7 @@ const AuthHeader = ({
         <LanguageSwitcher className="lg:hidden" />
 
         <button
-          className="rounded w-24 border border-white text-white px-2 py-[7px] lg:hidden"
+          className="rounded w-24 border border-white text-white px-2 py-[0.4rem] lg:hidden"
           onClick={() => mutateLogout()}
         >
           {isLogoutPending ? <LoadingSpinner /> : t("logout")}
@@ -164,7 +164,7 @@ const AuthHeader = ({
       {notificationDropdownIsVisible && (
         <div
           ref={notificationDropdownRef}
-          className="absolute bottom-0 translate-y-full right-5 sm:right-0 bg-black max-w-[600px] max-h-[400px] overflow-auto w-full p-4 rounded"
+          className="absolute bottom-0 translate-y-full right-5 sm:right-0 bg-black max-w-[37.5rem] max-h-[25rem] overflow-auto w-full p-4 rounded"
         >
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl  sm:text-base">{t("notifications")}</h1>

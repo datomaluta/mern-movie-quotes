@@ -12,7 +12,7 @@ const QuoteItem = ({ quote }: { quote: QuoteType }) => {
   const { lang } = useSelector((state: RootState) => state.lang);
 
   return (
-    <div className="max-w-[961px] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
+    <div className="max-w-[60rem] bg-project-dark-blue p-6 rounded-xl overflow-hidden">
       <UserImageAndName
         imgSrc={
           quote?.userId && typeof quote.userId === "object"
@@ -39,7 +39,7 @@ const QuoteItem = ({ quote }: { quote: QuoteType }) => {
 
       <div
         className={
-          "h-[501px] md:h-[370px] sm:h-[240px] overflow-hidden rounded-lg"
+          "h-[31rem] md:h-[23.125rem] sm:h-[15rem] overflow-hidden rounded-lg"
         }
       >
         <LazyImageDisplay imageUrl={quote.image} alt={quote.text[lang]} />
