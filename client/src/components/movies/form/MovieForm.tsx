@@ -219,7 +219,7 @@ const MovieForm = ({
           }}
           render={({ field }) => (
             <DragAndDrop
-              control={field}
+              control={field as any}
               imgUrl={imgUrl || movie?.poster}
               imageFileUploading={imageFileUploading}
               imageFileUploadError={imageFileUploadError}
