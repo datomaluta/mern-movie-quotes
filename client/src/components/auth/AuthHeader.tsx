@@ -186,7 +186,9 @@ const AuthHeader = ({
               <Link
                 to={`/quotes/${notification?.quote}`}
                 key={notification?._id}
-                className="border border-gray-700 p-4 sm:p-2 rounded flex justify-between sm:flex-col gap-2"
+                className={`border border-gray-700 ${
+                  notification.isRead ? "opacity-70" : ""
+                } p-4 sm:p-2 rounded flex justify-between sm:flex-col gap-2`}
               >
                 <div className="flex items-center sm:items-start gap-2">
                   <img

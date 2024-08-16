@@ -501,4 +501,8 @@ export const translations = {
     en: "Commented on your quote",
     ka: "დატოვა კომენტარი თქვენს ციტატაზე",
   },
+  you_have_new_notification: {
+    en: "You have new notification",
+    ka: "თქვენ გაქვთ ახალ შეტყობინება",
+  },
 };

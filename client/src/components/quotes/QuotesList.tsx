@@ -22,6 +22,7 @@ const QuotesList = ({ quotes }: { quotes: QuoteType[] }) => {
       onSuccess: () => {
         setDeleteModalIsOpen(false);
         queryClient.invalidateQueries({ queryKey: ["movie", id] });
+        queryClient.invalidateQueries({ queryKey: ["movie-quotes", id] });
         toast.success(t("quote_deleted_successfully"));
       },
       onError: () => {

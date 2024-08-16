@@ -141,7 +141,7 @@ const MovieDetails = () => {
           <div className="flex gap-3 items-center mt-10">
             <p>
               {t("quotes")}
-              <span>
+              <span className="ml-1">
                 ({t("total")} {movie?.quotes?.length})
               </span>
             </p>

@@ -6,20 +6,17 @@ import { getLikes, unlikeQuote } from "../../services/likes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { io, Socket } from "socket.io-client";
-import { useEffect, useRef, useState } from "react";
-import { DefaultEventsMap } from "@socket.io/component-emitter"; // Import the type for DefaultEventsMap if needed
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslate } from "../../hooks/useTranslate";
+import { useSocket } from "../../context/SocketContext";
 
 const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
   const { t } = useTranslate();
   const { currentUser } = useSelector((state: RootState) => state.user);
   const queryClient = useQueryClient();
-  const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
-    null
-  );
   const [likedQuotes, setLikedQuotes] = useState<string[]>([]);
+  const { emit } = useSocket();
 
   const { data: likes, isLoading: likesLoading } = useQuery<LikeType[]>({
     queryKey: ["likes", quoteId],
@@ -41,30 +38,8 @@ const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
       },
     });
 
-  useEffect(() => {
-    socketRef.current = io(import.meta.env.VITE_SOCKET_URL, {
-      withCredentials: true,
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!socketRef.current) return;
-
-    socketRef.current.on("notification_like", (notification) => {
-      console.log("Notification received:", notification);
-      queryClient.invalidateQueries({ queryKey: ["notifications"] });
-    });
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-      }
-    };
-  }, [queryClient, quoteId]);
-
-  const likeQuote = (quoteId) => {
-    if (!socketRef.current) return;
-    socketRef.current.emit("like", { quoteId });
+  const likeQuote = (quoteId: string) => {
+    emit("like", { quoteId });
     setLikedQuotes((prev) => [...prev, currentUser?._id as string]);
   };
 

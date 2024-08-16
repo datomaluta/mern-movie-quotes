@@ -28,8 +28,6 @@ const QuotesCard = ({
   const { currentUser } = useSelector((state: RootState) => state.user);
   const { id: movieId } = useParams();
 
-  console.log(quote);
-
   return (
     <>
       <div key={quote._id} className="flex flex-col w-[60%] 2xl:w-full mt-8">
@@ -43,7 +41,7 @@ const QuotesCard = ({
             <RxDotsHorizontal className="h-6 w-6" />
           </button>
           {contextMenuIsOpen && (
-            <div className="flex flex-col gap-4 bg-project-light-blue rounded p-6 absolute top-[15%] -right-28 2xl:right-0 z-40">
+            <div className="flex flex-col gap-4 bg-project-light-blue rounded p-6 absolute top-[15%] -right-28 2xl:right-0 z-30">
               <Link
                 to={`/quotes/${quote._id}`}
                 className="flex gap-4 items-center"
@@ -51,7 +49,7 @@ const QuotesCard = ({
                 <FaRegEye />
                 {t("view_quote")}
               </Link>
-              {currentUser?._id === quote.userId && (
+              {currentUser?._id === quote.userId?._id && (
                 <>
                   <Link
                     to={`${

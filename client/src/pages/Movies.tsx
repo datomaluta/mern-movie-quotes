@@ -2,7 +2,7 @@ import { useTranslate } from "../hooks/useTranslate";
 import MovieCard from "../components/movies/movieCard/MovieCard";
 import { IoIosSearch } from "react-icons/io";
 import { CiSquarePlus } from "react-icons/ci";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMovies } from "../services/movies";
 
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
@@ -22,6 +22,16 @@ const Movies = () => {
   }&searchFields=${searchParams.get("searchFields") || ""}&${
     currentUser ? `userId=${currentUser._id}` : ""
   }`;
+
+  const { data: userMoviesLength } = useQuery({
+    queryKey: ["userMoviesLengthLength"],
+    queryFn: () =>
+      getMovies({ queryString: `userId=${currentUser?._id}` }).then(
+        (res) => res.data?.data?.movies?.length
+      ),
+    enabled: !!currentUser,
+  });
+
   const {
     data: movies,
     fetchNextPage,
@@ -55,7 +65,7 @@ const Movies = () => {
           <h1 className="text-xl md:text-base font-helvetica-medium">
             {t("my_list_of_movies")}
             <span className="md:block ml-1">
-              ({t("total")} {"25"})
+              ({t("total")} {userMoviesLength})
             </span>
           </h1>
 
