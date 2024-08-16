@@ -18,7 +18,6 @@ const Home = () => {
 
   return (
     <LandingLayout>
-      {" "}
       <div className="bg-project-dark-blue min-h-screen text-white pt-[100vh]">
         <div className="bg-dark-blue-gradient absolute top-0 right-0 w-full h-[100vh] ">
           <div className="max-w-[43.75rem] mx-auto mt-[18.75rem] ">

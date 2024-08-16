@@ -1,7 +1,7 @@
 import { FaEdit } from "react-icons/fa";
 import { useTranslate } from "../hooks/useTranslate";
 import { motion } from "framer-motion";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -16,12 +16,12 @@ const NewsFeed = () => {
   const { t } = useTranslate();
   const [searchState, setSearchState] = useState("");
   const [searchIsActive, setSearchIsActive] = useState(false);
-  const [searchParams] = useSearchParams();
-  const queryString = searchParams.get("search")
-    ? `search=${searchParams.get("search")}&searchFields=${searchParams.get(
-        "searchFields"
-      )}`
-    : "";
+  // const [searchParams] = useSearchParams();
+  // const queryString = searchParams.get("search")
+  //   ? `search=${searchParams.get("search")}&searchFields=${searchParams.get(
+  //       "searchFields"
+  //     )}`
+  //   : "";
   const navigate = useNavigate();
 
   const {
@@ -31,11 +31,9 @@ const NewsFeed = () => {
     // isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["quotes", queryString],
+    queryKey: ["newsfeed-quotes"],
     queryFn: ({ pageParam }) =>
-      getQuotes({ page: pageParam, queryString })?.then(
-        (res) => res.data?.data?.quotes
-      ),
+      getQuotes({ page: pageParam })?.then((res) => res.data?.data?.quotes),
     initialPageParam: 1,
     getNextPageParam: (lastPage: { length: number }, allPages) => {
       const nextPage = lastPage?.length ? allPages?.length + 1 : undefined;

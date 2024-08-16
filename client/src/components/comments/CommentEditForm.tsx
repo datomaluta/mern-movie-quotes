@@ -40,6 +40,7 @@ const CommentEditForm = ({
       onSuccess: () => {
         toast.success(t("comment_updated_successfully"));
         queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
+        queryClient.invalidateQueries({ queryKey: ["newsfeed-quotes"] });
         setTimeout(() => {
           setCommentEditModalIsOpen(false);
         }, 2000);
@@ -50,6 +51,9 @@ const CommentEditForm = ({
     });
 
   const submitHandler = (data: CommentFormDataType) => {
+    console.log(data);
+    console.log(comment);
+
     const requestObject: CommentFormDataToSendType = {
       text: data.text,
       quoteId: quoteId as string,

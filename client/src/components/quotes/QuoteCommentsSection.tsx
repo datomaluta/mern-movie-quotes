@@ -4,7 +4,7 @@ import { RootState } from "../../redux/store";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteComment } from "../../services/comments";
+import { createComment, deleteComment } from "../../services/comments";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslate } from "../../hooks/useTranslate";
@@ -15,7 +15,7 @@ import { IoSend } from "react-icons/io5";
 import { CommentType } from "../../types/comment";
 import { DefaultEventsMap } from "@socket.io/component-emitter"; // Import the type for DefaultEventsMap if needed
 import { io, Socket } from "socket.io-client";
-import { UserType } from "../../types/user";
+import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
 
 const QuoteCommentsSection = ({
   comments,
@@ -37,7 +37,7 @@ const QuoteCommentsSection = ({
   const socketRef = useRef<Socket<DefaultEventsMap, DefaultEventsMap> | null>(
     null
   );
-  const [localComments, setLocalComments] = useState<CommentType[]>(comments);
+  // const [localComments, setLocalComments] = useState<CommentType[]>(comments);
 
   useEffect(() => {
     socketRef.current = io(import.meta.env.VITE_SOCKET_URL, {
@@ -60,11 +60,25 @@ const QuoteCommentsSection = ({
     };
   }, [queryClient, quoteId]);
 
+  const { mutate: commentCreateMutate, isPending: commentCreateLoading } =
+    useMutation({
+      mutationFn: createComment,
+      onSuccess: () => {
+        setCommentValue("");
+        queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
+        queryClient.invalidateQueries({ queryKey: ["newsfeed-quotes"] });
+      },
+      onError: () => {
+        toast.error(t("something_went_wrong"));
+      },
+    });
+
   const { mutate: commentDeleteMutate, isPending: commentDeleteIsLoading } =
     useMutation({
       mutationFn: deleteComment,
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["quote", quoteId] });
+        queryClient.invalidateQueries({ queryKey: ["newsfeed-quotes"] });
         setCommentDeleteModalIsOpen(false);
       },
       onError: () => {
@@ -72,32 +86,32 @@ const QuoteCommentsSection = ({
       },
     });
 
-  const createComment2 = () => {
-    if (!socketRef.current) return;
+  // const createComment2 = () => {
+  //   if (!socketRef.current) return;
 
-    if (commentValue.trim() === "") {
-      return;
-    }
+  //   if (commentValue.trim() === "") {
+  //     return;
+  //   }
 
-    socketRef.current.emit("createComment", { quoteId, text: commentValue });
+  //   socketRef.current.emit("createComment", { quoteId, text: commentValue });
 
-    setLocalComments((prev) => {
-      return [
-        ...prev,
-        {
-          _id: Date.now().toString(),
-          text: commentValue,
-          userId: currentUser as UserType,
-          quoteId: quoteId,
-        },
-      ];
-    });
-    setCommentValue("");
-  };
+  //   // setLocalComments((prev) => {
+  //   //   return [
+  //   //     ...prev,
+  //   //     {
+  //   //       _id: Date.now().toString(),
+  //   //       text: commentValue,
+  //   //       userId: currentUser as UserType,
+  //   //       quoteId: quoteId,
+  //   //     },
+  //   //   ];
+  //   // });
+  //   setCommentValue("");
+  // };
 
-  useEffect(() => {
-    setLocalComments(comments);
-  }, [comments]);
+  // useEffect(() => {
+  //   setLocalComments(comments);
+  // }, [comments]);
 
   return (
     <>
@@ -118,9 +132,9 @@ const QuoteCommentsSection = ({
         )}
       </AnimatePresence>
 
-      {localComments?.length ? (
+      {comments?.length ? (
         <div className="mt-6 flex flex-col gap-4 overflow-hidden sm:text-sm">
-          {localComments?.map((comment) => (
+          {comments?.map((comment) => (
             <div
               key={comment?._id}
               className="flex flex-col gap-2 items-start justify-between border-b border-gray-700 pb-4"
@@ -174,11 +188,11 @@ const QuoteCommentsSection = ({
             placeholder={t("write_a_comment")}
           ></textarea>
           <button
-            onClick={createComment2}
+            onClick={() => commentCreateMutate({ quoteId, text: commentValue })}
             disabled={commentValue.trim() === ""}
             className="absolute top-1/2 right-5 -translate-y-1/2"
           >
-            <IoSend />
+            {commentCreateLoading ? <LoadingSpinner /> : <IoSend />}
           </button>
         </div>
       </div>

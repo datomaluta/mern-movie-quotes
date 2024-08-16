@@ -18,7 +18,7 @@ const CheckEmail = ({ text }: { text: string }) => {
         <h1 className="text-2xl font-helvetica-medium mt-4 mb-5">
           {t("thank_you")}!
         </h1>
-        <p className="mb-10 text-center">{t(`${text}`)}</p>
+        <p className="mb-10 text-center p-2">{t(`${text}`)}</p>
         <Link
           target="_blank"
           to={"https://mailtrap.io/inboxes/2088227/messages/"}

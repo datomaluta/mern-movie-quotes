@@ -10,7 +10,7 @@ export type CommentType = {
 export type CommentFormDataToSendType = {
   text: string;
   quoteId: string;
-  userId: string;
+  userId?: string;
 };
 
 export type CommentFormDataType = {
