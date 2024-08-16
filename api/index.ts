@@ -83,4 +83,10 @@ app.use("/api/comments", commentRouter);
 app.use("/api/likes", likeRouter);
 app.use("/api/notifications", notificationRouter);
 
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
 app.use(globalErrorHandler);
