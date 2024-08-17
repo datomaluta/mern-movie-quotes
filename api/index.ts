@@ -31,6 +31,7 @@ mongoose
     console.log(err);
   });
 
+__dirname = path.resolve();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
