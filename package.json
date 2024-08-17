@@ -6,9 +6,11 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/index.js",
-    "dev": "nodemon api/index.ts",
-    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+    "install-deps": "npm install && npm install --prefix client",
+    "build-server": "tsc",
+    "build-client": "npm run build --prefix client",
+    "build": "npm run install-deps && npm run build-server && npm run build-client",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
