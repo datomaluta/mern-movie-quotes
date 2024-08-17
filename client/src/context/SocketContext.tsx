@@ -24,6 +24,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   const message = t("you_have_new_notification");
 
   useEffect(() => {
+    console.log(import.meta.env.VITE_SOCKET_URL);
     socketRef.current = io(import.meta.env.VITE_SOCKET_URL, {
       withCredentials: true,
     });
@@ -37,7 +38,13 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
       });
     });
 
+    socket.on("error", (error) => {
+      console.log("NEW ERROR");
+      toast.error(error);
+    });
+
     socket.on("notification_comment", () => {
+      console.log("not comment");
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
       toast(message, {
         icon: "🔔",
