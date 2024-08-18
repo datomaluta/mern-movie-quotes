@@ -52,12 +52,12 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
   image: {
     type: String,
     default:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDwmG52pVI5JZfn04j9gdtsd8pAGbqjjLswg&s",
+      "https://firebasestorage.googleapis.com/v0/b/movie-quotes-34603.appspot.com/o/avatar-default-icon.png?alt=media&token=e9fcf28b-6246-4b4e-b9c7-ac6c6c5f25bc",
   },
   password: {
     type: String,
     required: [true, "Password field is required"],
-    minLength: 4,
+    minLength: 8,
     maxLength: 15,
     select: false,
     validate: {

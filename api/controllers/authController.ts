@@ -64,8 +64,6 @@ export const signup = catchAsync(async (req, res, next) => {
 
   const verifyURL = `${process.env.CLIENT_URL}/verify/${verifyToken}`;
 
-  console.log(i18next.language);
-
   const emailTemplatePath = path.join(
     __dirname,
     "..",
@@ -170,43 +168,74 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) send it to user's email
-  const resetURL = `${process.env.CLIENT_URL}/?action=new-password&token=${resetToken}`;
-  const emailTemplatePath = path.join(
-    __dirname,
-    "..",
-    "views",
-    i18next.language === "en" ? "passwordReset.html" : "passwordResetKa.html"
-  );
+  // const resetURL = `${process.env.CLIENT_URL}/?action=new-password&token=${resetToken}`;
+  // const emailTemplatePath = path.join(
+  //   __dirname,
+  //   "..",
+  //   "views",
+  //   i18next.language === "en" ? "passwordReset.html" : "passwordResetKa.html"
+  // );
 
-  ejs.renderFile(
-    emailTemplatePath,
-    { name: user.username, link: resetURL },
-    async (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+  // ejs.renderFile(
+  //   emailTemplatePath,
+  //   { name: user.username, link: resetURL },
+  //   async (err, data) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return;
+  //     }
 
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: req.t("Password reset (valid for 10 minutes)"),
-          html: data,
-        });
+  //     try {
+  //       await sendEmail({
+  //         email: user.email,
+  //         subject: req.t("Password reset (valid for 10 minutes)"),
+  //         html: data,
+  //       });
 
-        res.status(200).json({
-          status: "success",
-          message: "Password reset token sent to email",
-        });
-      } catch (error) {
-        user.passwordResetToken = undefined;
-        user.passwordResetExpires = undefined;
-        await user.save({ validateBeforeSave: false });
+  //       res.status(200).json({
+  //         status: "success",
+  //         message: "Password reset token sent to email",
+  //       });
+  //     } catch (error) {
+  //       user.passwordResetToken = undefined;
+  //       user.passwordResetExpires = undefined;
+  //       await user.save({ validateBeforeSave: false });
 
-        return next(new AppError("errors.email_could_not_be_sent", 500));
-      }
-    }
-  );
+  //       return next(new AppError("errors.email_could_not_be_sent", 500));
+  //     }
+  //   }
+  // );
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 min)",
+
+      html: `
+    <p style="text-align: center;">
+      <a href="${process.env.CLIENT_URL}/reset-password/${resetToken}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+        Reset Password
+      </a>
+    </p>
+   `,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email",
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        "There was an error sending the emaik. Try again later!",
+        500
+      )
+    );
+  }
 });
 
 export const resetPassword = catchAsync(async (req, res, next) => {

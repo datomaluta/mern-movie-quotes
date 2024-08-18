@@ -154,7 +154,7 @@ const AuthHeader = ({
         <LanguageSwitcher className="lg:hidden" />
 
         <button
-          className="rounded w-24 border border-white text-white px-2 py-[0.4rem] lg:hidden"
+          className="rounded w-24 border border-white text-white px-2 py-[0.4rem] lg:hidden flex justify-center"
           onClick={() => mutateLogout()}
         >
           {isLogoutPending ? <LoadingSpinner /> : t("logout")}

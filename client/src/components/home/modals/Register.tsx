@@ -107,7 +107,7 @@ const Register = () => {
             register={register}
             rule={{
               required: t("required_field"),
-              minLength: { value: 4, message: t("min_8_characters") },
+              minLength: { value: 8, message: t("min_8_characters") },
               maxLength: { value: 15, message: t("min_8_characters") },
               pattern: {
                 value: /^[a-z0-9]+$/,

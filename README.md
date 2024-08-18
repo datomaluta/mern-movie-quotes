@@ -8,7 +8,7 @@
 
 ![](./client/src/assets/images/app-screenshot.jpg)
 
-Movie quotes - is a bilingual (Georgian - English) platform where users can first register, then login and view quotes from movies.
+Movie quotes - is a bilingual (Georgian - English) Responsive website where users can first register, then login and view quotes from movies.
 
 After reaching the landing page, the user can complete the registration, after which he activates the account via email, and then he can enter the system. An alternative is Google Authentication.
 
@@ -16,7 +16,7 @@ After authorization, the user has the option to add movies and quotes related to
 
 An authorized user can view the movies and quotes added by him in a separate section or search for those added by others.
 
-It is also possible for the user to update his data and change his password, username and avatar photo. Also reset your password if you forget it.
+It is also possible for the user to update his data and change his password, username and avatar photo. Also reset password if you forget it.
 
 #
 
@@ -38,14 +38,13 @@ It is also possible for the user to update his data and change his password, use
 - [React] - Front-end framework
 - [Node.js / Express.js] - Back-end
 - [MongoDB, mongoose] - Database
-
+- [Tailwind CSS] - CSS framework for styling
 - [Typescript] - JavaScript with syntax for types
 - [@tanstack/react-query] - To handle API requests
-- [Tailwind CSS] - CSS framework for styling
 - [React Hook Form] - library for form validation
 - [JWT - JSON Web Tokens] - securely connection between two parties
 - [Socket.io] - To handle real time notifications
-- [Firebase] - To handle image uploading
+- [Firebase] - To handle Google authentication and image uploading
 - [Framer Motion] - Animation library
 - [Redux.js/toolkit] - To handle global state
 - [React dropzone] - To handle image drag and drop
