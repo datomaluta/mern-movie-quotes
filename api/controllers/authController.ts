@@ -169,15 +169,15 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3) send it to user's email
   const resetURL = `${process.env.CLIENT_URL}/?action=new-password&token=${resetToken}`;
-  const emailTemplatePath = path.join(
-    __dirname,
-    "..",
-    "views",
-    i18next.language === "en" ? "passwordReset.html" : "passwordResetKa.html"
-  );
+  // const emailTemplatePath = path.join(
+  //   __dirname,
+  //   "..",
+  //   "views",
+  //   i18next.language === "en" ? "passwordReset.html" : "passwordResetKa.html"
+  // );
 
   ejs.renderFile(
-    emailTemplatePath,
+    `<div>hello</div>`,
     { name: user.username, link: resetURL },
     async (err, data) => {
       if (err) {
