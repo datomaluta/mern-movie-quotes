@@ -122,7 +122,7 @@ const QuoteCommentsSection = ({
       )}
       <div className="mt-6 flex items-center gap-4 sm:text-sm">
         <img
-          className="h-10 w-10 sm:h-8 sm:w-8 rounded-full shrink-0"
+          className="h-10 w-10 sm:h-8 sm:w-8 rounded-full shrink-0 object-cover"
           src={currentUser?.image}
           alt="avatar"
         />

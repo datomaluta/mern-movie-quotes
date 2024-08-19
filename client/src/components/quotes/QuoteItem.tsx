@@ -27,7 +27,7 @@ const QuoteItem = ({ quote }: { quote: QuoteType }) => {
       />
 
       <div className=" mt-6 mb-6">
-        <p className="inline-block break-words bg-red-500">
+        <p className="inline-block break-words">
           <span>"{quote?.text[lang]}"</span>
           <span> - </span>
           <Link

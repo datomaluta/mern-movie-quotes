@@ -1,66 +1,86 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { LikeType } from "../../types/like";
-import { getLikes, unlikeQuote } from "../../services/likes";
-// import toast from "react-hot-toast";
-// import { useTranslate } from "../../hooks/useTranslate";
+import { getLikes } from "../../services/likes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { useTranslate } from "../../hooks/useTranslate";
+import { useCallback, useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketContext";
 
 const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
-  const { t } = useTranslate();
   const { currentUser } = useSelector((state: RootState) => state.user);
-  const queryClient = useQueryClient();
-  const [likedQuotes, setLikedQuotes] = useState<string[]>([]);
-  const { emit } = useSocket();
+  const [quoteLikes, setQuoteLikes] = useState<string[]>([]);
+  const { emit, socket } = useSocket();
+  const [likeUnlikestate, setLikeUnlikeState] = useState("");
 
-  const { data: likes, isLoading: likesLoading } = useQuery<LikeType[]>({
+  useEffect(() => {
+    socket?.on("like_error", () => {
+      setQuoteLikes((prev) => prev.filter((id) => id !== currentUser?._id));
+      setLikeUnlikeState("");
+    });
+    socket?.on("unlike_error", () => {
+      setQuoteLikes((prev) => [...prev, currentUser?._id as string]);
+      setLikeUnlikeState("");
+    });
+  }, [socket, currentUser?._id, quoteId]);
+
+  const {
+    data: likes,
+    isLoading: likesLoading,
+    isSuccess,
+  } = useQuery<LikeType[]>({
     queryKey: ["likes", quoteId],
     queryFn: () =>
       getLikes(`quoteId=${quoteId}`).then((res) => res.data?.data?.likes),
   });
-  const likesArray = likes?.map((like) => like.userId._id) || [];
 
-  const { mutate: unlikeQuoteMutate, isPending: unlikeQuoteLoading } =
-    useMutation({
-      mutationFn: unlikeQuote,
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["likes", quoteId] });
-        setLikedQuotes((prev) => prev.filter((id) => id !== currentUser?._id));
-        toast.success("Quote unliked!");
-      },
-      onError: () => {
-        toast.error(t("something_went_wrong"));
-      },
-    });
+  useEffect(() => {
+    setQuoteLikes(likes?.map((like) => like.userId._id) || []);
+  }, [isSuccess, likes]);
 
-  const likeQuote = (quoteId: string) => {
+  const likeQuote = useCallback(() => {
     emit("like", { quoteId });
-    setLikedQuotes((prev) => [...prev, currentUser?._id as string]);
+  }, [emit, quoteId]);
+
+  const unlikeQuote = useCallback(() => {
+    emit("unlike", { quoteId });
+  }, [emit, quoteId]);
+
+  useEffect(() => {
+    const likeOrUnlike = setTimeout(() => {
+      if (likeUnlikestate === "like") {
+        likeQuote();
+      } else if (likeUnlikestate === "unlike") {
+        unlikeQuote();
+      }
+    }, 1000);
+
+    return () => clearTimeout(likeOrUnlike);
+  }, [likeUnlikestate, likeQuote, unlikeQuote]);
+
+  const handleLike = () => {
+    setQuoteLikes((prev) => [...prev, currentUser?._id as string]);
+    setLikeUnlikeState("like");
+  };
+
+  const handleUnlike = () => {
+    setQuoteLikes((prev) => prev.filter((id) => id !== currentUser?._id));
+    setLikeUnlikeState("unlike");
   };
 
   return (
     <div className="flex items-center gap-2">
-      {likedQuotes?.includes(currentUser?._id as string)
-        ? likesArray?.length + 1
-        : likesArray?.length}
-
+      {quoteLikes?.length}
       <button
-        disabled={unlikeQuoteLoading || likesLoading}
+        disabled={likesLoading}
         onClick={() => {
-          likesArray?.includes(currentUser?._id as string) ||
-          likedQuotes?.includes(currentUser?._id as string)
-            ? unlikeQuoteMutate(quoteId)
-            : likeQuote(quoteId);
+          quoteLikes?.includes(currentUser?._id as string)
+            ? handleUnlike()
+            : handleLike();
         }}
         className="disabled:cursor-not-allowed"
       >
-        {likesArray?.includes(currentUser?._id as string) ||
-        likedQuotes?.includes(currentUser?._id as string) ? (
+        {quoteLikes?.includes(currentUser?._id as string) ? (
           <IoMdHeart className="h-7 w-7 fill-red-500" />
         ) : (
           <IoMdHeartEmpty className="h-7 w-7" />

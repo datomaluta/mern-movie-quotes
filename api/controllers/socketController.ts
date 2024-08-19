@@ -16,20 +16,21 @@ export const onConnection = (socket: SocketWithUser) => {
       console.log("User not authenticated");
       return;
     }
+
     const { quoteId } = data;
     const userId = socket.user.id;
 
     try {
-      const quote = await Quote.findById(quoteId);
+      const quote = await Quote.findById(quoteId + "1");
       if (!quote) {
-        socket.emit("error", "Quote not found");
+        socket.emit("like_error", "Quote not found");
         return;
       }
 
       const existingLike = await Like.findOne({ userId, quoteId });
       if (existingLike) {
-        console.log("Existing like found");
-        socket.emit("error", "You already liked this quote");
+        // console.log("Existing like found");
+        // socket.emit("like_error", "You already liked this quote");
         return;
       }
 
@@ -44,13 +45,50 @@ export const onConnection = (socket: SocketWithUser) => {
       const like = new Like({ userId, quoteId });
       await like.save();
 
-      console.log("SENT TO: ", quote.userId?._id?.toString());
-      socket
-        .to(quote.userId?._id?.toString())
-        .emit("notification_like", notification);
+      if (notification && like) {
+        // socket.emit("like_success", quoteId);
+        socket
+          .to(quote.userId?._id?.toString())
+          .emit("notification_like", notification);
+      } else {
+        throw new Error("Error with notification or like");
+      }
+
+      // console.log("SENT TO: ", quote.userId?._id?.toString());
     } catch (error) {
-      socket.emit("error", "An error occurred while liking the quote");
-      console.error(error);
+      socket.emit("like_error", "An error occurred while liking the quote");
+    }
+  });
+
+  socket.on("unlike", async (data: { quoteId: string }) => {
+    if (!socket.user) {
+      console.log("User not authenticated");
+      return;
+    }
+
+    const { quoteId } = data;
+    const userId = socket.user.id;
+
+    try {
+      const quote = await Quote.findById(quoteId);
+      if (!quote) {
+        socket.emit("unlike_error", "Quote not found");
+        return;
+      }
+
+      const like = await Like.findOneAndDelete({
+        quoteId,
+        userId,
+      });
+
+      if (!like) {
+        socket.emit("unlike_error", "You have not liked this quote");
+        return;
+      }
+
+      socket.emit("unlike_success", quoteId);
+    } catch (error) {
+      socket.emit("unlike_error", "An error occurred while unliking the quote");
     }
   });
 
@@ -99,7 +137,4 @@ export const onConnection = (socket: SocketWithUser) => {
       }
     }
   );
-
-
 };
-
