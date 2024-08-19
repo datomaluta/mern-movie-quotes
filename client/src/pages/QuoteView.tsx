@@ -43,21 +43,23 @@ const QuoteView = () => {
 
   return (
     <div className="max-w-[60rem]">
-      <div className="flex items-center w-max ml-auto  mb-3 gap-1 rounded-lg overflow-hidden shrink-0">
-        <Link
-          to={`/movies/${quote?.movieId?._id}/quotes/edit/${quote?._id}`}
-          className="hover:bg-project-dark-blue py-2 px-4"
-        >
-          <MdOutlineModeEditOutline />
-        </Link>
-        <span className="block h-[0.875rem] w-[0.2px] bg-project-gray"></span>
-        <button
-          onClick={() => setDeleteModalIsOpen(true)}
-          className="hover:bg-project-dark-blue py-2 px-4"
-        >
-          <RiDeleteBin6Line />
-        </button>
-      </div>
+      {quote && !quoteLoading && (
+        <div className="flex items-center w-max ml-auto  mb-3 gap-1 rounded-lg overflow-hidden shrink-0">
+          <Link
+            to={`/movies/${quote?.movieId?._id}/quotes/edit/${quote?._id}`}
+            className="hover:bg-project-dark-blue py-2 px-4"
+          >
+            <MdOutlineModeEditOutline />
+          </Link>
+          <span className="block h-[0.875rem] w-[0.2px] bg-project-gray"></span>
+          <button
+            onClick={() => setDeleteModalIsOpen(true)}
+            className="hover:bg-project-dark-blue py-2 px-4"
+          >
+            <RiDeleteBin6Line />
+          </button>
+        </div>
+      )}
 
       <AnimatePresence>
         {deleteModalIsOpen && (

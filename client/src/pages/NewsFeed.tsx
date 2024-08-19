@@ -44,7 +44,7 @@ const NewsFeed = () => {
   const submitSearch = () => {
     if (searchState.startsWith("@")) {
       navigate(
-        `/movies?search=${searchState.substring(
+        `/movies-search?search=${searchState.substring(
           1
         )}&searchFields=title.en,title.ka`
       );

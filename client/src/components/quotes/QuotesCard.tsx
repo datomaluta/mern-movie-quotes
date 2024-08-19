@@ -82,7 +82,7 @@ const QuotesCard = ({
             </div>
             <div className="w-full">
               <p className="text-gray-400 text-2xl md:text-xl italic line-clamp-3 w-full">
-                {quote?.text[lang]}
+                "{quote?.text[lang]}"
               </p>
             </div>
           </div>
@@ -92,7 +92,7 @@ const QuotesCard = ({
               <VscComment className="h-7 w-7" />
             </p>
             <p className="flex items-center gap-2">
-              10
+              {quote?.likes?.length}
               <IoMdHeartEmpty className="h-7 w-7" />
             </p>
           </div>

@@ -21,7 +21,7 @@ const CheckEmail = ({ text }: { text: string }) => {
         <p className="mb-10 text-center p-2">{t(`${text}`)}</p>
         <Link
           target="_blank"
-          to={"https://mailtrap.io/inboxes/2088227/messages/"}
+          to={"https://mail.google.com/"}
           className="w-full bg-project-red py-2 md:py-[0.375rem] rounded mt-1 md:w-max md:px-4 text-center"
         >
           {t("go_to_my_email")}

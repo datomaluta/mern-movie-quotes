@@ -27,14 +27,16 @@ const QuoteItem = ({ quote }: { quote: QuoteType }) => {
       />
 
       <div className=" mt-6 mb-6">
-        <p className="inline-block break-all">"{quote?.text[lang]}"</p>
-        <span className="mx-1">-</span>
-        <Link
-          className="text-project-yellow"
-          to={`/movies/${quote?.movieId?._id}`}
-        >
-          {quote?.movieId?.title[lang]}
-        </Link>
+        <p className="inline-block break-words bg-red-500">
+          <span>"{quote?.text[lang]}"</span>
+          <span> - </span>
+          <Link
+            className="text-project-yellow"
+            to={`/movies/${quote?.movieId?._id}`}
+          >
+            {quote?.movieId?.title[lang]}
+          </Link>
+        </p>
       </div>
 
       <div

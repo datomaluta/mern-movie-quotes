@@ -6,7 +6,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMovies } from "../services/movies";
 
 import LoadingSpinnerWithWrapper from "../components/ui/sharedComponents/LoadingSpinnerWithWrapper";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MovieType } from "../types/movie";
 import { useSelector } from "react-redux";
@@ -14,21 +14,22 @@ import { RootState } from "../redux/store";
 
 const Movies = () => {
   const { t } = useTranslate();
+  const { pathname } = useLocation();
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [searchState, setSearchState] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const queryString = `search=${
     searchParams.get("search") || ""
   }&searchFields=${searchParams.get("searchFields") || ""}&${
-    currentUser ? `userId=${currentUser._id}` : ""
+    currentUser && !pathname?.includes("search")
+      ? `userId=${currentUser._id}`
+      : ""
   }`;
 
   const { data: userMoviesLength } = useQuery({
     queryKey: ["userMoviesLengthLength"],
     queryFn: () =>
-      getMovies({ queryString: `userId=${currentUser?._id}` }).then(
-        (res) => res.data?.data?.movies?.length
-      ),
+      getMovies({ queryString }).then((res) => res.data?.data?.movies?.length),
     enabled: !!currentUser,
   });
 

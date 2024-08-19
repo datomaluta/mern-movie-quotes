@@ -254,7 +254,7 @@ export const translations = {
     ka: "პაროლი წარმატებით განახლდა",
   },
   my_list_of_movies: {
-    en: "My list of movies",
+    en: "My movies list",
     ka: "ჩემი ფილმების სია",
   },
   total: {

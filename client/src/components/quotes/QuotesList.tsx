@@ -15,6 +15,7 @@ const QuotesList = ({ quotes }: { quotes: QuoteType[] }) => {
   const [chosenQuote, setChosenQuote] = useState<QuoteType | null>(null);
   const queryClient = useQueryClient();
   const { id } = useParams();
+  console.log(quotes)
 
   const { mutate: quoteDeleteMutate, isPending: deleteIsLoading } = useMutation(
     {

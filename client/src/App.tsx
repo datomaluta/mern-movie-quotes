@@ -32,6 +32,7 @@ function App() {
             <Route path="/news-feed" element={<NewsFeed />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/movies" element={<Movies />} />
+            <Route path="/movies-search" element={<Movies />} />
             <Route path="/movies/create" element={<MovieCreate />} />
             <Route path="/movies/:id" element={<MovieDetails />} />
             <Route path="/movies/edit/:id" element={<MovieEdit />} />

@@ -47,7 +47,7 @@ const ImagePicker = ({
           ""
         )}
         <img
-          className={`w-[11.75rem]  h-[11.75rem] object-cover ${
+          className={`w-full  h-full object-cover ${
             imageFileUploadProgress &&
             imageFileUploadProgress < 100 &&
             "opacity-60"

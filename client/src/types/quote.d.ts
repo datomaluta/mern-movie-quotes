@@ -1,4 +1,5 @@
 import { CommentType } from "./comment";
+import { LikeType } from "./like";
 import { MovieType } from "./movie";
 import { UserType } from "./user";
 
@@ -12,6 +13,7 @@ export type QuoteType = {
   image: string;
   comments: CommentType[];
   userId: UserType;
+  likes?: LikeType[];
 };
 
 export type QuoteFormDataToSendType = {
