@@ -74,7 +74,7 @@ __dirname = path.resolve();
 // });
 
 server.listen(3000, () => {
-  console.log("Server listening on port 3001");
+  console.log("Server listening on port 3000");
 });
 
 app.use("/api/auth", authRouter);
