@@ -31,12 +31,13 @@ mongoose
     console.log(err);
   });
 
-__dirname = path.resolve();
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(middleware.handle(i18next));
 app.use(cors());
+
 const server = http.createServer(app);
 export const io = new Server(server, {
   cors: {
@@ -67,6 +68,7 @@ i18next
     debug: false,
   });
 
+__dirname = path.resolve();
 // app.listen(3000, () => {
 //   console.log("Server started on port 3000");
 // });
