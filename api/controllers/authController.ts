@@ -160,7 +160,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
   const user: IUser | null = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new AppError(req.t("there_is_no_user_with_that_email"), 404));
+    return next(new AppError(req.t("errors.there_is_no_user_with_that_email"), 404));
   }
 
   // 2) generate random reset token
