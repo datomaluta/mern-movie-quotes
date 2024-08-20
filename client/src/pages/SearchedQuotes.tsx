@@ -38,7 +38,7 @@ const SearchedQuotes = () => {
   });
   return (
     <div>
-      <div className="relative border-b border-gray-700">
+      <div className="relative border-b border-gray-700 lg:hidden">
         <button
           onClick={() =>
             setSearchParams({

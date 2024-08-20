@@ -29,7 +29,9 @@ const Movies = () => {
   const { data: userMoviesLength } = useQuery({
     queryKey: ["userMoviesLengthLength"],
     queryFn: () =>
-      getMovies({ queryString }).then((res) => res.data?.data?.movies?.length),
+      getMovies({
+        queryString: currentUser ? `userId=${currentUser._id}` : "",
+      }).then((res) => res.data?.data?.movies?.length),
     enabled: !!currentUser,
   });
 

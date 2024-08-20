@@ -422,8 +422,8 @@ export const translations = {
     ka: "ძებნა",
   },
   news_feed_search_placeholder: {
-    en: "Enter @ to search movies, Enter # to search quotes ",
-    ka: "შეიყვანეთ @ ფილმის ძებნისთვის, # ციტატის ძებნისთვის",
+    en: "Enter @ to search movies, Enter # - quotes ",
+    ka: "შეიყვანეთ @ ფილმის ძებნისთვის, # - ციტატის",
   },
   quotes_not_found: {
     en: "Quotes not found",

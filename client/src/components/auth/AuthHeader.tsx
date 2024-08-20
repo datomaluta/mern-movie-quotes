@@ -1,27 +1,21 @@
 import { FaRegBell } from "react-icons/fa";
-import { IoIosSearch, IoMdHeart } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import LanguageSwitcher from "../ui/sharedComponents/LanguageSwitcher";
 import { useTranslate } from "../../hooks/useTranslate";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { logout } from "../../services/auth";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../../redux/user/userSlice";
 import LoadingSpinner from "../ui/sharedComponents/LoadingSpinner";
-import { Link, useLocation } from "react-router-dom";
-import {
-  getNotificationsByUser,
-  markAllNotificationsAsRead,
-} from "../../services/notifications";
+import { useNavigate } from "react-router-dom";
+import { getNotificationsByUser } from "../../services/notifications";
 import { NotificationType } from "../../types/notification";
 import { useRef, useState } from "react";
-import moment from "moment";
-import "moment/min/locales";
-import { translations } from "../../lang/common";
-import { RootState } from "../../redux/store";
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { BsChatQuote } from "react-icons/bs";
+import Notifications from "./notifications/Notifications";
+import { AnimatePresence, motion } from "framer-motion";
 
 const AuthHeader = ({
   setSidebarIsVisible,
@@ -30,14 +24,14 @@ const AuthHeader = ({
 }) => {
   const { t } = useTranslate();
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [notificationDropdownIsVisible, setNotificationDropdownIsVisible] =
     useState(false);
+  const [searchIsActive, setSearchIsActive] = useState(false);
+  const [searchState, setSearchState] = useState<string>("");
 
-  const { lang } = useSelector((state: RootState) => state.lang);
   const notificationDropdownRef = useRef<HTMLDivElement | null>(null);
   const bellButtonRef = useRef<HTMLButtonElement | null>(null);
-  const queryClient = useQueryClient();
 
   const { mutate: mutateLogout, isPending: isLogoutPending } = useMutation({
     mutationFn: logout,
@@ -55,66 +49,30 @@ const AuthHeader = ({
       getNotificationsByUser().then((res) => res.data?.data?.notifications),
   });
 
-  const translate = (key, count) => {
-    const translation = translations[key] && translations[key][lang];
-    if (!translation) return key;
-
-    if (count !== undefined) {
-      const pluralKey = `${key}_plural`;
-      const pluralTranslation =
-        translations[pluralKey] && translations[pluralKey][lang];
-      const template =
-        count > 1 && pluralTranslation ? pluralTranslation : translation;
-      return template.replace("{{count}}", count);
-    }
-
-    return translation;
-  };
-
-  const timeAgo = (timestamp) => {
-    const now = moment();
-    const time = moment(timestamp);
-    const diffInSeconds = now.diff(time, "seconds");
-    const diffInMinutes = now.diff(time, "minutes");
-    const diffInHours = now.diff(time, "hours");
-    const diffInDays = now.diff(time, "days");
-    const diffInMonths = now.diff(time, "months");
-    const diffInYears = now.diff(time, "years");
-
-    if (diffInMinutes < 1) {
-      return translate("secondsAgo", diffInSeconds);
-    } else if (diffInHours < 1) {
-      return translate("minutesAgo", diffInMinutes);
-    } else if (diffInDays < 1) {
-      return translate("hoursAgo", diffInHours);
-    } else if (diffInMonths < 1) {
-      return translate("daysAgo", diffInDays);
-    } else if (diffInYears < 1) {
-      return translate("monthsAgo", diffInMonths);
-    } else {
-      return translate("yearsAgo", diffInYears);
-    }
-  };
-
   useOutsideClick([notificationDropdownRef, bellButtonRef], () => {
     setNotificationDropdownIsVisible(false);
   });
 
-  const {
-    mutate: markNotificationsMutate,
-    isPending: markNotificationsIsPending,
-  } = useMutation({
-    mutationFn: markAllNotificationsAsRead,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notifications"] });
-    },
-    onError: () => {
-      toast.error(t("something_went_wrong"));
-    },
-  });
+  const submitSearch = () => {
+    if (searchState.startsWith("@")) {
+      navigate(
+        `/movies-search?search=${searchState.substring(
+          1
+        )}&searchFields=title.en,title.ka`
+      );
+    } else if (searchState.startsWith("#")) {
+      navigate(
+        `/quotes/search?search=${searchState.substring(
+          1
+        )}&searchFields=text.en,text.ka`
+      );
+    } else {
+      setSearchIsActive(false);
+    }
+  };
 
   return (
-    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-4 py-6  flex justify-between items-center fixed top-0 w-full z-40 ">
+    <header className="bg-project-light-blue px-16 xl:px-10 lg:px-4 py-6  flex justify-between items-center fixed top-0 w-full z-40 gap-4">
       <h1 className="text-project-yellow uppercase font-helvetica-medium lg:hidden">
         Movie Quotes
       </h1>
@@ -125,13 +83,39 @@ const AuthHeader = ({
         <RxHamburgerMenu className="h-5 w-5" />
       </button>
 
-      <div className="flex gap-5 items-center">
-        {pathname === "/news-feed" && (
-          <button className="hidden lg:inline-block">
-            <IoIosSearch className="h-6 w-6" />
-          </button>
-        )}
+      <div className="flex gap-5 lg:gap-3 items-center flex-1  justify-end">
+        <AnimatePresence>
+          {!searchIsActive && (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSearchIsActive(true)}
+              className="hidden lg:inline-block"
+            >
+              <IoIosSearch className="h-7 w-7" />
+            </motion.button>
+          )}
 
+          {searchIsActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="relative w-full border-b border-gray-700 h-7 hidden lg:block"
+            >
+              <button onClick={submitSearch}>
+                <IoIosSearch className="h-5 w-5 absolute top-1/2 left- -translate-y-1/2" />
+              </button>
+              <input
+                onChange={(e) => setSearchState(e.target.value)}
+                type="text"
+                className="w-full bg-transparent  pl-8 py-1 outline-none sm:text-xs"
+                placeholder={t("news_feed_search_placeholder")}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <button
           ref={bellButtonRef}
           onClick={() =>
@@ -162,71 +146,10 @@ const AuthHeader = ({
       </div>
 
       {notificationDropdownIsVisible && (
-        <div
-          ref={notificationDropdownRef}
-          className="absolute bottom-0 translate-y-full right-5 sm:right-0 bg-black max-w-[37.5rem] max-h-[25rem] overflow-auto w-full p-4 rounded"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl  sm:text-base">{t("notifications")}</h1>
-            <button
-              onClick={() => markNotificationsMutate()}
-              className="text-sm text-gray-400 underline flex items-center gap-2"
-            >
-              {markNotificationsIsPending ? <LoadingSpinner /> : ""}
-              {t("mark_all_as_read")}
-            </button>
-          </div>
-          <div className="flex flex-col gap-4">
-            {!notifications?.length && (
-              <p className="text-center text-gray-400">
-                {t("notifications_not_found")}
-              </p>
-            )}
-            {notifications?.map((notification) => (
-              <Link
-                to={`/quotes/${notification?.quote}`}
-                key={notification?._id}
-                className={`border border-gray-700 ${
-                  notification.isRead ? "opacity-70" : ""
-                } p-4 sm:p-2 rounded flex justify-between sm:flex-col gap-2`}
-              >
-                <div className="flex items-center sm:items-start gap-2">
-                  <img
-                    className="h-12 w-12 sm:w-10 sm:h-10 rounded-full"
-                    src={notification?.sender.image}
-                    alt="asd"
-                  />
-                  <div className="flex flex-col gap-2 sm:text-sm">
-                    <p>{notification?.sender?.username}</p>
-                    <p className="flex items-center gap-1 sm:items-start">
-                      {notification.type === "like" ? (
-                        <>
-                          <IoMdHeart className="h-6 w-6 sm:h-5 sm:w-5 fill-red-500 shrink-0" />
-                          {t("reacted_your_quote")}
-                        </>
-                      ) : (
-                        <>
-                          <BsChatQuote className="h-5 w-5 sm:h-4 sm:w-4 shrink-0" />
-                          {t("commented_on_your_quote")}
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-1 text-sn sm:text-xs">
-                  <p className="text-gray-400">
-                    {timeAgo(notification?.createdAt)}
-                  </p>
-                  <p className="text-green-500 ">
-                    {moment().diff(notification?.createdAt, "minutes") < 2
-                      ? t("now")
-                      : ""}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Notifications
+          notifications={notifications}
+          dropdownRef={notificationDropdownRef}
+        />
       )}
     </header>
   );

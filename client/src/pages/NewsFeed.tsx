@@ -16,12 +16,6 @@ const NewsFeed = () => {
   const { t } = useTranslate();
   const [searchState, setSearchState] = useState("");
   const [searchIsActive, setSearchIsActive] = useState(false);
-  // const [searchParams] = useSearchParams();
-  // const queryString = searchParams.get("search")
-  //   ? `search=${searchParams.get("search")}&searchFields=${searchParams.get(
-  //       "searchFields"
-  //     )}`
-  //   : "";
   const navigate = useNavigate();
 
   const {
@@ -73,7 +67,7 @@ const NewsFeed = () => {
         {!searchIsActive && (
           <button
             onClick={() => setSearchIsActive(true)}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 lg:hidden"
           >
             <IoIosSearch className="h-5 w-5" />
             {t("search_by")}
@@ -83,7 +77,7 @@ const NewsFeed = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="relative w-full border-b border-gray-700 "
+            className="relative w-full border-b border-gray-700 lg:hidden"
           >
             <button onClick={submitSearch}>
               <IoIosSearch className="h-5 w-5 absolute top-1/2 left- -translate-y-1/2" />
