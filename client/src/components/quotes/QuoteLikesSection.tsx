@@ -17,6 +17,7 @@ const QuoteLikesSection = ({ quoteId }: { quoteId: string }) => {
     socket?.on("like_error", () => {
       setQuoteLikes((prev) => prev.filter((id) => id !== currentUser?._id));
       setLikeUnlikeState("");
+      console.log("ERROR HAPPENED WITH LIKE");
     });
     socket?.on("unlike_error", () => {
       setQuoteLikes((prev) => [...prev, currentUser?._id as string]);

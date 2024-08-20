@@ -19,17 +19,19 @@ export const onConnection = (socket: SocketWithUser) => {
 
     const { quoteId } = data;
     const userId = socket.user.id;
+    // console.log(quoteId);
 
     try {
-      const quote = await Quote.findById(quoteId + "1");
+      const quote = await Quote.findById(quoteId);
       if (!quote) {
+        // console.log("Quote not found");
         socket.emit("like_error", "Quote not found");
         return;
       }
 
       const existingLike = await Like.findOne({ userId, quoteId });
       if (existingLike) {
-        // console.log("Existing like found");
+        console.log("Existing like found");
         // socket.emit("like_error", "You already liked this quote");
         return;
       }
@@ -51,6 +53,7 @@ export const onConnection = (socket: SocketWithUser) => {
           .to(quote.userId?._id?.toString())
           .emit("notification_like", notification);
       } else {
+        // console.log("ERROR NOTIFICATION OR LIKE");
         throw new Error("Error with notification or like");
       }
 
