@@ -33,6 +33,12 @@ It is also possible for the user to update his data and change his password, use
 
 #
 
+### API Documentation
+
+The API documentation can be found at the following link:
+
+[API Documentation](https://documenter.getpostman.com/view/28147438/2sAXjQ2W6e#e7fc8f60-147d-4e57-99bc-f854f73a181f)
+
 ### Tech Stack
 
 - [React] - Front-end framework
